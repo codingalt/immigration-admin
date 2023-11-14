@@ -1,0 +1,252 @@
+.container-3 {
+  width: 1120px;
+  height: 784px;
+  flex-shrink: 0;
+  /* background: #f7f7f7; */
+}
+
+.min-3 {
+  width: 1013px;
+  height: 688px;
+  flex-shrink: 0;
+  background: #fff;
+  margin-left: 25%;
+  margin-top: 2%;
+}
+
+.side-img-5 {
+  width: 511px;
+  height: 363px;
+  flex-shrink: 0;
+  position: relative;
+  left: 100px;
+  top: 56px;
+}
+
+.logo-3 {
+  width: 111px;
+  height: 79px;
+  flex-shrink: 0;
+  margin-left: 214px;
+  margin-top: 23px;
+  position: relative;
+  top: 103px;
+}
+.welcome-text-3 {
+  color: #6a6c6f;
+
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  position: relative;
+  top: 102px;
+  left: 211px;
+}
+
+.ottp-button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 54px;
+  margin-top: 56px;
+  width: 429px;
+  height: 40px;
+}
+
+.email {
+  color: #5d982e;
+}
+
+.Phone {
+  color: #5d982e;
+}
+
+.otp-not-recevied {
+  position: relative;
+  font-size: 12px;
+  font-family: Poppins;
+  text-align: left;
+  color: #6a6c6f;
+  left: 193px;
+  top: 27px;
+}
+
+.resend {
+  color: #5d982e;
+}
+.forget-password-3 {
+  color: #222;
+
+
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  left: 30%;
+  top: 129px;
+}
+
+.question-3 {
+  color: #222;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  left: 28%;
+  margin-top: 154px;
+}
+
+.sub-container-3 {
+  display: flex;
+}
+
+.side-img-5 {
+  width: 511px;
+  height: 363px;
+  flex-shrink: 0;
+  position: relative;
+  left: 16rem;
+  top: 81px;
+}
+
+
+/* For screens with width up to 960px */
+@media screen and (max-width: 960px) {
+  .container-3 {
+    width: 90%;
+  }
+  .min-3 {
+    width: 90%;
+    margin-left: 5%;
+  }
+  .side-img-5 {
+    width: 80%;
+    left: 0;
+    top: 20px;
+  }
+  .logo-3 {
+    margin-left: 5%;
+    top: 30px;
+  }
+  .welcome-text-3 {
+    left: 5%;
+  }
+  .ottp-button {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 20px;
+  }
+  .forget-password-3 {
+    left: 5%;
+    top: 40px;
+  }
+  .question-3 {
+    left: 5%;
+    margin-top: 60px;
+  }
+}
+
+/* For screens with width up to 760px */
+@media screen and (max-width: 760px) {
+  .container-3 {
+    width: 90%;
+  }
+  .min-3 {
+    width: 90%;
+    margin-left: 5%;
+  }
+  .side-img-5 {
+    display: none;
+  }
+  .logo-3 {
+    margin-left: 35%;
+    top: 97px;
+  }
+  .welcome-text-3 {
+    left: 5%;
+  }
+  .ottp-button {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 20px;
+  }
+  .forget-password-3 {
+    left: 5%;
+    top: 40px;
+  }
+  .question-3 {
+    left: 5%;
+    margin-top: 60px;
+  }
+}
+
+/* For screens with width up to 680px */
+@media screen and (max-width: 680px) {
+  .container-3 {
+    width: 90%;
+  }
+  .min-3 {
+    width: 90%;
+    margin-left: 5%;
+  }
+  .welcome-text-3 {
+    left: 5%;
+    font-size: 14px;
+  }
+  .ottp-button {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .forget-password-3 {
+    left: 5%;
+    top: 40px;
+    font-size: 14px;
+  }
+  .question-3 {
+    left: 5%;
+    margin-top: 60px;
+    font-size: 14px;
+  }
+}
+
+/* For screens with width up to 460px */
+@media screen and (max-width: 460px) {
+  .container-3 {
+    width: 90%;
+  }
+  .min-3 {
+    width: 101%;
+    margin-left: 5%;
+  }
+  .welcome-text-3 {
+    left: 38%;
+    font-size: 12px;
+
+    margin-bottom: 95px;
+  }
+  .ottp-button {
+    width: 107%;
+    margin-left: 5%;
+    margin-top: 57px;
+    font-size: 12px;
+  }
+  .forget-password-3 {
+    left: 30%;
+    top: 40px;
+    font-size: 12px;
+  }
+  .question-3 {
+    left: 28%;
+    margin-top: 60px;
+    font-size: 12px;
+  }
+}

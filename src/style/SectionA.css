@@ -1,0 +1,236 @@
+
+.SectionA-container{
+    display: flex;
+    
+}
+
+.calender{
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  width: 47%;
+  height: 148px;
+  right: 74px;
+}
+
+.Message{
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  width: 47%;
+  height: 148px;
+  right: 54px;
+
+  }
+
+
+.Pre-screning{
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  width: 47%;
+  height: 148px;
+  right: 34px;
+}
+
+.Notes{
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  width: 47%;
+  height: 149px;
+
+  right: 14px;
+
+
+}
+
+.Profile{
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  width: 48%;
+  height: 148px;
+  left: 8px;
+}
+
+.calender-img{
+  position: relative;
+  left: 54px;
+  top: 27px;
+  width: 65px;
+}
+
+.Message-img{
+  position: relative;
+  left: 58px;
+  top: 26px;
+  width: 65px;
+}
+
+.Prescrening-img{
+  position: relative;
+  left: 64px;
+  top: 25px;
+  width: 50px;
+}
+
+.notes-img{
+  position: relative;
+  left: 53px;
+  top: 21px;
+  width: 72px;
+}
+
+.profile-img{
+  position: relative;
+  left: 62px;
+  top: 21px;
+  width: 71px;
+}
+
+
+.calender-text{
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Poppins;
+  color: #67725d;
+  text-align: left;
+  left: 54px;
+  top: 30px;
+}
+
+
+.Message-text{
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Poppins;
+  color: #67725d;
+  left: 59px;
+  top: 30px;
+}
+
+.pre-screening-text{
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Poppins;
+  color: #67725d;
+  left: 41px;
+  top: 30px;
+}
+
+.Notes-text-2{
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Poppins;
+  color: #67725d;
+  left: 68px;
+  top: 20px;
+}
+
+.profile-text{
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Poppins;
+  color: #67725d;
+  left: 60px;
+  top: 26px;
+}
+
+.SectionA-container{
+  margin-top: 112px;
+  position: relative;
+  right: 55.6rem;
+  width: 59rem;
+}
+
+
+
+/* Media queries for tablet and smaller screens */
+
+
+
+/* Media queries for phone version */
+
+
+@media (max-width: 1920px) {
+  .SectionA-container{
+    right: 249%;
+    width: 265%;
+    margin-top: 125px;
+}
+  }
+
+
+
+@media (max-width: 1440px) {
+
+} 
+
+
+@media (max-width: 1366px) {
+
+} 
+
+@media (max-width: 1280px) {
+
+} 
+
+
+@media screen and (max-width: 1024px) {
+
+}
+
+
+@media screen and (max-width: 760px) {
+  .calender{
+    width: 12%;
+    height: 148px;
+    bottom: 723px;
+    left: 275px;
+  }
+
+  .Message{
+    width: 12%;
+    height: 148px;
+    bottom: 720px;
+    left: 323px;
+}
+  
+
+  .Pre-screning{
+    width: 12%;
+    height: 148px;
+    bottom: 720px;
+    left: 209px;
+  }
+
+  .Notes{
+    width: 12%;
+    height: 148px;
+
+    left: 200px;
+    bottom: 720px;
+
+  }
+
+ 
+  .Profile{
+display: none;
+  }
+}

@@ -6,23 +6,18 @@
   border-radius: 4px;
   position: relative;
   top: 3px;
-  right: 11em;
-
-
+  left: 25px;
 }
 
 .otp-inputs {
-
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  column-gap: 26px;
-
 }
 
 .otp-input {
-  width: 43px !important;
-  height: 40px !important;
+  width: 40px;
+  height: 40px;
   text-align: center;
   font-size: 18px;
   border: 1px solid #ccc;

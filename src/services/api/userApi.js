@@ -156,5 +156,6 @@ export const {
   useLogoutMutation,
   usePaymentIntentMutation,
   useVerifyCaptchaMutation,
-  useGetClientNotificationQuery
+  useGetClientNotificationQuery,
+  useGetPhaseNotificationQuery
 } = userApi;

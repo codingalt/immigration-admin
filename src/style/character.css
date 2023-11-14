@@ -1,0 +1,455 @@
+.character-main {
+  width: 64.3rem;
+  height: 42.2rem;
+  top: 173px;
+  left: 433px;
+  border-radius: 20px;
+  border: 1px solid #e2e2e4;
+  position: absolute;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: #5d982e white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.country-cnfrm-text-charcter {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.Download-button-character {
+  position: absolute;
+  left: 55.79rem;
+  bottom: 39.3rem;
+  height: 34px;
+  width: 120px;
+  background-color: #5D982E;
+  border: 1px solid #5D982E;
+  border-radius: 8px;
+  color: white;
+}
+
+.checkbox-charcter {
+  display: flex;
+  font-size: 12px;
+  position: relative;
+  top: 9px;
+  column-gap: 12px;
+}
+
+.full-name-text-accc-left-charcter {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 14px;
+  padding: 6px;
+  margin-left: -3px;
+}
+
+.input-full-name-acc-left-charcter {
+  width: 27rem;
+  height: 39px;
+  border: 1px solid #e2e2e4;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  padding-left: 15px;  height: 39px;
+  border: 1px solid #e2e2e4;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  padding-left: 15px;
+}
+
+.left-side-general-charcter {
+
+  margin-left: 14px;
+  position: relative;
+  top: 39px;
+
+}
+
+@media (max-width: 1440px) {
+
+  .character-main {
+    left: 296px;
+}
+ 
+
+
+
+
+
+
+
+  .General-heading {
+    left: 22%;
+    top: 133px;
+  }
+
+  .Accommodation-heading {
+    left: 27%;
+    top: 133px;
+  }
+
+  .Family-heading {
+    left: 37%;
+    top: 133px;
+  }
+
+  .Language-profeciency-heading {
+    left: 42%;
+    top: 133px;
+  }
+
+  .Employment-heading {
+    left: 54%;
+    top: 133px;
+  }
+
+  .Education-heading {
+    left: 63%;
+    top: 133px;
+  }
+
+  .Membership-heading {
+    left: 78%;
+    top: 133px;
+  }
+
+  .Maintenance-heading {
+    left: 70%;
+    top: 133px;
+  }
+
+  .travel-heading {
+    left: 86%;
+    top: 133px;
+  }
+
+  .Character-heading {
+    
+    left: 91%;
+    top: 133px;
+ 
+  }
+}
+
+@media (max-width: 1366px) {
+  .gernral-main{
+
+    left: 460px;
+  }
+
+  .Accommodation-main {
+ 
+    left: 460px;
+
+  }
+
+  .Family-main {
+
+    left: 460px;
+
+  }
+
+  .language-prof-main {
+  
+    left: 460px;
+
+  }
+
+  .Employement-main {
+ 
+    left: 460px;
+
+  }
+
+  .education-main {
+
+    left: 460px;
+
+  }
+
+  .Maintenance-main {
+  
+    left: 460px;
+
+  }
+
+  .Membership-main {
+
+    left: 460px;
+
+  }
+
+  .character-main {
+  
+    left: 460px;
+
+  }
+
+  .Travel-main {
+  
+    left: 460px;
+
+  }
+  .General-heading {
+    position: absolute;
+    left: 33.7%;
+    top: 133px;
+    color: black;
+  }
+
+  .Accommodation-heading {
+    position: absolute;
+    left: 39%;
+    top: 133px;
+    color: black;
+  }
+
+  .Family-heading {
+    position: absolute;
+    left: 49%;
+    top: 133px;
+    color: black;
+  }
+
+  .Language-profeciency-heading {
+    position: absolute;
+    left: 55%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .Employment-heading {
+    position: absolute;
+    left: 68%;
+    top: 133px;
+    color: black;
+  }
+
+  .Education-heading {
+    position: absolute;
+    left: 76%;
+    top: 133px;
+    color: black;
+  }
+
+  .Membership-heading {
+    position: absolute;
+    left: 83%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .Maintenance-heading {
+    position: absolute;
+    left: 91%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .travel-heading {
+    position: absolute;
+    left: 99%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .Character-heading {
+    position: absolute;
+    left: 104%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .gernral-main{
+
+    left: 343px;
+  }
+
+  .Accommodation-main {
+    left: 343px;
+  }
+
+  .Family-main {
+    left: 343px;
+  }
+
+  .language-prof-main {
+    left: 343px;
+  }
+
+  .Employement-main {
+    left: 343px;
+  }
+
+  .education-main {
+    left: 343px;
+  }
+
+  .Maintenance-main {
+    left: 343px;
+  }
+
+  .Membership-main {
+    left: 343px;
+  }
+
+  .character-main {
+    left: 343px;
+  }
+
+  .Travel-main {
+    left: 343px;
+  }
+  .General-heading {
+    position: absolute;
+    left: 27%;
+    top: 133px;
+    color: black;
+  }
+
+  .Accommodation-heading {
+    position: absolute;
+    left: 33%;
+    top: 133px;
+    color: black;
+  }
+
+  .Family-heading {
+    position: absolute;
+    left: 44%;
+    top: 133px;
+    color: black;
+  }
+
+  .Language-profeciency-heading {
+    position: absolute;
+    left: 49%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .Employment-heading {
+    position: absolute;
+    left: 62%;
+    top: 133px;
+    color: black;
+  }
+
+  .Education-heading {
+    position: absolute;
+    left: 70%;
+    top: 133px;
+  }
+
+  .Membership-heading {
+    position: absolute;
+    left: 77%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .Maintenance-heading {
+    position: absolute;
+    left: 85%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .travel-heading {
+    position: absolute;
+    left: 94%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+
+  .Character-heading {
+    position: absolute;
+    left: 99%;
+    top: 133px;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, border-bottom 0.3s;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1024px) {
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .country-cnfrm-text-charcter {
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  .full-name-text-accc-left-charcter {
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 14px;
+  }
+}

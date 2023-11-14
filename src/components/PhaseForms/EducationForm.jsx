@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   useGetCountriesQuery,
+  usePostEducationMutation,
   usePostPhase4Mutation,
 } from "../../services/api/applicationApi";
 import { educationSchema } from "../../utils/ValidationSchema";
@@ -10,33 +11,45 @@ import Loader from "../Loader";
 import SelectCountry from "../SelectCountry";
 import SelectState from "../SelectState";
 
-const EducationForm = ({ data, setActiveTab, initialValues }) => {
-    const application = data?.application;
-    console.log("Education Phase 4", initialValues);
+const EducationForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef,
+}) => {
+  const application = data?.application;
+  console.log("Education Phase 4", initialValues);
 
-    const [postPhase4, res] = usePostPhase4Mutation();
-    const { isLoading, isSuccess, error } = res;
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postEducation, res] = usePostEducationMutation();
+  const { isLoading, isSuccess, error } = res;
 
-    useMemo(() => {
-      if (isSuccess) {
-        setActiveTab("/employement");
-      }
-    }, [isSuccess]);
+  useMemo(() => {
+    if (isSuccess) {
+      refetch();
+      setActiveTab("/employement");
+    }
+  }, [isSuccess]);
 
-    useMemo(() => {
-      if (error) {
-        toastError("Something went wrong");
-      }
-    }, [error]);
+  useMemo(() => {
+    if (error) {
+      toastError("Something went wrong");
+    }
+  }, [error]);
 
-    const handleSubmitData = async (values) => {
-        await postPhase4({ data: values, applicationId: application?._id });
-      console.log("submitted", values.phase4?.education);
-    };
+  const handleSubmitData = async (values) => {
+    await postEducation({
+      data: values.phase4.education,
+      applicationId: application?._id,
+    });
+    console.log("submitted education", values);
+  };
 
-    const handleBackClick = () => {
-      setActiveTab("/languageprofeciency");
-    };
+  const handleBackClick = () => {
+    setActiveTab("/languageprofeciency");
+  };
   return (
     <>
       <Formik
@@ -49,12 +62,13 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
               <p className="genral-text-left-side">1.Qualification*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Type Qualification"
@@ -70,6 +84,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">2.Awarding Institute*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Type Awarding Institute"
@@ -85,6 +100,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">3.Grade*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Type Grade"
@@ -100,6 +116,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">4.Course Subject*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Type Course Subject"
@@ -115,6 +132,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">5.Course Length*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Type Course Length"
@@ -130,6 +148,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">6.Year of Award*</p>
               <Field
+                disabled={isEditting}
                 type="number"
                 className="genral-input-left-side"
                 placeholder="Eg: 2016"
@@ -145,6 +164,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">7.Country of Award*</p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.education.countryOfAward"
                 id="phase4.education.countryOfAward"
                 className="genral-input-left-side"
@@ -152,6 +172,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">8.State*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.education.state"
                 id="phase4.education.state"
@@ -178,6 +199,7 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
                 }}
               >
                 <button
+                  disabled={isLoading}
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
@@ -185,6 +207,8 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
                   Back
                 </button>
                 <button
+                  disabled={isLoading}
+                  ref={buttonRef}
                   type="submit"
                   className="Next-button"
                   style={{
@@ -205,4 +229,4 @@ const EducationForm = ({ data, setActiveTab, initialValues }) => {
   );
 };
 
-export default EducationForm
+export default EducationForm;

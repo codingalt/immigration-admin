@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   useGetCountriesQuery,
   usePostPhase4Mutation,
+  usePostTravelMutation,
 } from "../../services/api/applicationApi";
 import { maintenanceSchema } from "../../utils/ValidationSchema";
 import { toastError } from "../Toast";
@@ -15,17 +16,25 @@ const TravelForm = ({
   initialValues,
   setLastVisitsToUk,
   lastVisitsToUk,
+  refetch,
+  isEditting,
+  buttonRef,
 }) => {
   const application = data?.application;
   console.log("Travel Phase 4", initialValues);
 
-  const [postPhase4, res] = usePostPhase4Mutation();
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postTravel, res] = usePostTravelMutation();
   const { isLoading, isSuccess, error } = res;
 
   const [isCurrentlyInUk, setIsCurrentlyInUk] = useState(
     initialValues?.phase4?.travel?.areYouCurrentlyInUk
   );
-  const [numOfVisits, setNumOfVisits] = useState(initialValues?.phase4?.travel?.numberOfVisitsToUk > 0 ? initialValues?.phase4?.travel?.numberOfVisitsToUk : 0);
+  const [numOfVisits, setNumOfVisits] = useState(
+    initialValues?.phase4?.travel?.numberOfVisitsToUk > 0
+      ? initialValues?.phase4?.travel?.numberOfVisitsToUk
+      : 0
+  );
   const [isEnteredUkIllegally, setIsEnteredUkIllegally] = useState(
     initialValues?.phase4?.travel?.isVisitedUkIllegally
   );
@@ -63,23 +72,24 @@ const TravelForm = ({
   const [everRefusedVisaOrBorderEntry, setEverRefusedVisaOrBorderEntry] =
     useState(initialValues?.phase4?.travel?.everRefusedVisaOrBorderEntry);
 
-    const [everRefusedPermissionToStay, setEverRefusedPermissionToStay] =
-      useState(initialValues?.phase4?.travel?.everRefusedPermissionToStay);
+  const [everRefusedPermissionToStay, setEverRefusedPermissionToStay] =
+    useState(initialValues?.phase4?.travel?.everRefusedPermissionToStay);
 
-      const [everRefusedAsylum, setEverRefusedAsylum] = useState(
-        initialValues?.phase4?.travel?.everRefusedAsylum
-      );
+  const [everRefusedAsylum, setEverRefusedAsylum] = useState(
+    initialValues?.phase4?.travel?.everRefusedAsylum
+  );
 
-      const [everDeported, setEverDeported] = useState(
-        initialValues?.phase4?.travel?.everDeported
-      );
+  const [everDeported, setEverDeported] = useState(
+    initialValues?.phase4?.travel?.everDeported
+  );
 
-      const [everBannedFromAnyCountry, setEverBannedFromAnyCountry] = useState(
-        initialValues?.phase4?.travel?.everBannedFromAnyCountry
-      );
+  const [everBannedFromAnyCountry, setEverBannedFromAnyCountry] = useState(
+    initialValues?.phase4?.travel?.everBannedFromAnyCountry
+  );
 
   useMemo(() => {
     if (isSuccess) {
+      refetch();
       setActiveTab("/character");
     }
   }, [isSuccess]);
@@ -91,12 +101,15 @@ const TravelForm = ({
   }, [error]);
 
   const handleSubmitData = async (values) => {
-    if (values.phase4.travel.numberOfVisitsToUk == 0){
-      toastError("Please Select number of visits to UK")
+    if (values.phase4.travel.numberOfVisitsToUk == 0) {
+      toastError("Please Select number of visits to UK");
       return;
     }
-      await postPhase4({ data: values, applicationId: application?._id });
-    console.log("submitted", values.phase4?.maintenance);
+    await postTravel({
+      data: values.phase4.travel,
+      applicationId: application?._id,
+    });
+    console.log("submitted travel", values);
   };
 
   const handleBackClick = () => {
@@ -123,17 +136,13 @@ const TravelForm = ({
 
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmitData}
-        validationSchema={maintenanceSchema}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleSubmitData}>
         {({ setFieldValue, errors, touched, values }) => (
           <Form
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
@@ -143,6 +152,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isCurrentlyInUk}
                   type="radio"
@@ -156,6 +166,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isCurrentlyInUk}
                   type="radio"
@@ -183,6 +194,7 @@ const TravelForm = ({
 
                   <p className="genral-text-left-side">ii. Country Visited*</p>
                   <Field
+                    disabled={isEditting}
                     required={isCurrentlyInUk}
                     type="text"
                     className="genral-input-left-side"
@@ -201,6 +213,7 @@ const TravelForm = ({
                     iii. What date did you leave the UK?*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isCurrentlyInUk}
                     type="date"
                     className="genral-input-left-side"
@@ -218,6 +231,7 @@ const TravelForm = ({
                     iv. What date did you return*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isCurrentlyInUk}
                     type="date"
                     className="genral-input-left-side"
@@ -235,6 +249,7 @@ const TravelForm = ({
                     v. Reason for your visit*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isCurrentlyInUk}
                     type="text"
                     className="genral-input-left-side"
@@ -256,6 +271,7 @@ const TravelForm = ({
                 left and the reasons for your visit*
               </p>
               <Field
+                disabled={isEditting}
                 as="select"
                 className="genral-input-left-side"
                 placeholder="Type Number of Visits"
@@ -290,6 +306,7 @@ const TravelForm = ({
                   </p>
                   <p className="genral-text-left-side">i. Date of Entry*</p>
                   <Field
+                    disabled={isEditting}
                     required
                     type="date"
                     className="genral-input-left-side"
@@ -311,6 +328,7 @@ const TravelForm = ({
                     ii. Date of Departure*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required
                     type="date"
                     className="genral-input-left-side"
@@ -332,6 +350,7 @@ const TravelForm = ({
                     iii. Reason for Visit*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required
                     type="text"
                     className="genral-input-left-side"
@@ -359,6 +378,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked
                   required
                   checked={isEnteredUkIllegally}
@@ -373,6 +393,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isEnteredUkIllegally}
                   type="radio"
@@ -393,6 +414,7 @@ const TravelForm = ({
                     i. please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isEnteredUkIllegally}
                     type="text"
                     className="genral-input-left-side"
@@ -417,6 +439,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isStayedBeyondExpiry}
                   type="radio"
@@ -433,6 +456,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isStayedBeyondExpiry}
                   type="radio"
@@ -459,6 +483,7 @@ const TravelForm = ({
                     i. please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isStayedBeyondExpiry}
                     type="text"
                     className="genral-input-left-side"
@@ -480,6 +505,7 @@ const TravelForm = ({
                 5.Have you ever been to the UK or any other country?
               </p>
               <Field
+                disabled={isEditting}
                 required
                 type="text"
                 className="genral-input-left-side"
@@ -501,6 +527,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isBreachedLeaveConditions}
                   type="radio"
@@ -517,6 +544,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isBreachedLeaveConditions}
                   type="radio"
@@ -528,10 +556,7 @@ const TravelForm = ({
                       "phase4.travel.isBreachedLeaveConditions",
                       false
                     );
-                    setFieldValue(
-                      "phase4.travel.reasonForBreachedLeave",
-                      ""
-                    );
+                    setFieldValue("phase4.travel.reasonForBreachedLeave", "");
                     setIsBreachedLeaveConditions(false);
                   }}
                 />
@@ -543,6 +568,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isBreachedLeaveConditions}
                     type="text"
                     className="genral-input-left-side"
@@ -569,6 +595,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isWorkedWithoutPermission}
                   type="radio"
@@ -585,6 +612,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isWorkedWithoutPermission}
                   type="radio"
@@ -611,6 +639,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isWorkedWithoutPermission}
                     type="text"
                     className="genral-input-left-side"
@@ -636,6 +665,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isReceivedPublicFunds}
                   type="radio"
@@ -649,6 +679,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isReceivedPublicFunds}
                   type="radio"
@@ -669,6 +700,7 @@ const TravelForm = ({
                     Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isReceivedPublicFunds}
                     type="text"
                     className="genral-input-left-side"
@@ -693,6 +725,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everGivenFalseInfoForApplyingVisa}
                   type="radio"
@@ -709,6 +742,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everGivenFalseInfoForApplyingVisa}
                   type="radio"
@@ -735,6 +769,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everGivenFalseInfoForApplyingVisa}
                     type="text"
                     className="genral-input-left-side"
@@ -758,6 +793,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everUsedDeceptionInPrevVisaApplication}
                   type="radio"
@@ -774,6 +810,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everUsedDeceptionInPrevVisaApplication}
                   type="radio"
@@ -797,6 +834,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everUsedDeceptionInPrevVisaApplication}
                     type="text"
                     className="genral-input-left-side"
@@ -819,6 +857,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everBreachedOtherImmigrationLaws}
                   type="radio"
@@ -835,6 +874,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everBreachedOtherImmigrationLaws}
                   type="radio"
@@ -861,6 +901,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everBreachedOtherImmigrationLaws}
                     type="text"
                     className="genral-input-left-side"
@@ -887,6 +928,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everRefusedVisaOrBorderEntry}
                   type="radio"
@@ -903,6 +945,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   checked={!everRefusedVisaOrBorderEntry}
                   required
                   type="radio"
@@ -927,6 +970,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everRefusedVisaOrBorderEntry}
                     type="text"
                     className="genral-input-left-side"
@@ -950,6 +994,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   checked={everRefusedPermissionToStay}
                   required
                   type="radio"
@@ -966,6 +1011,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   checked={!everRefusedPermissionToStay}
                   required
                   type="radio"
@@ -992,6 +1038,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everRefusedPermissionToStay}
                     type="text"
                     className="genral-input-left-side"
@@ -1017,6 +1064,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everRefusedAsylum}
                   type="radio"
@@ -1030,6 +1078,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everRefusedAsylum}
                   type="radio"
@@ -1051,6 +1100,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everRefusedAsylum}
                     type="text"
                     className="genral-input-left-side"
@@ -1075,6 +1125,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everDeported}
                   type="radio"
@@ -1088,6 +1139,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everDeported}
                   type="radio"
@@ -1108,6 +1160,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everDeported}
                     type="text"
                     className="genral-input-left-side"
@@ -1131,6 +1184,7 @@ const TravelForm = ({
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everBannedFromAnyCountry}
                   type="radio"
@@ -1147,6 +1201,7 @@ const TravelForm = ({
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everBannedFromAnyCountry}
                   type="radio"
@@ -1170,6 +1225,7 @@ const TravelForm = ({
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everBannedFromAnyCountry}
                     type="text"
                     className="genral-input-left-side"
@@ -1195,6 +1251,7 @@ const TravelForm = ({
                 }}
               >
                 <button
+                  disabled={isLoading}
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
@@ -1202,6 +1259,8 @@ const TravelForm = ({
                   Back
                 </button>
                 <button
+                  disabled={isLoading}
+                  ref={buttonRef}
                   type="submit"
                   className="Next-button"
                   style={{
@@ -1222,4 +1281,4 @@ const TravelForm = ({
   );
 };
 
-export default TravelForm
+export default TravelForm;

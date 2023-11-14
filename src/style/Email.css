@@ -1,0 +1,300 @@
+.email-main-container {
+    display: flex;
+    margin-left: 127px;
+}
+
+.Email-banner{
+    position: absolute;
+    left: 59.5rem;
+    top: 157px;
+}
+
+.Email-form{
+  
+    width: 30.2rem;
+    height: 44rem;
+    border-radius: 20px;
+    border: 1px solid #E2E2E4;
+    position: absolute;
+    left: 22.6%;
+    top: 73px;
+
+}
+
+.To-heading{
+    position: absolute;
+    left: 29px;
+    top: 38px;
+    border: none;
+  width: 87%;
+}
+
+.border{
+    width: 448px;
+    position: absolute;
+    top: 71px;
+    border: 0.5px solid #E2E2E4;
+    left: 15px;
+
+}
+.subject-heading{
+    position: absolute;
+    left: 25px;
+    top: 109px;
+    border: none;
+    width: 87%;
+}
+
+.border-2{
+    width: 448px;
+    position: absolute;
+    top: 141px;
+    border: 0.5px solid #E2E2E4;
+    left: 15px;
+}
+
+.border-3{
+    width: 448px;
+    position: absolute;
+    top: 141px;
+    border: 0.5px solid #E2E2E4;
+    left: 29px;
+}
+
+.last-portion{
+    position: absolute;
+    left: -11px;
+    top: 455px;
+}
+
+.send-btn{
+  
+    position: absolute;
+    top: 172px;
+
+    left: 29px;
+
+    padding-right: 24px;
+    padding-left: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: white;
+    background: #5D982E;
+    border: 1px solid #5D982E;
+    border-radius: 30px;
+}
+
+.files-img{
+    position: absolute;
+    top: 176px;
+    display: flex;
+    left: 133px;
+    column-gap: 15px;
+ 
+    align-items: center;
+}
+
+.delete-svg{
+    position: absolute;
+    left: 222%;
+}
+
+.typing{
+    width: 30.2rem;
+    height: 68px;
+    border-radius: 10px;
+    border: 1px solid #E2E2E4;
+    position: relative;
+    left: 75px;
+    margin-top: 44%;
+
+}
+
+.Jhon-name{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    position: absolute;
+    left: 8%;
+    top: 12px;
+    
+}
+
+.typing-indicator{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    position: absolute;
+    top: 28px;
+    left: 8%;
+}
+
+.All-images-1{
+    width: 14px;
+height: 18px;
+
+
+}
+
+.All-images-2{
+    width:19px;
+    height: 10px;
+ 
+    
+}
+
+.All-images-3{
+    width: 24px;
+    height: 24px;
+ 
+    
+}
+
+.All-images-4{
+    width: 18px;
+    height: 18px;
+  
+    
+}
+
+.All-images-5{
+    width: 4px;
+    height: 16px;
+
+    
+}
+
+
+@media (max-width: 1680px) {
+    .Email {
+        width: 60.00000000000006px;
+        height: 60.00000000000006px;
+        background: linear-gradient(0deg, #5D982E, #5D982E), linear-gradient(0deg, #E2E2E4, #E2E2E4);
+        position: absolute;
+        left: 35rem;
+        top: 0.5rem;
+        border: 1px solid #5D982E;
+        border-radius: 32px;
+    }
+
+    .Email-form {
+        width: 30.2rem;
+        height: 44rem;
+        border-radius: 20px;
+        border: 1px solid #E2E2E4;
+        position: absolute;
+        left: 26.7rem;
+        top: 61px;
+    }
+    .typing {
+        width: 30.2rem;
+        height: 68px;
+        border-radius: 10px;
+        border: 1px solid #E2E2E4;
+        position: relative;
+    
+        left: 4.4rem;
+
+        margin-top: 48.6rem;
+    }
+}
+
+@media (max-width: 1440px) {
+    .Email-form {
+    
+        left: 22%;
+       
+    }
+  
+    .typing {
+     
+        left: 83px;
+        margin-top: 48.5rem;
+    }
+
+    .Email-banner {
+        position: absolute;
+        left: 66%;
+        top: 157px;
+    }
+
+    .email-main-container {
+        display: flex;
+        margin-left: -12px;
+    }
+  }
+   
+  
+@media (max-width: 1366px) {
+    .Email-form {
+        left: 33.2%;
+        top: 66px;
+    }
+  
+    .typing {
+        left: 73px;
+        margin-top: 65%;
+    }
+
+    .Email-banner {
+        position: absolute;
+        left: 73%;
+        top: 157px;
+    }
+
+    .email-main-container {
+        display: flex;
+        margin-left: 150px;
+    }   
+  }
+
+
+  @media (max-width: 1280px) {
+    .Email-form {
+        left: 27%;
+    top: 66px;
+    }
+   
+    .typing {
+   
+        left: 77px;
+        margin-top: 64%;
+    
+    }
+
+    .Email-banner {
+        position: absolute;
+        left: 75%;
+        top: 157px;
+    }
+
+    .email-main-container {
+        display: flex;
+        margin-left: 40px;
+    }   
+  }
+
+
+  @media (max-width: 1024px){
+    .Email-banner {
+        position: absolute;
+        left: 90%;
+        top: 157px;
+    }
+
+    .Email-form {
+        left: 34%;
+    }
+
+    .typing {
+        margin-top: 80%;
+    }
+  }
+
+

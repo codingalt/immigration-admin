@@ -1,0 +1,58 @@
+.education-main {
+  width: 64.3rem;
+  height: 42.2rem;
+  top: 173px;
+  left: 433px;
+  border-radius: 20px;
+  border: 1px solid #e2e2e4;
+  position: absolute;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: #5d982e white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.Download-button-edu {
+    bottom: 42.19rem;
+    position: relative;
+    left: 55.08rem;
+    padding: 7px 21px;
+    height: 34px;
+    width: 120px;
+    background-color: #5d982e;
+    border: 1px solid #5d982e;
+    color: white;
+    border-radius: 8px;
+}
+.full-name-text-accc-left-edu {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 14px;
+  padding: 6px;
+  margin-left: -3px;
+}
+
+.input-full-name-acc-left-edu {
+    width: 27rem;
+  height: 39px;
+  border: 1px solid #e2e2e4;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  padding-left: 15px;
+}
+
+@media (max-width: 1366px) {
+ 
+   
+  .education-main {
+      left: 460px;
+  }
+
+  
+}

@@ -2,47 +2,60 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   useGetCountriesQuery,
+  usePostLanguageMutation,
   usePostPhase4Mutation,
 } from "../../services/api/applicationApi";
 import { generalSchema } from "../../utils/ValidationSchema";
 import { toastError } from "../Toast";
 import Loader from "../Loader";
 
-const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
-    const application = data?.application;
-    console.log("Language Proficiency Phase 4", initialValues);
+const LanguageProficiencyForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef,
+}) => {
+  const application = data?.application;
+  console.log("Language Proficiency Phase 4", initialValues);
 
-    const [postPhase4, res] = usePostPhase4Mutation();
-    const { isLoading, isSuccess, error } = res;
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postLanguage, res] = usePostLanguageMutation();
+  const { isLoading, isSuccess, error } = res;
 
-    const [isDegreeTaughtInEnglish, setIsDegreeTaughtInEnglish] = useState(
-      initialValues?.phase4?.languageProficiency?.isDegreeTaughtInEnglish
-    );
+  const [isDegreeTaughtInEnglish, setIsDegreeTaughtInEnglish] = useState(
+    initialValues?.phase4?.languageProficiency?.isDegreeTaughtInEnglish
+  );
 
-    const [isPassedAnyEnglishTest, setIsPassedAnyEnglishTest] = useState(
-      initialValues?.phase4?.languageProficiency?.isPassedAnyEnglishTest
-    );
+  const [isPassedAnyEnglishTest, setIsPassedAnyEnglishTest] = useState(
+    initialValues?.phase4?.languageProficiency?.isPassedAnyEnglishTest
+  );
 
-    useMemo(() => {
-      if (isSuccess) {
-        setActiveTab("/education");
-      }
-    }, [isSuccess]);
+  useMemo(() => {
+    if (isSuccess) {
+      refetch();
+      setActiveTab("/education");
+    }
+  }, [isSuccess]);
 
-    useMemo(() => {
-      if (error) {
-        toastError("Something went wrong");
-      }
-    }, [error]);
+  useMemo(() => {
+    if (error) {
+      toastError("Something went wrong");
+    }
+  }, [error]);
 
-    const handleSubmitData = async (values) => {
-      await postPhase4({ data: values, applicationId: application?._id });
-      console.log("submitted", values.phase4.languageProficiency);
-    };
+  const handleSubmitData = async (values) => {
+    await postLanguage({
+      data: values.phase4.languageProficiency,
+      applicationId: application?._id,
+    });
+    console.log("submitted", values.phase4.languageProficiency);
+  };
 
-    const handleBackClick = () => {
-      setActiveTab("/family");
-    };
+  const handleBackClick = () => {
+    setActiveTab("/family");
+  };
   return (
     <>
       <Formik initialValues={initialValues} onSubmit={handleSubmitData}>
@@ -51,7 +64,7 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
@@ -62,6 +75,7 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   defaultChecked={isDegreeTaughtInEnglish}
                   type="radio"
@@ -78,6 +92,7 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={!isDegreeTaughtInEnglish}
                   required
                   type="radio"
@@ -101,6 +116,7 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   defaultChecked={isPassedAnyEnglishTest}
                   type="radio"
@@ -117,6 +133,7 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={!isPassedAnyEnglishTest}
                   required
                   type="radio"
@@ -137,16 +154,24 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
                 i. Please select the relevant test ?*
               </p>
               <Field
+                disabled={isEditting}
                 required
                 as="select"
                 name="phase4.languageProficiency.testType"
                 id="phase4.languageProficiency.testType"
                 placeholder="Select"
                 className="genral-input-left-side-selector"
+                onChange={(e) =>
+                  setFieldValue(
+                    "phase4.languageProficiency.testType",
+                    e.target.value
+                  )
+                }
               >
                 {/* <option value="">
                   The English language proficiency can be proven as follows:
                 </option> */}
+                <option value="">Select Test Type</option>
                 <option value="TOEFL or TOEFL Special Home Edition">
                   TOEFL or TOEFL Special Home Edition
                 </option>
@@ -173,6 +198,7 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
                 }}
               >
                 <button
+                  disabled={isLoading}
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
@@ -180,6 +206,8 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
                   Back
                 </button>
                 <button
+                  disabled={isLoading}
+                  ref={buttonRef}
                   type="submit"
                   className="Next-button"
                   style={{
@@ -200,4 +228,4 @@ const LanguageProficiencyForm = ({ data, setActiveTab, initialValues }) => {
   );
 };
 
-export default LanguageProficiencyForm
+export default LanguageProficiencyForm;

@@ -5,6 +5,8 @@ import { userApi } from "./services/api/userApi";
 import { applicationApi } from "./services/api/applicationApi";
 import { chatApi } from "./services/api/chatApi";
 import { caseworkerApi } from "./services/api/caseworkerApi";
+import { companyApi } from "./services/api/companyApi";
+import { adminApi } from "./services/api/adminApi";
 
 export const store = configureStore({
   reducer: {
@@ -12,14 +14,18 @@ export const store = configureStore({
     [applicationApi.reducerPath]: applicationApi.reducer,
     [chatApi.reducerPath]: chatApi.reducer,
     [caseworkerApi.reducerPath]: caseworkerApi.reducer,
+    [companyApi.reducerPath]: companyApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer,
     user: userSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([
+    getDefaultMiddleware({ serializableCheck: false }).concat([
       userApi.middleware,
       applicationApi.middleware,
       chatApi.middleware,
       caseworkerApi.middleware,
+      companyApi.middleware,
+      adminApi.middleware
     ]),
 });
 

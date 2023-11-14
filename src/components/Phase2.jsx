@@ -1,592 +1,419 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
-import "../style/forgetpassword.css"
-import "../style/Phase1.css"
-import Logo2 from '../Assets/Ukimmigration-logo.png';
-import bellicon2 from "../Assets/bell-icon-svg.svg"
-import profileimg from "../Assets/profile-img-svg.svg"
-import dropdownicon from "../Assets/dropdown-icon-svg.svg"
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import pdfimg from "../Assets/pdf-img.png"
-import "../style/Phase2.css"
-import NotificationBox from './Notification';
-import SettingBox from "./Settingbox"
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { useGetApplicationByUserIdQuery, usePostPhase2Mutation } from '../services/api/applicationApi';
-import { toastError, toastSuccess } from './Toast';
-import Loader from './Loader';
-import Navbar from './Navbar';
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import editpen from "../assests/edit-pen.png";
+import SideNavbar from "./SideNavbar";
+import "../style/Phase2.css";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import "../style/Phase1.css";
+import pdfimg from "../assests/pdf-img.png";
+import Editimgapp from "../assests/Edit-file-img.svg";
+import Approvedimgapp from "../assests/Approved-img.svg";
+import Rejectimgapp from "../assests/Delete-File-img.svg";
+import { useApprovePhase2Mutation, useGetApplicationDataByIdQuery } from "../services/api/applicationApi";
+import { toastError, toastSuccess } from "./Toast";
+import Loader from "./Loader";
+import MainContext from "./Context/MainContext";
 
 const Phase2 = () => {
-
-    const [isNotificationBoxVisible, setIsNotificationBoxVisible] = useState(false);
-    const [isSettingsBoxVisible, setIsSettingsBoxVisible] = useState(false);
-    const notificationRef = useRef(null);
-    const settingsRef = useRef(null);
-    const [isAllowed,setIsAllowed] = useState(false)
-    const navigate = useNavigate();
-
-    const {data,isLoading} = useGetApplicationByUserIdQuery();
-    const application = data?.application;
-    console.log(data);
-
-    const [postPhase2, result] = usePostPhase2Mutation();
-    const {isLoading: isLoadingPostPhase, isSuccess, error} = result;
-
-    useMemo(()=>{
-        if(error){
-            toastError(error?.data?.message)
-        }
-    },[error]);
-
-    useMemo(() => {
-      if (isSuccess) {
-        toastSuccess("Application's Phase 2 Submitted.");
-        setTimeout(() => {
-          navigate("/filldata")
-        }, 1000);
-      }
-    }, [isSuccess]);
-
-    const passportRef = useRef(null);
-    const dependentPassportRef = useRef(null);
-    const utilityBillRef = useRef(null);
-    const brpRef = useRef(null);
-    const previousVisaVignettesRef = useRef(null);
-    const refusalLetterRef = useRef(null);
-    const educationCertificatesRef = useRef(null);
-    const englishLanguageCertificateRef = useRef(null);
-    const marriageCertificateRef = useRef(null);
-    const bankStatementsRef = useRef(null);
-    const otherRef = useRef(null);
-
-    const initialValues = {
-      passport: "",
-      dependantPassport: "",
-      utilityBill: "",
-      brp: "",
-      previousVisaVignettes: "",
-      refusalLetter: "",
-      educationCertificates: "",
-      englishLanguageCertificate: "",
-      marriageCertificate: "",
-      bankStatements: "",
-      other: "",
-    };
-
-     const phase2Schema = Yup.object({
-       passport:
-         application?.phase2?.passport == "" &&
-         Yup.mixed().nullable().required("Passport is Required"),
-       dependantPassport:
-         application?.phase2?.dependantPassport == "" &&
-         Yup.mixed().nullable().required("Dependent Passport is Required"),
-       utilityBill:
-         application?.phase2?.utilityBill == "" &&
-         Yup.mixed().nullable().required(),
-       brp: application?.phase2?.brp == "" && Yup.mixed().nullable().required(),
-       previousVisaVignettes:
-         application?.phase2?.previousVisaVignettes == "" &&
-         Yup.mixed().nullable().required(),
-       refusalLetter:
-         application?.phase2?.refusalLetter == "" &&
-         Yup.mixed().nullable().required(),
-       educationCertificates:
-         application?.phase2?.educationCertificates == "" &&
-         Yup.mixed().nullable().required(),
-       englishLanguageCertificate:
-         application?.phase2?.englishLanguageCertificate == "" &&
-         Yup.mixed().nullable().required(),
-       marriageCertificate:
-         application?.phase2?.marriageCertificate == "" &&
-         Yup.mixed().nullable().required(),
-       bankStatements:
-         application?.phase2?.bankStatements == "" &&
-         Yup.mixed().nullable().required(),
-       other:
-         application?.phase2?.other == "" && Yup.mixed().nullable().required(),
-     });
-
-    const handleSubmit = async(values, {resetForm})=>{
-        let formData = new FormData();
-        formData.append("applicationId", application?._id);
-        formData.append("passport", values.passport);
-        formData.append("dependantPassport", values.dependantPassport);
-        formData.append("utilityBill", values.utilityBill);
-        formData.append("brp", values.brp);
-        formData.append("previousVisaVignettes", values.previousVisaVignettes);
-        formData.append("refusalLetter", values.refusalLetter);
-        formData.append("educationCertificates", values.educationCertificates);
-        formData.append(
-          "englishLanguageCertificate",
-          values.englishLanguageCertificate
-        );
-        formData.append("marriageCertificate", values.marriageCertificate);
-        formData.append("bankStatements", values.bankStatements);
-        formData.append("other", values.other);
-
-        if (!application || !application._id) {
-          console.error(
-            "Invalid application object or application._id is missing"
-          );
-          return;
-        }
-        try {
-          await postPhase2(formData);
-          resetForm({
-            values: initialValues,
-          });
-        } catch (error) {
-          console.error(error);
-        }
-        
-    }
-
-    const openFile = (e,setFieldValue)=>{
-        if (e.target.files && e.target.files[0]) {
-          let pdf = e.target.files[0];
-          setFieldValue(e.target.name, pdf);
-        }
-    }
-
+  const { applicationId } = useParams();
+  const navigate = useNavigate();
+  const {
+    data,
+    refetch,
+    isLoading: isLoadingApplication,
+  } = useGetApplicationDataByIdQuery(applicationId, {
+    refetchOnMountOrArgChange: true,
+  });
+  const app = data?.application;
+  console.log("Application data", app?.phase2);
+    const { socket } = useContext(MainContext);
+    const [received, setReceived] = useState();
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                notificationRef.current &&
-                !notificationRef.current.contains(event.target) &&
-                settingsRef.current &&
-                !settingsRef.current.contains(event.target)
-            ) {
-                setIsNotificationBoxVisible(false);
-                setIsSettingsBoxVisible(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    const toggleNotificationBox = () => {
-        setIsNotificationBoxVisible(!isNotificationBoxVisible);
-    };
-
-    const toggleSettingsBox = () => {
-        setIsSettingsBoxVisible(!isSettingsBoxVisible);
-    };
-
-    const handleSubmitClick = () => {
-        // Handle form submission
-    };
-
-    useEffect(()=>{
-      if(application){
-        if(application.requestedPhase === 2 && application.phaseSubmittedByClient === 1){
-          setIsAllowed(true)
-        }else{
-          setIsAllowed(false);
-          navigate("/filldata");
+      socket.on("phase data received", (phaseData) => {
+        if (phaseData) {
+          setReceived(phaseData);
+          console.log("phase data received", phaseData);
         }
+      });
+    }, [received]);
+
+    useEffect(() => {
+      if (received) {
+        refetch();
       }
-    },[application]);
+    }, [received]);
+  const [activeLink, setActiveLink] = useState("/phase2");
+  const links = [
+    { to: "/phase1", label: "Phase 1" },
+    { to: "/prephase2", label: "Pre-Phase 2" },
+    { to: "/phase2", label: "Phase 2" },
+    { to: "/prephase3", label: "Pre-Phase 3" },
+    { to: "/phase3", label: "Phase 3" },
+    { to: "/phase4", label: "Phase 4" },
+
+    // Add more links as needed
+  ];
+
+  useEffect(() => {
+    // Get the current path from window.location.pathname
+    const currentPath = window.location.pathname;
+
+    // Find the matching label from the links array based on the current path
+    const matchedLink = links.find((link) => link.to === currentPath);
+
+    if (matchedLink) {
+      setActiveLink(matchedLink.label);
+    }
+  }, [links]);
+
+  const handleLinkClick = (linkName) => {
+    setActiveLink(linkName);
+  };
+
+  
+  const [approvePhase2, result] = useApprovePhase2Mutation();
+    const {
+      isLoading: approveLoading,
+      isSuccess: approveSuccess,
+      error: approveErr,
+    } = result;
+
+    const handleApprove = async () => {
+      await approvePhase2({ applicationId: applicationId });
+    };
 
 
-    return (
-      <>
-        {isAllowed && (
-          <div className="Container-forgetpassword-phase1">
-            <Navbar />
-            <div className="Forgetpassword-sub-2">
-              <Formik
-                initialValues={initialValues}
-                validationSchema={phase2Schema}
-                onSubmit={handleSubmit}
-              >
-                {({ setFieldValue, errors, values, touched }) => (
-                  <Form
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      width: "100%",
-                    }}
-                  >
-                    <div className="left-side-forget-password-2">
-                      <p className="Required-data-text">Required Data*</p>
-                      <NavLink to="/filldata">
-                        <button type="submit" className="back-button">
-                          back
-                        </button>
-                      </NavLink>
+  useMemo(() => {
+    if (approveErr) {
+      toastError(approveErr?.data?.message);
+    }
+  }, [approveErr]);
 
-                      {application?.phase2?.passport != "notreq" && (
-                        <>
-                          <input
-                            ref={passportRef}
-                            type="file"
-                            id="passport"
-                            name="passport"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <p className="password-text">PASSPORT*</p>
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.passport &&
-                              touched.passport && { border: "1px solid red" }
-                            }
-                            onClick={() => passportRef.current.click()}
-                          >
-                            <span>
-                              {values.passport
-                                ? values.passport.name
-                                : "Click here to open PDF"}
-                            </span>
+  useMemo(() => {
+    if (approveSuccess) {
+      toastSuccess("Phase 2 Approved");
+      handleLinkClick("/prephase3");
+      navigate(`/admin/prephase3/${applicationId}`);
+    }
+  }, [approveSuccess]);
 
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.dependantPassport != "notreq" && (
-                        <>
-                          <p className="password-text">DEPENDANT PASSPORT*</p>
-                          <input
-                            ref={dependentPassportRef}
-                            type="file"
-                            id="dependantPassport"
-                            name="dependantPassport"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.dependantPassport &&
-                              touched.dependantPassport && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() => dependentPassportRef.current.click()}
-                          >
-                            {values.dependantPassport
-                              ? values.dependantPassport.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.utilityBill != "notreq" && (
-                        <>
-                          <p className="password-text">UTILITY BILL*</p>
-                          <input
-                            ref={utilityBillRef}
-                            type="file"
-                            id="utilityBill"
-                            name="utilityBill"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.utilityBill &&
-                              touched.utilityBill && { border: "1px solid red" }
-                            }
-                            onClick={() => utilityBillRef.current.click()}
-                          >
-                            {values.utilityBill
-                              ? values.utilityBill.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.brp != "notreq" && (
-                        <>
-                          <p className="password-text">BRP*</p>
-                          <input
-                            ref={brpRef}
-                            type="file"
-                            id="brp"
-                            name="brp"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.brp &&
-                              touched.brp && { border: "1px solid red" }
-                            }
-                            onClick={() => brpRef.current.click()}
-                          >
-                            {values.brp
-                              ? values.brp.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.previousVisaVignettes !=
-                        "notreq" && (
-                        <>
-                          <p className="password-text">
-                            PREVIOUS VISA VIGNETTES
-                          </p>
-                          <input
-                            ref={previousVisaVignettesRef}
-                            type="file"
-                            id="previousVisaVignettes"
-                            name="previousVisaVignettes"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.previousVisaVignettes &&
-                              touched.previousVisaVignettes && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() =>
-                              previousVisaVignettesRef.current.click()
-                            }
-                          >
-                            {values.previousVisaVignettes
-                              ? values.previousVisaVignettes.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.refusalLetter != "notreq" && (
-                        <>
-                          <p className="password-text">REFUSAL LETTER</p>
-                          <input
-                            ref={refusalLetterRef}
-                            type="file"
-                            id="refusalLetter"
-                            name="refusalLetter"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.refusalLetter &&
-                              touched.refusalLetter && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() => refusalLetterRef.current.click()}
-                          >
-                            {values.refusalLetter
-                              ? values.refusalLetter.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    <div className="right-side-phase2">
-                      {application?.phase2?.educationCertificates !=
-                        "notreq" && (
-                        <>
-                          <p className="password-text">
-                            EDUCATION CERTIFICATES*
-                          </p>
-                          <input
-                            ref={educationCertificatesRef}
-                            type="file"
-                            id="educationCertificates"
-                            name="educationCertificates"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.educationCertificates &&
-                              touched.educationCertificates && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() =>
-                              educationCertificatesRef.current.click()
-                            }
-                          >
-                            {values.educationCertificates
-                              ? values.educationCertificates.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.englishLanguageCertificate !=
-                        "notreq" && (
-                        <>
-                          <p className="password-text">
-                            ENGLISH LANGUAGE CERTIFICATE*
-                          </p>
-                          <input
-                            ref={englishLanguageCertificateRef}
-                            type="file"
-                            id="englishLanguageCertificate"
-                            name="englishLanguageCertificate"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.englishLanguageCertificate &&
-                              touched.englishLanguageCertificate && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() =>
-                              englishLanguageCertificateRef.current.click()
-                            }
-                          >
-                            {values.englishLanguageCertificate
-                              ? values.englishLanguageCertificate.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.marriageCertificate != "notreq" && (
-                        <>
-                          <p className="password-text">MARRIAGE CERTIFICATE*</p>
-                          <input
-                            ref={marriageCertificateRef}
-                            type="file"
-                            id="marriageCertificate"
-                            name="marriageCertificate"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.marriageCertificate &&
-                              touched.marriageCertificate && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() =>
-                              marriageCertificateRef.current.click()
-                            }
-                          >
-                            {values.marriageCertificate
-                              ? values.marriageCertificate.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.bankStatements != "notreq" && (
-                        <>
-                          <p className="password-text">BANK STATEMENTS*</p>
-                          <input
-                            ref={bankStatementsRef}
-                            type="file"
-                            id="bankStatements"
-                            name="bankStatements"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.bankStatements &&
-                              touched.bankStatements && {
-                                border: "1px solid red",
-                              }
-                            }
-                            onClick={() => bankStatementsRef.current.click()}
-                          >
-                            {values.bankStatements
-                              ? values.bankStatements.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      {application?.phase2?.other != "notreq" && (
-                        <>
-                          <p className="password-text">OTHER</p>
-                          <input
-                            ref={otherRef}
-                            type="file"
-                            id="other"
-                            name="other"
-                            accept=".pdf"
-                            onChange={(event) => openFile(event, setFieldValue)}
-                            style={{ display: "none" }}
-                            multiple
-                          />
-                          <div
-                            className="pdf-input"
-                            style={
-                              errors.other &&
-                              touched.other && { border: "1px solid red" }
-                            }
-                            onClick={() => otherRef.current.click()}
-                          >
-                            {values.other
-                              ? values.other.name
-                              : "Click here to open PDF"}
-                            <img src={pdfimg} alt="" className="pdf-icon" />
-                          </div>
-                        </>
-                      )}
-
-                      <button
-                        disabled={isLoadingPostPhase}
-                        type="submit"
-                        className="submit-email-btn-2"
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {isLoadingPostPhase ? <Loader /> : "Submit"}
-                      </button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-          </div>
+  return (
+    <div className="Phase-2-main-container">
+      <SideNavbar />
+      <h2 className="Pre-screening-text">Pre-Screening</h2>
+      <div className="Buttons-preescreening">
+        {/* <button className="Edit-appliction-btn">
+          Edit <img src={Editimgapp} alt="" />
+        </button> */}
+        {app?.requestedPhase < 3 && app?.applicationStatus != "rejected" && (
+          <>
+            <button
+              disabled={approveLoading}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={handleApprove}
+              className="Approved-appliction-btn"
+            >
+              {approveLoading ? <Loader /> : "Approve"}{" "}
+              <img src={Approvedimgapp} alt="" />
+            </button>
+            <button
+              disabled={approveLoading}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(`/admin/reject/${applicationId}`)}
+              className="Reject-appliction-btn"
+            >
+              {" "}
+              Reject <img src={Rejectimgapp} alt="" />
+            </button>
+          </>
         )}
-      </>
-    );
-}
+      </div>
+      <img src={editpen} alt="" className="edit-pen" />
 
-export default Phase2
+      <button
+        disabled={approveLoading}
+        onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
+        className="back-btn"
+      >
+        Back
+      </button>
+
+      <div className="phase-4-all-phase">
+        {app?.phaseSubmittedByClient >= 1 && (
+          <NavLink
+            to={`/admin/phase1/${applicationId}`}
+            className={`link-hover-effect ${
+              activeLink === "/phase1" ? "link-active" : ""
+            }`}
+            onClick={() => handleLinkClick("/phase1")}
+            style={{ width: "2.9rem" }}
+          >
+            <span className="routes-all">Phase 1</span>
+          </NavLink>
+        )}
+        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+          <NavLink
+            to={`/admin/prephase2/${applicationId}`}
+            className={`link-hover-effect ${
+              activeLink === "/prephase2" ? "link-active" : ""
+            }`}
+            onClick={() => handleLinkClick("/prephase2")}
+            style={{ width: "4.4rem" }}
+          >
+            <span className="routes-all">Pre-Phase 2</span>
+          </NavLink>
+        )}
+        {app?.phaseSubmittedByClient >= 2 && (
+          <NavLink
+            to={`/admin/phase2/${applicationId}`}
+            className={`link-hover-effect ${
+              activeLink === "/phase2" ? "link-active" : ""
+            }`}
+            onClick={() => {
+              handleLinkClick("/phase2");
+            }}
+            style={{ width: "2.9rem" }}
+          >
+            <span className="routes-all">Phase 2</span>
+          </NavLink>
+        )}
+        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+          <NavLink
+            to={`/admin/prephase3/${applicationId}`}
+            className={`link-hover-effect ${
+              activeLink === "/prephase3" ? "link-active" : ""
+            }`}
+            onClick={() => {
+              handleLinkClick("/prephase3");
+            }}
+            style={{ width: "4.4rem" }}
+          >
+            <span className="routes-all">Pre-Phase 3</span>
+          </NavLink>
+        )}
+        {app?.phaseSubmittedByClient >= 3 && (
+          <NavLink
+            to={`/admin/phase3/${applicationId}`}
+            className={`link-hover-effect ${
+              activeLink === "/phase3" ? "link-active" : ""
+            }`}
+            onClick={() => {
+              handleLinkClick("/phase3");
+            }}
+            style={{ width: "2.9rem" }}
+          >
+            <span className="routes-all">Phase 3</span>
+          </NavLink>
+        )}
+        {app?.phaseSubmittedByClient > 3 && (
+          <NavLink
+            to={`/admin/phase4/${applicationId}`}
+            className={`link-hover-effect ${
+              activeLink === "/phase4" ? "link-active" : ""
+            }`}
+            onClick={() => {
+              handleLinkClick("/phase4");
+            }}
+            style={{ width: "2.9rem" }}
+          >
+            <span className="routes-all">Phase 4</span>
+          </NavLink>
+        )}
+      </div>
+      <div className="Phase-2">
+        <div className="Phase-2-left">
+          {app?.phase2?.passport && (
+            <>
+              <p className="password-text">PASSPORT*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.passport}`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.dependantPassport && (
+            <>
+              <p className="password-text">DEPENDANT PASSPORT*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.dependantPassport
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.utilityBill && (
+            <>
+              <p className="password-text">UTILITY BILL*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.utilityBill
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.brp && (
+            <>
+              <p className="password-text">BRP*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.brp}`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.previousVisaVignettes && (
+            <>
+              <p className="password-text">PREVIOUS VISA VIGNETTES</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.previousVisaVignettes
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.refusalLetter && (
+            <>
+              <p className="password-text">REFUSAL LETTER</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.refusalLetter
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+        </div>
+        <div className="Phase-2-right" style={{ marginLeft: "0" }}>
+          {app?.phase2?.educationCertificates && (
+            <>
+              <p className="password-text">EDUCATION CERTIFICATES*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.educationCertificates
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.englishLanguageCertificate && (
+            <>
+              <p className="password-text">ENGLISH LANGUAGE CERTIFICATE*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.englishLanguageCertificate
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.marriageCertificate && (
+            <>
+              <p className="password-text">MARRIAGE CERTIFICATE*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.marriageCertificate
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.bankStatements && (
+            <>
+              <p className="password-text">BANK STATEMENTS*</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${
+                  app?.phase2?.bankStatements
+                }`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {app?.phase2?.other && (
+            <>
+              <p className="password-text">OTHER</p>
+              <Link
+                to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.other}`}
+                target="_blank"
+              >
+                <div className="pdf-input">
+                  Click here to open PDF
+                  <img src={pdfimg} alt="" className="pdf-icon" />
+                </div>
+              </Link>
+            </>
+          )}
+
+          {/* <button className="Download-btn-phase-2">Download</button> */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Phase2;

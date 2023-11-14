@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   useGetCountriesQuery,
+  usePostEmploymentMutation,
   usePostPhase4Mutation,
 } from "../../services/api/applicationApi";
 import { toastError } from "../Toast";
@@ -10,43 +11,60 @@ import SelectCountry from "../SelectCountry";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
-    const application = data?.application;
-    console.log("Employment Phase 4", initialValues);
+const EmploymentForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef,
+}) => {
+  const application = data?.application;
+  console.log("Employment Phase 4", initialValues);
 
-    const [postPhase4, res] = usePostPhase4Mutation();
-    const { isLoading, isSuccess, error } = res;
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postEmployment, res] = usePostEmploymentMutation();
+  const { isLoading, isSuccess, error } = res;
 
-    const [isEmployed, setIsEmployed] = useState(initialValues?.phase4?.employment?.isEmployed)
-    const [employerTelephone, setEmployerTelephone] = useState(
-      initialValues?.phase4?.employment?.employerTelephone
-    );
+  const [isEmployed, setIsEmployed] = useState(
+    initialValues?.phase4?.employment?.isEmployed
+  );
+  const [employerTelephone, setEmployerTelephone] = useState(
+    initialValues?.phase4?.employment?.employerTelephone
+  );
 
-    useMemo(() => {
-      if (isSuccess) {
-        setActiveTab("/maintenance");
-      }
-    }, [isSuccess]);
+  useMemo(() => {
+    if (isSuccess) {
+      refetch();
+      setActiveTab("/maintenance");
+    }
+  }, [isSuccess]);
 
-    useMemo(() => {
-      if (error) {
-        toastError("Something went wrong");
-      }
-    }, [error]);
+  useMemo(() => {
+    if (error) {
+      toastError("Something went wrong");
+    }
+  }, [error]);
 
-    const handleSubmitData = async (values) => {
-      console.log(values);
-      if (values?.phase4?.employment?.employerTelephone.length < 5){
-        toastError("Please Enter a Valid Employer Telephone Number");
-        return;
-      }
-        await postPhase4({ data: values, applicationId: application?._id });
-      console.log("submitted", values.phase4.employment);
-    };
+  const handleSubmitData = async (values) => {
+    console.log(values);
+    if (
+      isEmployed &&
+      values?.phase4?.employment?.employerTelephone.length < 5
+    ) {
+      toastError("Please Enter a Valid Employer Telephone Number");
+      return;
+    }
+    await postEmployment({
+      data: values.phase4.employment,
+      applicationId: application?._id,
+    });
+    console.log("submitted", values.phase4.employment);
+  };
 
-    const handleBackClick = () => {
-      setActiveTab("/education");
-    };
+  const handleBackClick = () => {
+    setActiveTab("/education");
+  };
 
   return (
     <>
@@ -56,7 +74,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
@@ -66,6 +84,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   defaultChecked={isEmployed}
                   type="radio"
@@ -78,6 +97,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   defaultChecked={!isEmployed}
                   type="radio"
@@ -96,6 +116,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     i. When did you start your job?*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="date"
                     className="genral-input-left-side"
@@ -113,6 +134,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     ii. What is the name of your employer?*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -131,6 +153,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     iii. Telephone number of your employer*
                   </p>
                   <PhoneInput
+                    disabled={isEditting}
                     country={"us"}
                     inputClass={"mobileInput"}
                     placeholder="(485)-845-8542658"
@@ -139,13 +162,13 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     id="phase4.employment.employerTelephone"
                     value={employerTelephone}
                     containerStyle={{
-                      height: "3rem",
+                      height: "2.8rem",
                       marginLeft: "0rem",
                       marginTop: "5px",
                     }}
                     inputStyle={{
-                      height: "3rem",
-                      width: "30.9rem",
+                      height: "2.8rem",
+                      width: "26.9rem",
                       borderRadius: "8px",
                       background: "#f7f7f7",
                     }}
@@ -163,6 +186,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     }}
                   />
                   {/* <Field
+                  disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -181,6 +205,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     iv. Email address of your employer*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -199,6 +224,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     v. What is your annual salary*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -217,6 +243,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                     vi. What is your job title?*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -237,6 +264,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">i. Address 1*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -253,6 +281,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">ii. Address 2*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -275,6 +304,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                 <>
                   <p className="genral-text-left-side">iii. Location Name*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -291,6 +321,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">iv. Location Code</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -307,6 +338,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">v. Town*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     className="form-select genral-input-left-side-selector"
                     name="phase4.employment.employerTown"
@@ -322,6 +354,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">vi. County*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -338,6 +371,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">vii. Post Code*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -354,6 +388,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">viii. Country Prefix*</p>
                   <Field
+                    disabled={isEditting}
                     required={isEmployed}
                     type="text"
                     className="genral-input-left-side"
@@ -370,6 +405,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">ix. Country*</p>
                   <SelectCountry
+                    disabled={isEditting}
                     className="form-select genral-input-left-side-selector"
                     name="phase4.employment.employerCountry"
                     id="phase4.employment.employerCountry"
@@ -377,6 +413,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">xi. FAX</p>
                   <Field
+                    disabled={isEditting}
                     type="text"
                     className="genral-input-left-side"
                     name="phase4.employment.employerFax"
@@ -392,6 +429,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">xii. VAT Rate</p>
                   <Field
+                    disabled={isEditting}
                     type="text"
                     className="genral-input-left-side"
                     name="phase4.employment.employerVatRate"
@@ -416,6 +454,7 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                 }}
               >
                 <button
+                  disabled={isLoading}
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
@@ -423,6 +462,8 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
                   Back
                 </button>
                 <button
+                  disabled={isLoading}
+                  ref={buttonRef}
                   type="submit"
                   className="Next-button"
                   style={{
@@ -443,4 +484,4 @@ const EmploymentForm = ({ data, setActiveTab, initialValues }) => {
   );
 };
 
-export default EmploymentForm
+export default EmploymentForm;

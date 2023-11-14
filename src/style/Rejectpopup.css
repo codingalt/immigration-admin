@@ -1,88 +1,25 @@
-.Rejectpopoup{
-  width: 35rem;
-  height: 31rem;
-  top: 20rem;
+.Rejectpopoup-2{
+  width: 524px;
+  height: 449px;
+  top: 168px;
   border-radius: 20px;
   border: 1px solid bisque;
-  /* position: relative; */
-  background-color: #FCFCFC;
-  left: 55rem;
-  margin-left: 52rem;
-  margin-top: 21rem;
-}
-
-.Rejectpopoup-authority{
-  width: 35rem;
-  height: 34rem;
-  top: 20rem;
-  border-radius: 20px;
-  border: 1px solid bisque;
-  /* position: relative; */
-  background-color: #FCFCFC;
-  left: 55rem;
-  margin-left: 52rem;
-  margin-top: 21rem;
-}
-
-.pdf-input-popup{
-  width: 24rem;
-  height: 39px;
-  border: 1px solid #e2e2e4;
-  border-radius: 10px;
-  background-color: #f7f7f7;
-  padding-left: 15px;
-  font-family: Poppins;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0em;
-  text-align: left;
-  cursor: pointer;
-  margin-left: 4.5rem;
-  margin-top: 1rem;
-}
-
-.form-submited-text-2 {
-  font-family: Poppins;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-left: 2.5rem;
-  margin-top: 2rem;
-}
-.pdf-icon-popup{
   position: relative;
-  left: 11rem;
-  top: 5px;
-}
-
-.popoup{
-  width: 35rem;
-  height: 20rem;
-  top: 20rem;
-  border-radius: 20px;
-  border: 1px solid bisque;
-  /* position: relative; */
   background-color: #FCFCFC;
-  left: 55rem;
-  margin-left: 52rem;
-  margin-top: 21rem;
+  left: 48rem;
+  top: 20rem;
+  z-index: 99;
 }
 
 
 .overlay{
   position: fixed;
-  width: 118%;
-  background-color: rgba(0, 0, 0, 0.5);
-  height: 118%;
-  z-index: 1;
-  /* bottom: 6rem; */
-  /* right: 11rem; */
-  left: -11rem;
-  top: -6rem;
-
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 99;
   
 }
 
@@ -93,219 +30,102 @@
   width: 15%;
 }
 
-.Confermation-text{
+.Confermation-text-4{
   font-family: Poppins;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 21px;
   letter-spacing: 0em;
   text-align: left;
   position: relative;
-  left: 14.5rem;
+  left: 45px;
 }
 
-.Reason-input{
-  width: 24rem;
-  height: 3rem;
-  padding: 11px;
-  padding-bottom: 11px;
-  padding-bottom: 180px;
-  border-radius: 20px;
-  background-color: #E0E0E0;
-  border: #E0E0E0;
-  /* position: relative; */
-  /* left: 69px; */
-  /* top: 23px; */
+.Reason-input-3{
+    width: 464px;
+    height: 216px;
+    padding: 11px;
+      padding-bottom: 11px;
+    padding-bottom: 180px;
+    border-radius: 20px;
+    background-color: #E0E0E0;
+    border: #E0E0E0;
+    position: relative;
+  left: 32px;
+  top: 23px;
   font-family: Inter;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 15px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: black;
-  margin-left: 4.5rem;
-  margin-top: 2rem;
+font-size: 12px;
+font-weight: 400;
+line-height: 15px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
 }
 
-.Cncl-btn{
+.Cncl-btn-55{
    
   padding: 8px 20px 8px 20px;
-  border-radius: 20px;
-  border: 1px solid #5D982E;
+  border-radius: 10px;
+  border: 1px;
   position: relative;
-  left: 22%;
+  left: 33%;
   top: 40px;
-  cursor: pointer;
-  background-color: #FCFCFC;
-  color: black;
-  width: 8.5rem;
-  height: 2.5rem;
-}
-
-.form-submited-text{
-
-  font-family: Poppins;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-left: 9rem;
-  margin-top: 2rem;
-
 }
     
 
-.Confermation-text-2{
-  font-family: Poppins;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-  position: relative;
-  left: 12.5rem;
+
+.cnfrm-btn-55{
+    padding: 8px 20px 8px 20px;
+    border-radius: 10px;
+    border: 1px;
+    position: relative;
+    left: 38%;
+    top: 40px;
+    background-color: #DD2025;
+  color: white;
 }
 
-
-
-.cnfrm-btn{
-  padding: 8px 20px 8px 20px;
-  border-radius: 20px;
-  border: 1px solid #5D982E;
-  position: relative;
-  left: 50%;
-  background-color: #FCFCFC;
-  color: black;
-  display: flex;
-  align-items: center;
-  column-gap: 9px;
-  cursor: pointer;
-}
-
-.cnfrm-btn-2{
-
-  padding: 8px 20px 8px 20px;
-  border-radius: 20px;
-  border: 1px solid #5D982E;
-  position: relative;
-  left: 37%;
-  background-color: #FCFCFC;
-  color: black;
-  display: flex;
-  align-items: center;
-  column-gap: 9px;
-  cursor: pointer;
-  top: 3rem;
-}
-
-.cnfrm-btn-3{
-  padding: 8px 20px 8px 20px;
-  border-radius: 20px;
-  border: 1px solid #5D982E;
-  position: relative;
-  left: 37%;
-  background-color: #FCFCFC;
-  color: black;
-  display: flex;
-  align-items: center;
-  column-gap: 9px;
-  cursor: pointer;
-  top: 3rem;
-}
-
-
-@media (max-width: 1600px) {
+@media (max-width: 1680px) {
   .overlay {
     position: fixed;
-    left: -13rem !important;
-    width: 124rem !important;
-    height: 64.6rem !important; 
+    top: 0;
+    left: 0;
+    width: 116rem;
+    height: 66rem;
     background-color: rgba(0, 0, 0, 0.5);
   }
-  .Rejectpopoup {
- 
-    margin-left: 44rem !important;
- 
-}
-
-    .popoup{
-      margin-left: 46rem !important;
-
-    }
   
 }
 
 
-
-
 @media (max-width: 1440px) {
   .overlay {
-    width: 113rem !important;
-    left: -14rem !important;
+    position: fixed;
+    top: 0;
+    left: -37px;
+    width: 127%;
+    height: 149%;
+    background-color: rgba(0, 0, 0, 0.5);
+    object-fit: cover;
 }
 
-.Rejectpopoup {
-  border-radius: 20px;
-  border: 1px solid bisque;
-  position: relative;
-  background-color: #FCFCFC;
-  left: -5%;
-  top: -2rem;
-
-}
-.popoup {
-  border-radius: 20px;
-  border: 1px solid bisque;
-  position: relative;
-  background-color: #FCFCFC;
-  left: -5%;
-  top: -2rem;
-
-}
 
 }
 
 
 @media (max-width: 1366px) {
   .overlay {
-    left: -24rem !important;
-    width: 133rem !important;
-    height: 66.6rem !important;
+    position: fixed;
+    top: 0;
+    left: -37px;
+    width: 136%;
+    height: 149%;
+    background-color: rgba(0, 0, 0, 0.5);
+    object-fit: cover;
 }
 
-.Rejectpopoup {
-
-  left: 5%;
-
+.Rejectpopoup-2{
+  left: 60rem;
 }
 
-.popoup {
-
-  left: 5%;
-
-}
-
-}
-
-
-@media (max-width: 1280px) {
-  .overlay {
-    left: -24rem !important;
-    width: 126.5rem !important;
-    height: 86.8rem !important;
-    top: -13rem;
-}
-
-.Rejectpopoup {
-
-  left: 5%;
-
-}
-
-.popoup {
-
-  left: 5%;
-
-}
 }

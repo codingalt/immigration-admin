@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   useGetCountriesQuery,
+  usePostMaintenanceMutation,
   usePostPhase4Mutation,
 } from "../../services/api/applicationApi";
 import { maintenanceSchema } from "../../utils/ValidationSchema";
@@ -9,33 +10,45 @@ import { toastError } from "../Toast";
 import Loader from "../Loader";
 import SelectCountry from "../SelectCountry";
 
-const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
-    const application = data?.application;
-    console.log("Maintenance Phase 4", initialValues);
+const MaintenanceForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef,
+}) => {
+  const application = data?.application;
+  console.log("Maintenance Phase 4", initialValues);
 
-    const [postPhase4, res] = usePostPhase4Mutation();
-    const { isLoading, isSuccess, error } = res;
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postMaintenance, res] = usePostMaintenanceMutation();
+  const { isLoading, isSuccess, error } = res;
 
-    useMemo(() => {
-      if (isSuccess) {
-        setActiveTab("/travel");
-      }
-    }, [isSuccess]);
+  useMemo(() => {
+    if (isSuccess) {
+      refetch();
+      setActiveTab("/travel");
+    }
+  }, [isSuccess]);
 
-    useMemo(() => {
-      if (error) {
-        toastError("Something went wrong");
-      }
-    }, [error]);
+  useMemo(() => {
+    if (error) {
+      toastError("Something went wrong");
+    }
+  }, [error]);
 
-    const handleSubmitData = async (values) => {
-      await postPhase4({ data: values, applicationId: application?._id });
-      console.log("submitted", values.phase4?.maintenance);
-    };
+  const handleSubmitData = async (values) => {
+    await postMaintenance({
+      data: values.phase4.maintenance,
+      applicationId: application?._id,
+    });
+    console.log("submitted", values.phase4?.maintenance);
+  };
 
-    const handleBackClick = () => {
-      setActiveTab("/employement");
-    };
+  const handleBackClick = () => {
+    setActiveTab("/employement");
+  };
   return (
     <>
       <Formik
@@ -48,12 +61,13 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
               <p className="genral-text-left-side">1.Name of Bank*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Bank Name"
@@ -71,6 +85,7 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
                 2.Is it a registered recognized financial institute ?*
               </p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Type Answer"
@@ -87,6 +102,7 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">3.Country funds held in*</p>
               <SelectCountry
+                disabled={isEditting}
                 className="form-select genral-input-left-side-selector"
                 name="phase4.maintenance.countryFundsHeldIn"
                 id="phase4.maintenance.countryFundsHeldIn"
@@ -96,6 +112,7 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
                 4.Currency funds held in?*
               </p>
               <SelectCountry
+                disabled={isEditting}
                 className="form-select genral-input-left-side-selector"
                 name="phase4.maintenance.currencyFundsHeldIn"
                 id="phase4.maintenance.currencyFundsHeldIn"
@@ -103,6 +120,7 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">5.Amount held?*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-left-side"
                 placeholder="Amount held"
@@ -120,6 +138,7 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
                 6.Date the funds have been held from?*
               </p>
               <Field
+                disabled={isEditting}
                 type="date"
                 className="genral-input-left-side"
                 name="phase4.maintenance.fundsDateHeldFrom"
@@ -141,6 +160,7 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
                 }}
               >
                 <button
+                  disabled={isLoading}
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
@@ -148,6 +168,8 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
                   Back
                 </button>
                 <button
+                  disabled={isLoading}
+                  ref={buttonRef}
                   type="submit"
                   className="Next-button"
                   style={{
@@ -168,4 +190,4 @@ const MaintenanceForm = ({ data, setActiveTab, initialValues }) => {
   );
 };
 
-export default MaintenanceForm
+export default MaintenanceForm;

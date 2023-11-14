@@ -1,0 +1,63 @@
+.Membership-main{
+    width: 64.3rem;
+    height: 42.2rem;
+    top: 173px;
+    left: 433px;
+    border-radius: 20px;
+    border: 1px solid #E2E2E4;
+    position: absolute;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #5d982e white;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.full-name-text-accc-left-mem{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 14px;
+    
+    padding: 6px;
+    margin-left: -3px;
+
+}
+
+.input-full-name-acc-left-mem{
+    width: 26rem;
+    height: 39px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding-left: 15px;
+}
+
+.Download-button-membership{
+  
+    position: absolute;
+    left: 55.8rem;
+    bottom: 629px;
+    height: 34px;
+    width: 120px;
+    background-color: #5D982E;
+    border: 1px solid #5D982E;
+    border-radius: 8px;
+    color: white;
+}
+
+@media (max-width: 1366px) {
+ 
+   
+    .Membership-main {
+        left: 460px;
+    }
+  
+    
+  }
+
+

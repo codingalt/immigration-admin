@@ -4,11 +4,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   applicationType: "",
-  captcha: null
-};
-
-const payment = {
-  
+  searchParams: null,
 };
 
 export const userSlice = createSlice({
@@ -29,13 +25,16 @@ export const userSlice = createSlice({
       state.applicationType = action.payload;
     },
 
-    setCaptchaToSlice: (state, action) => {
-      state.captcha = action.payload;
+    setSearchParams: (state, action) => {
+      state.searchParams = action.payload;
     },
-
   },
 });
 
-export const { setUserData, logout, setApplicationTypeToSlice, setCaptchaToSlice } =
-  userSlice.actions;
+export const {
+  setUserData,
+  logout,
+  setApplicationTypeToSlice,
+  setSearchParams
+} = userSlice.actions;
 export default userSlice.reducer;

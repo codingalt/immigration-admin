@@ -1,63 +1,120 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom"; // Import the useNavigate hook
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom'; // Import the useNavigate hook
 import "../style/Rejectpopup.css";
-import crossicon from "../Assets/cross -vector.png";
-import messageicon from "../Assets/messag-icon-button.svg"
-
-import Filldata2 from "./Filldata2";
+import crossicon from "../assests/cross -vector.png";
+import Prescreening from './Prescreening';
+import { useGetApplicationDataByIdQuery, useRejectApplicationMutation } from '../services/api/applicationApi';
+import { useState } from 'react';
+import Loader from './Loader';
+import { useEffect } from 'react';
+import { useMemo } from 'react';
+import { toastError, toastSuccess } from './Toast';
+import { useContext } from 'react';
+import MainContext from './Context/MainContext';
 
 const Rejectpopup = () => {
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+    const navigate = useNavigate(); 
+    const [rejectPhaseReason, setRejectPhaseReason] = useState("");
+    const {applicationId} = useParams();
+    const [rejectApplication, res] = useRejectApplicationMutation();
+    const {isLoading, error,isSuccess} = res;
+    const { socket } = useContext(MainContext);
 
-  const handleCancel = () => {
-    // Close the popup box and the overlay div.
-    const rejectpopup = document.querySelector(".Rejectpopoup");
-    rejectpopup.style.display = "";
-    const overlay = document.querySelector(".overlay");
-    overlay.style.display = "none";
+    const {
+      data,
+      refetch,
+      isLoading: isLoadingApplication,
+    } = useGetApplicationDataByIdQuery(applicationId);
 
-    // Navigate to the Prescreening component smoothly
-    navigate("/finaldata2");
-  };
+    const app = data?.application;
+    console.log("app", app);
 
-  const handleConfirm = () => {
-    // Implement your logic for handling confirmation here
-  };
+    useMemo(()=>{
+        if(error){
+            toastError(error?.data?.message);
+        }
+    },[error]);
 
-  const buttonRef = React.createRef();
+    useMemo(() => {
+      if (isSuccess) {
+        toastSuccess("Application Rejected.");
+        setTimeout(() => {
+            setRejectPhaseReason("");
+            navigate(-1);
+        }, 1000);
+      }
+    }, [isSuccess]);
 
-  return (
-    <div>
-     <Filldata2/>
+    const handleConfirm = async() => {
+      if(rejectPhaseReason == ""){
+        toastError("Please enter a reason");
+        return;
+      }
+        await rejectApplication({
+          applicationId: applicationId,
+          rejectPhaseReason: rejectPhaseReason,
+        });
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: app?.phase,
+          phaseStatus: "rejected",
+        });
+    };
 
-      <div className="overlay">
-      <div className="Rejectpopoup">
-          <img src={crossicon} alt="" className="cross-img" />
-          <p className="Confermation-text">
-          Rejected
-          </p>
+    const buttonRef = React.createRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        navigate(-1)
+      }
+    };
 
-          <p className="Reason-input">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-            ad, in magni excepturi ut dolor tempora dignissimos cum vitae sequi
-            eveniet explicabo, autem corporis. Porro quia soluta voluptates
-            quasi! Debitis, quo laudantium quod qui recusandae odit
-            necessitatibus esse exercitationem illum.
-          </p>
+    document.addEventListener("mousedown", handleClickOutside);
 
-          <button ref={buttonRef} className="Cncl-btn" onClick={handleCancel}>
-            Cancel
-          </button>
-          <NavLink to="/message">
-          <button className="cnfrm-btn" onClick={handleConfirm}>     
-               <img src={messageicon} alt="" className="message-icon-btn" /> Contact Us
-          </button>
-          </NavLink>
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+    return (
+      <div>
+        <Prescreening />
+
+        <div className="overlay" style={{zIndex:"99"}}>
+          <div className="Rejectpopoup-2" ref={buttonRef}>
+            <img src={crossicon} alt="" className="cross-img" />
+            <p className="Confermation-text-4">
+              Are you sure you want to reject this application?
+            </p>
+            <input
+              type="text"
+              onChange={(e) => setRejectPhaseReason(e.target.value)}
+              name=""
+              placeholder="Type Reason"
+              className="Reason-input-3"
+            />
+
+            <button
+              disabled={isLoading}
+              style={{
+                minWidth: "7rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              className="cnfrm-btn-55"
+              onClick={handleConfirm}
+            >
+              {isLoading ? <Loader /> : "Confirm"}
+            </button>
+          </div>
         </div>
       </div>
-   
-    </div>
-  );
-};
+    );
+}
 
 export default Rejectpopup;

@@ -1,0 +1,219 @@
+.jhon-input{
+    position: relative;
+border-radius: 10px;
+width: 40%;
+height: 40px;
+background-color: #E2E2E4;
+border: 1px solid #E2E2E4;
+left: 26px;
+padding-left: 12px;
+}
+
+
+
+.client-label{
+    position: relative;
+    left: 26px;
+}
+
+.email-2{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px;
+    padding-left: 12px;
+}
+
+.email-label{
+    position: relative;
+    left: 26px;
+}
+
+.contact{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.contact-label{
+    position: relative;
+    left: 26px;
+}
+
+.calender-2{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.dob-label{
+    position: relative;
+    left: 26px;
+}
+
+.Adress-2{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.address-label{
+    position: relative;
+    left: 26px;
+}
+
+.nationalty-2{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.nationality-label{
+    position: relative;
+    left: 26px;
+}
+
+.from-container{
+    /* margin-top: 11px; */
+    display: flex;
+}
+
+.Sideform-img-33{
+    width: 554.1987915039062px;
+    height: 419.6px;
+    left: 39px;
+    position: relative;
+    top: 50px;
+
+}
+
+
+.View-more-text{
+    position: absolute;
+    top: 32rem;
+
+    left: 21rem;
+    text-decoration: underline;
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 400;
+line-height: 18px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
+
+}
+
+
+.calender-2{
+    font-size: 12px;
+  opacity: 65.3%;
+}
+.Form-main{
+    width: 100%;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 27px;
+}
+/* Base styles for all devices */
+.jhon-input,
+.email-2,
+.contact,
+.calender-2,
+.Adress-2,
+.nationalty-2 {
+    position: relative;
+    border-radius: 10px;
+    width: 80%;
+    height: 34px;
+    background-color: #e2e2e4;
+    border: 1px solid #e2e2e4;
+    left: 26px;
+    padding-left: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    
+    padding-right: 25px;
+
+}
+
+.client-label,
+.email-label,
+.contact-label,
+.dob-label,
+.address-label,
+.nationality-label {
+    position: relative;
+    left: 30px;
+    margin-top: 16px;
+}
+
+.from-container {
+  margin-top: 11px;
+}
+
+.Sideform-img {
+    width: 562.198792px;
+    height: 478.6px;
+    left: 39px;
+    position: relative;
+    top: 18px;
+}
+
+@media (max-width: 1366px) {
+    .client-label,
+    .email-label,
+    .contact-label,
+    .dob-label,
+    .address-label,
+    .nationality-label {
+        position: relative;
+        left: 30px;
+        margin-top: 10px;
+    }
+
+
+  } 
+
+
+
+/* Media queries for phone version */
+@media screen and (max-width: 760px) {
+  .jhon-input,
+  .email-2,
+  .contact,
+  .calender-2,
+  .Adress-2,
+  .nationalty-2 {
+    width: 94%;
+    left: 7px;
+  }
+
+
+  .Sideform-img {
+    display: none;
+  }
+}

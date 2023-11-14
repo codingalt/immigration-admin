@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import '../style/forgetpassword.css';
-import Logo from '../Assets/Ukimmigration-logo.png';
-import Sideimg from '../Assets/side-img-forget.png';
+import Logo from "../assests/Ukimmigration-logo.png";
+import Sideimg from "../assests/side-img-forget.png";
 import { Link } from 'react-router-dom';
 import "../style/signup.css"
-import googlepic from "../Assets/google-pic.svg"
-import robort from "../Assets/recaptcha-img.svg"
+import googlepic from "../assests/google-pic.svg";
 import { useNavigate } from 'react-router-dom'; 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import signupSchema from '../utils/ValidationSchema';
@@ -266,12 +265,24 @@ const Signup = () => {
                   ></div>
 
                   <button
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "2.6rem",
-                    }}
+                    style={
+                      isLoading
+                        ? {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: "2.6rem",
+                            opacity: 0.5,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          }
+                        : {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: "2.6rem",
+                          }
+                    }
                     disabled={isLoading}
                     type="submit"
                   >

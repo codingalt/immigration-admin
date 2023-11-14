@@ -1,0 +1,117 @@
+.View-btn-tablelist{
+    width: 3rem;
+    height: 2rem;
+cursor: pointer;
+background-color: #5D982E;
+color: white;
+border: 1px solid   #5D982E;
+border-radius: 5px;
+}
+
+.table-list-sub-container{
+    border: 1px solid #e2e2e4;
+    position: relative;
+
+    width: 64.2rem;
+    height: 45.6rem;
+    border-radius: 13px;
+    top: 119px;
+    background-color: #fcfcff;
+
+    right: 5rem;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+ 
+    scrollbar-color: #5d982e white;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.table-list-sub-container table{
+    max-height: 10rem;
+}
+
+.table-list-sub-container tr{
+    height: 2rem;
+    min-height: 2rem;
+    max-height: 2rem;
+}
+
+.Case-profile-addbtn{
+    position: absolute;
+    left: 66%;
+    top: 72px;
+    padding: 9px;
+    background-color: white;
+    color: black;
+    border: 1px solid #E2E2E4;
+    border-radius: 8px;
+    cursor: pointer;
+}   
+
+
+@media (max-width: 1680px) {
+
+    .table-list-sub-container{
+        right: 5rem;
+    }
+
+ 
+}
+
+
+@media (max-width: 1480px) {
+
+    .table-list-sub-container{
+        right: 5rem;
+
+    }
+
+    .Case-profile-addbtn {
+     
+        left: 73.9rem;
+    
+    }
+ 
+}
+
+@media (max-width: 1366px) {
+
+    .table-list-sub-container{
+        left: 11.7rem;
+
+
+    }
+
+    .Case-profile-addbtn {
+        left: 81.6rem;
+        width: 11rem;
+    }
+
+ 
+}
+
+
+
+@media (max-width: 1280px) {
+
+    .Case-profile-addbtn {
+        left: 74.6rem;
+        width: 11rem;
+    }
+ 
+}
+
+@media (max-width: 1024px) {
+
+
+    .table-list-sub-container {
+        left: 21.7rem;
+        position: absolute;
+    }
+    
+ 
+}
+
+

@@ -10,31 +10,13 @@
     padding: 0;
     background-color: #fff;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    height: 44rem;
+    height: 561px;
     position: relative;
-    left: 19.11%;
-    width: 60rem;
-    top: 3rem;
+    left: 77.11%;
+    width: 100%;
+    top: 18rem;
     border-radius: 11px;
-    /* overflow: hidden; */
   }
-
-  
-
-
-  .back-button-chat{
-    position: absolute;
-    top: 1rem;
-    left: 2rem;
-    width: 6rem;
-    height: 2.6rem;
-    color: black;
-    background-color: #FCFCFC;
-    border: 1px solid #E2E2E4;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-
   
   .Message-date-time-second {
     font-family: Montserrat;
@@ -57,6 +39,65 @@
     top: 22px;
 
   }
+
+   .pdf-file-send{
+    background-color: #FFFFFF;
+    border: 1px solid #E2E2E4;
+    width: 9.5rem;
+    height: 2.5rem;
+    border-radius: 8px;
+    display: flex;
+    /* margin-left:2rem; */
+    margin-top: 12px;
+  }
+  
+  .file-attach-pdf-icon{
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 7px;
+  }
+
+.pdf-file-downloadicon{
+  height: 15px;
+  margin-top: 5px;
+  margin-left: 8px;
+}
+
+
+.file-sze-mb{
+  font-family: Poppins;
+  font-size: 8px;
+  font-weight: 400;
+  line-height: 4px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.Attach-file-text{
+  font-family: Poppins;
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+
+
+  .pdf-file-send{
+    background-color: #FFFFFF;
+    border: 1px solid #E2E2E4;
+    width: 7rem;
+    height: 2.3rem;
+    border-radius: 8px;
+    display: flex;
+    margin-bottom: 27px;
+  }
+
+  .one-pdf-file{
+    display: flex;
+    gap: 11px;
+  }
   
   .Second-profile-name {
     position: relative;
@@ -78,11 +119,14 @@
     font-family: Poppins;
     font-size: 10px;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 15px;
     letter-spacing: 0em;
     text-align: left;
     color: #777;
     bottom: 46px;
+  }
+
+  .message-content{
     max-width: 75%;
   }
   
@@ -110,7 +154,7 @@
   }
   .photo-2 {
     position: relative;
-    top: 40px;
+    top: 42px;
   }
   
   .Date-time-text-2 {
@@ -122,8 +166,8 @@
     text-align: left;
     color: #777777;
     position: relative;
+    right: 45px;
     width: 133%;
-    left: 18rem;
   }
   
   .Message-date-time-2 {
@@ -180,7 +224,7 @@
     text-align: left;
     color: #777;
     left: 56px;
-  width: 50rem;
+    width: 227px;
   }
   
   .Text-Fourth-1 {
@@ -195,30 +239,27 @@
     text-align: left;
     color: #777;
     left: 55px;
-     width: 50rem;
+    width: 227px;
   }
   .Gmail-text-2 {
-    position: absolute;
-    top: 10px;
-    /* right: 107px; */
-    font-family: Poppins;
+      font-family: Poppins;
     font-size: 10px;
     font-weight: 500;
-    line-height: 15px;
     letter-spacing: 0em;
-    left: 4.25rem;
-    top: 58%;
+    text-align: left;
   }
   
   .Message-svg-img {
     position: relative;
     bottom: 25px;
-    left: 251px;
+    left: 230px;
   }
   
   .Message-profile-img-2 {
+    width: 34px;
     position: relative;
     left: 12px;
+    border-radius: 50%;
   }
   
   .Threedot-svg-img {
@@ -360,65 +401,7 @@
     background-size: cover;
     background-repeat: no-repeat;
   }
-
-  .pdf-file-send{
-    background-color: #FFFFFF;
-    border: 1px solid #E2E2E4;
-    width: 9.5rem;
-    height: 2.5rem;
-    border-radius: 8px;
-    display: flex;
-    /* margin-left:2rem; */
-    margin-top: 12px;
-  }
   
-  .file-attach-pdf-icon{
-    height: 26px;
-    margin-top: 5px;
-    margin-left: 7px;
-  }
-
-.pdf-file-downloadicon{
-  height: 25px;
-  margin-top: 5px;
-  margin-left: 8px;
-}
-
-
-.file-sze-mb{
-  font-family: Poppins;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 4px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-.Attach-file-text{
-  font-family: Poppins;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 25px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-
-
-  .pdf-file-send{
-    background-color: #FFFFFF;
-    border: 1px solid #E2E2E4;
-    width: 9rem;
-    height: 2.5rem;
-    border-radius: 8px;
-    display: flex;
-    margin-bottom: 31px;
-  }
-
-  .one-pdf-file{
-    display: flex;
-    gap: 14px;
-  }
 
   
   .email-edit-pencile{
@@ -464,10 +447,11 @@
   }
   
   .timer {
-    margin-left: 13%;
+    margin-left: 7%;
+    margin-top: -15px;
     font-family: "Open Sans", sans-serif;
-    font-size: 11px;
-    padding: 3px 8px;
+    font-size: 10px;
+    padding: 2px 7px;
     color: #bbb;
     background-color: #fff;
     border: 1px solid #e5e5e5;
@@ -475,11 +459,13 @@
   }
   
   .chat {
-    width: 38.2rem;
-    position: relative;
+    /* width: 38.2rem;
+    position: sticky;
     display: inline flow-root list-item;
-    bottom: 180px;
+    bottom: 33rem;
     left: 18px;
+    margin-left: 1rem;
+    margin-top: -1rem; */
   }
   
   .header-chat-2 {
@@ -490,6 +476,7 @@
     align-items: center;
     border-radius: 11px;
     position: relative;
+    width: 392px;
     top: 8px;
   }
   
@@ -500,19 +487,25 @@
   }
   
   .chat-2 .header-chat-2 .name {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 0;
     margin-bottom: 0px;
     text-transform: uppercase;
-  
     color: black;
     font-family: Poppins;
     font-size: 13px;
     font-weight: 500;
-    line-height: 20px;
+    line-height: 17px;
     letter-spacing: 0em;
     text-align: left;
-    width: 457px;
-    margin-bottom: 12px;
+    width: 100%;
+  }
+
+  .chat-2 .header-name-email{
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    margin-left: 24px;
+    width: 100%;
   }
   
   .chat-2 .header-chat-2 .right {
@@ -521,28 +514,19 @@
   }
   
   .chat-2 .messages-chat-2 {
-    margin-top: 27px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    width: 60rem;
-    /* scrollbar-color: #5d982e white;
-    scrollbar-width: thin;
-    scroll-behavior: smooth; */
-    /* height: 81%; */
-    height: 31rem;
-    padding-bottom: 5rem;
+    margin-top: 0px;
     overflow-y: auto;
-  }
-
-  .styles_scrollable-div__prSCv{
-    height: 100% !important;
     overflow-x: hidden;
+    width: 100%;
+    scrollbar-color: #5d982e white;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    height: 81%;
   }
   
   .chat-2 .messages-chat-2 .message {
     align-items: center;
     margin-bottom: 0px;
-    padding-left: 5px;
   }
   
   .chat-2 .messages-chat-2 .message .photo {
@@ -583,7 +567,7 @@
     letter-spacing: 0em;
     text-align: left;
     color: #777;
-    width: 50rem;
+    width: 227px;
   }
   .text-only {
     margin-left: 45px;
@@ -612,41 +596,37 @@
   }
   
   .footer-chat-2 {
-    width: 95%;
+    width: calc(111% - 98px);
     height: 80px;
     display: flex;
     align-items: center;
     background-color: transparent;
-    background-color: #fff;
     border-top: 2px solid #eee;
-    margin-left: 0px;
+ 
+
+    margin-left: 28px;
+  
     position: relative;
+
     /* top: 13px; */
-    margin-top: 0rem;
-    display: flex;
-    gap: 15px;
-    position: absolute;
-    left: 0;
-    bottom: 0.5%;
-    padding: 0 1rem;
-    padding-right: 3rem;
   }
   
   
   .chat .footer-chat .icon {
     margin-left: 30px;
+    margin-left: 5px;
     color: #c0c0c0;
-    font-size: 14pt;
+    font-size: 13pt;
   }
   
   .chat .footer-chat .send {
     color: #fff;
     background-color: #4f6ebd;
     position: absolute;
-    right: 12px;
+    right: -10px;
     padding: 12px 12px 12px 12px;
     border-radius: 50px;
-    font-size: 14pt;
+    font-size: 12pt;
   }
   
   .chat .footer-chat .name {
@@ -693,6 +673,9 @@
     cursor: pointer;
   }
   
+ .chat .scroller * {
+  overflow-anchor: none !important;
+}
 
   @media (max-width: 1680px) {
     .Message-heading {
@@ -807,7 +790,7 @@
   
 }
 .container-message-box-2 {
-  left: 100%;
+  left: 24rem;
 }
 }
 
@@ -815,18 +798,10 @@
 @media (max-width: 1024px) {
 
 .Email {
-  left: 45%;
-  top: 7px;
+  left: 46%;
+  
 }
 
-.Message-heading {
-  position: relative;
-  left: 152px;
-  top: 15px;
-}
 
-.container-message-box-2 {
-  left: 161%;
-}
-
+ 
 } 

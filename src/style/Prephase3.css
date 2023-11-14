@@ -1,0 +1,128 @@
+
+
+.Prephase3-container{
+    width: 13%;
+    display: flex;
+    margin-left: 127px;
+}
+
+.prephase3-main{
+    width: 64.3rem;
+    height: 42.2rem;
+    top: 173px;
+    left: 433px;
+  border-radius: 20px;
+  border: 1px solid #E2E2E4;
+  position: absolute;
+  display: flex;
+}
+
+.prephase-3-input{
+    width: 26rem;
+    height: 39px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding-left: 15px;
+}
+
+.prephase-3-text-left-check{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 15px;
+    padding: 6px;
+    margin-left: -6px;
+}
+
+.prephase-3-text-left{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 15px;
+    padding: 6px;
+}
+
+.left-side-prephase3{
+    width: 50%;
+    margin-top: 39px;
+    position: relative;
+    right: 21.6rem;
+    padding: 6px;
+}
+
+
+.Confirmation-text{
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #6A6C6F;
+    position: relative;
+    left: 12px;
+    top: 27px;
+    width: 22rem;
+}
+
+
+
+
+
+
+.save-btn-pre{
+    position: absolute;
+    width: 26rem;
+    height: 40px;
+    top: 390px;
+ 
+    left: 7px;
+    cursor: pointer;
+    background-color: #5D982E;
+    border: 1px solid #5D982E;
+    border-radius: 12px;
+    color: white;
+}
+
+
+
+@media (max-width: 1440px) {
+   
+    .Prephase3-container {
+      width: 13%;
+      display: flex;
+      margin-left: -13px;
+  }
+  .prephase3-main  {
+  
+    left: 296px;
+  
+    
+  }
+      } 
+
+      
+      @media (max-width: 1366px) {
+      
+      .prephase3-main {
+        left: 460px;
+    }
+          } 
+
+          @media (max-width: 1280px) {
+      
+            .prephase3-main {
+              left: 348px;
+          }
+                } 
+
+          @media (max-width: 1024px){
+        
+          }

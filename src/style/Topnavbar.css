@@ -1,0 +1,175 @@
+.topnavbar-container {
+    border-radius: 10px 0px 0px 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #e2e2e4;
+    box-sizing: border-box;
+    width: 121%;
+    height: 47px;
+    left: 187px;
+    margin-top: 15px;
+    margin-left: 11.8rem;
+}
+
+
+.calendar-icon{
+    position: fixed;
+    color: gray;
+    cursor: pointer;
+    left: 84rem;
+
+
+
+}
+
+.TopNavbar-main-conatiner{
+    display: flex;
+    width: 84%;
+}
+
+.detail{
+    display: flex;
+    column-gap: 51px;
+    margin-left: 68px;
+    margin-top: 7px;
+}
+
+.search-icon{
+    position: relative;
+    top: 13px;
+    left: 24px;
+}
+
+.search-2 {
+    position: relative;
+    border-radius: 0px 10px 10px 0px;
+    background-color: #5d982e;
+    width: 8%;
+    height: 47px;
+    color: white;
+    left: 8%;
+    padding-right: 56px;
+    bottom: 8px;   
+}
+
+.search{
+    position: relative;
+    border-radius: 0px 10px 10px 0px;
+    background-color: #5d982e;
+    width: 8%;
+    height: 47px;
+    color: white;
+    left: 8%;
+    padding-right: 56px;
+    bottom: 8px;
+}
+
+
+.dob{
+    margin-left: 20px;
+    display: flex;
+}
+
+.dob-text{
+    margin-left: 12px;
+    position: relative;
+    right: 10px;
+    bottom: 1px;
+    color: gray;
+}
+
+
+.Case-id{
+    position: relative;
+    bottom: 7px;
+    height: 45px;
+    padding-left: 20px;
+    border: none;
+    right: 19px;
+    width: 142px;
+    font-size: 12px;
+    background-color: #fcfcfc;
+}
+
+.Search-by-name{
+    position: relative;
+    bottom: 7px;
+    height: 45px;
+    padding-left: 20px;
+    border: none;
+    right: 68px;
+    width: 142px;
+    font-size: 12px;
+    background-color: #fcfcfc;
+}
+
+.search-by-nationality{
+    position: relative;
+    bottom: 7px;
+    height: 45px;
+    padding-left: 20px;
+    border: none;
+    right: 57px;
+    width: 148px;
+    font-size: 12px;
+    background-color: #fcfcfc;
+}
+
+.Date-selctor{
+    position: relative;
+    bottom: 3px;
+    height: 35px;
+    padding-left: 5px;
+    left: 55px;
+    border: none;
+    color: gray;
+    width: 114px;
+    background-color: #fcfcfc;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1440px) {
+    .TopNavbar-main-conatiner{
+        width: 92%;
+    }
+
+    .calendar-icon {
+        margin-left: -9rem;
+
+    }
+  } 
+
+
+  
+@media (max-width: 1366px) {
+    .calendar-icon {
+   
+        margin-left: 1rem;
+
+    }
+    
+  
+  } 
+
+  @media (max-width: 1280px){
+    .calendar-icon {
+        margin-left: -6rem;
+    }
+  }
+
+
+  @media screen and (max-width: 1024px) {
+
+  }
+
+
+

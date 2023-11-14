@@ -16,6 +16,11 @@ export const adminApi = createApi({
       providesTags: ["AdminApi"],
     }),
 
+    timeLeft: builder.query({
+      query: () => `/timeleft`,
+      providesTags: ["AdminApi"],
+    }),
+
     createCaseWorker: builder.mutation({
       query: (data) => ({
         url: `api/caseworker`,
@@ -33,11 +38,52 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["AdminApi"],
     }),
+
+    filterInvoices: builder.mutation({
+      query: ({ name, applicationType, caseWorkerId, from, to }) => ({
+        url: `api/invoice/filter`,
+        method: "POST",
+        body: { filters: { name, applicationType, caseWorkerId, from, to } },
+      }),
+      invalidatesTags: ["AdminApi"],
+    }),
+
+    phase1Manual: builder.mutation({
+      query: (data) => ({
+        url: `api/phase1/manual`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["AdminApi", "Application"],
+    }),
+
+    updatePhase1Manual: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/phase1/manual/${applicationId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["AdminApi", "Application"],
+    }),
+
+    updateService: builder.mutation({
+      query: ({ applicationType, applicationId }) => ({
+        url: `api/service/${applicationId}`,
+        method: "PUT",
+        body: { applicationType: applicationType },
+      }),
+      invalidatesTags: ["AdminApi", "Application"],
+    }),
   }),
 });
 
 export const {
   useGetUsersQuery,
   useCreateCaseWorkerMutation,
-  useLinkCompanyMutation
+  useLinkCompanyMutation,
+  useFilterInvoicesMutation,
+  usePhase1ManualMutation,
+  useUpdatePhase1ManualMutation,
+  useTimeLeftQuery,
+  useUpdateServiceMutation
 } = adminApi;

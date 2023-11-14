@@ -1,0 +1,210 @@
+.Travel-main{
+  width: 64.3rem;
+  height: 42.2rem;
+  top: 173px;
+  left: 433px;
+    border-radius: 20px;
+    border: 1px solid #E2E2E4;
+    position: absolute;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #5d982e white;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.right-side-acc-travel{
+  margin-left: 580px;
+  position: relative;
+  bottom: 101rem;
+}
+
+
+
+.full-name-text-accc-left-travel{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 14px;
+    padding: 6px;
+    margin-left: -3px;
+}
+
+
+.input-full-name-acc-left-travel{
+  width: 27rem;
+    height: 39px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding-left: 15px;
+}
+
+
+.full-name-text-acc-right-travel{
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-top: 14px;
+  padding: 6px;
+  margin-left: -7px;
+}
+
+
+.input-full-name-acc-right-travel{
+  width: 27rem;
+height: 39px;
+border: 1px solid #E2E2E4;
+border-radius: 10px;
+background-color: #F7F7F7;
+padding-left: 15px;
+.left-side-general-emp{
+    margin-left: 26px;
+    position: relative;
+    top: 12px;
+}
+
+
+}
+
+.Download-button-travel{
+  position: absolute;
+  left: 19.55rem;
+  /* bottom: 103.6rem; */
+  bottom: 115.2rem;
+  height: 34px;
+  width: 120px;
+  background-color: #5D982E;
+  border: 1px solid #5D982E;
+  border-radius: 8px;
+  color: white;
+}
+
+
+
+
+
+.country-cnfrm-text-travel{
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px;
+    margin-left: -0.5rem;
+}
+
+.country-cnfrm-text-travel-2{
+  font-size: 12px;
+  font-weight: 500;
+  
+}
+
+
+
+.checkbox-travel{
+    display: flex;
+    font-size: 12px;
+    position: relative;
+    top: 9px;
+    column-gap: 12px;
+}
+
+.left-side-general-travel{
+  margin-left: 13px;
+  position: relative;
+  top: 40px;
+  width: 42%;
+}
+
+
+@media (max-width: 1440px) {
+
+    .gernral-main{
+    
+      left: 296px;
+    
+      
+    }
+    
+    
+    .Accommodation-main {
+      left: 296px;
+    }
+    
+    
+    .Family-main{
+      left: 296px;
+    }
+    
+    .language-prof-main {
+      left: 296px;
+    }
+    
+    
+    .Employement-main {
+      left: 296px;
+    }
+    
+    .education-main{
+      left: 296px;
+    }
+    
+    .Maintenance-main {
+      left: 296px;
+    }
+    
+    .Membership-main {
+      left: 296px;
+    }
+    
+    .character-main {
+      left: 296px;
+    }
+    
+    .Travel-main{
+      left: 296px;
+    }
+    
+    
+    
+  
+        } 
+
+
+
+        @media (max-width: 1366px) {
+          .Travel-main{
+            left: 460px;
+          }
+    }
+
+
+    
+    @media (max-width: 1024px) {
+   
+      .right-side-acc-travel{
+        margin-left: 580px;
+        position: relative;
+        bottom: 101rem;
+      }
+
+      .Download-button-travel{
+        position: absolute;
+        left: 19.55rem;
+        /* bottom: 103.6rem; */
+      bottom: 139em;
+        height: 34px;
+        width: 120px;
+        background-color: #5D982E;
+        border: 1px solid #5D982E;
+        border-radius: 8px;
+        color: white;
+      }
+      
+      
+  }

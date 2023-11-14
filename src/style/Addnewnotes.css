@@ -1,0 +1,24 @@
+.border-5{
+    border: 1px solid #E2E2E4;
+    width: 99%;
+    position: relative;
+    left: 0px;
+    bottom: 4px;
+}
+
+.Name-text{
+    position: relative;
+    bottom: 6px;
+}
+
+.border-1{
+    border: 1px solid #E2E2E4;
+    width: 0;
+    height: 73px;
+    position: relative;
+    left: 55px;
+
+    bottom: 63px;
+}
+
+

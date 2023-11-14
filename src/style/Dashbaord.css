@@ -1,0 +1,42 @@
+.Dashboard-Container{
+    display: flex;
+    margin-left: 57px;
+}
+
+
+@media (max-width: 1920px) {
+    .Dashboard-Container{
+  
+      margin-left: 127px;
+    }
+  } 
+
+  @media (max-width: 1600px) {
+    .Dashboard-Container{
+  
+      margin-left: 60px;
+    }
+  } 
+
+  @media (max-width: 1440px) {
+    .Dashboard-Container{
+  
+        margin-left: -12px;
+    }
+  } 
+
+
+  @media (max-width: 1366px) {
+    .Dashboard-Container{
+  
+      margin-left: 150px;
+    }
+  } 
+
+  @media (max-width: 1280px) {
+    .Dashboard-Container{
+  
+      margin-left: 40px;
+    }
+  } 
+

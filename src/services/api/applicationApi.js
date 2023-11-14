@@ -47,6 +47,87 @@ export const applicationApi = createApi({
       invalidatesTags: ["Application"],
     }),
 
+    postGeneral: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/general/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postAccomodation: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/accomodation/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postFamily: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/family/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postLanguage: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/language/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postEducation: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/education/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postEmployment: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/employment/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postMaintenance: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/maintenance/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postTravel: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/travel/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    postCharacter: builder.mutation({
+      query: ({ data, applicationId }) => ({
+        url: `api/application/character/${applicationId}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
     payWithCard: builder.mutation({
       query: (data) => ({
         url: `api/payment`,
@@ -58,7 +139,7 @@ export const applicationApi = createApi({
 
     getApplicationByUserId: builder.query({
       query: () => `api/user/application`,
-      providesTags: ["Application"],
+      providesTags: ["Application", "AdminApi"],
     }),
 
     getCountries: builder.query({
@@ -78,22 +159,30 @@ export const applicationApi = createApi({
 
     // Admin Endpoints starts
     filterApplication: builder.mutation({
-      query: (data) => ({
+      query: ({ name, caseId, country, birthDate }) => ({
         url: `api/application/search`,
         method: "POST",
-        body: data,
+        body: { filters: { name, caseId, country, birthDate } },
       }),
       invalidatesTags: ["Application"],
     }),
 
     getAllApplications: builder.query({
       query: () => `api/application`,
-      providesTags: ["Application"],
+      providesTags: ["Application", "AdminApi"],
     }),
 
-    getApplicationDataById: builder.query({
-      query: (applicationId) => `api/application/${applicationId}`,
-      providesTags: ["Application"],
+    getNotificationCountAdmin: builder.query({
+      query: () => `api/notification/count/admin`,
+      providesTags: ["Application", "AdminApi"],
+    }),
+
+    readNotificationAdmin: builder.mutation({
+      query: () => ({
+        url: `api/notification/read/admin`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Application", "AdminApi"],
     }),
 
     acceptInitialRequest: builder.mutation({
@@ -151,10 +240,10 @@ export const applicationApi = createApi({
     }),
 
     updatePhaseByAdmin: builder.mutation({
-      query: ({ data, applicationId }) => ({
+      query: ({ data, phase, applicationId }) => ({
         url: `api/phase/update/${applicationId}`,
         method: "PUT",
-        body: data,
+        body: { data: data, phase: phase },
       }),
       invalidatesTags: ["Application"],
     }),
@@ -162,19 +251,24 @@ export const applicationApi = createApi({
     rejectApplication: builder.mutation({
       query: (data) => ({
         url: `api/application/reject`,
-        method: "POST",
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: ["Application"],
     }),
 
     addNotes: builder.mutation({
-      query: ({ data, applicationId }) => ({
+      query: ({ name, content, applicationId }) => ({
         url: `api/notes/${applicationId}`,
         method: "POST",
-        body: data,
+        body: { name: name, content: content },
       }),
       invalidatesTags: ["Application"],
+    }),
+
+    getApplicationDataById: builder.query({
+      query: (applicationId) => `api/application/${applicationId}`,
+      providesTags: ["Application"],
     }),
   }),
 });
@@ -198,5 +292,17 @@ export const {
   useApprovePhase4Mutation,
   useRequestAPhaseMutation,
   useUpdatePhaseByAdminMutation,
-  useRejectApplicationMutation
+  useRejectApplicationMutation,
+  useFilterApplicationMutation,
+  usePostGeneralMutation,
+  usePostAccomodationMutation,
+  usePostFamilyMutation,
+  usePostLanguageMutation,
+  usePostEducationMutation,
+  usePostEmploymentMutation,
+  usePostMaintenanceMutation,
+  usePostTravelMutation,
+  usePostCharacterMutation,
+  useGetNotificationCountAdminQuery,
+  useReadNotificationAdminMutation
 } = applicationApi;

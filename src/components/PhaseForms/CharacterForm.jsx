@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   useGetCountriesQuery,
+  usePostCharacterMutation,
   usePostPhase4Mutation,
 } from "../../services/api/applicationApi";
 import { educationSchema } from "../../utils/ValidationSchema";
@@ -11,68 +12,73 @@ import SelectCountry from "../SelectCountry";
 import SelectState from "../SelectState";
 import { useNavigate } from "react-router-dom";
 
-const CharacterForm = ({ data, setActiveTab, initialValues }) => {
-    const application = data?.application;
-    console.log("Character Phase 4", initialValues);
-    const navigate = useNavigate();
+const CharacterForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef,
+}) => {
+  const application = data?.application;
+  console.log("Character Phase 4", initialValues);
+  const navigate = useNavigate();
 
-    const [postPhase4, res] = usePostPhase4Mutation();
-    const { isLoading, isSuccess, error } = res;
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postCharacter, res] = usePostCharacterMutation();
+  const { isLoading, isSuccess, error } = res;
 
-    const [everChargedWithCriminalOffence, setEverChargedWithCriminalOffence] =
-      useState(
-        initialValues?.phase4?.character?.everChargedWithCriminalOffence
-      );
+  const [everChargedWithCriminalOffence, setEverChargedWithCriminalOffence] =
+    useState(initialValues?.phase4?.character?.everChargedWithCriminalOffence);
 
-      const [isPendingProsecutions, setIsPendingProsecutions] = useState(
-        initialValues?.phase4?.character?.isPendingProsecutions
-      );
+  const [isPendingProsecutions, setIsPendingProsecutions] = useState(
+    initialValues?.phase4?.character?.isPendingProsecutions
+  );
 
-      const [isTerroristViews, setIsTerroristViews] = useState(
-        initialValues?.phase4?.character?.isTerroristViews
-      );
+  const [isTerroristViews, setIsTerroristViews] = useState(
+    initialValues?.phase4?.character?.isTerroristViews
+  );
 
-      const [isWorkedForJudiciary, setIsWorkedForJudiciary] = useState(
-        initialValues?.phase4?.character?.isWorkedForJudiciary
-      );
+  const [isWorkedForJudiciary, setIsWorkedForJudiciary] = useState(
+    initialValues?.phase4?.character?.isWorkedForJudiciary
+  );
 
-    useMemo(() => {
-      if (isSuccess) {
-        setActiveTab("/character");
-        toastSuccess("Congratulations! Application Submitted.")
-        setTimeout(() => {
-            navigate("/phase4/data");
-        }, 1700);
-      }
-    }, [isSuccess]);
+  useMemo(() => {
+    if (isSuccess) {
+      refetch();
+      setActiveTab("/character");
+      setTimeout(() => {
+        navigate(`/admin/prescreening/${application?._id}`);
+      }, 1700);
+    }
+  }, [isSuccess]);
 
-    useMemo(() => {
-      if (error) {
-        toastError("Something went wrong");
-      }
-    }, [error]);
+  useMemo(() => {
+    if (error) {
+      toastError("Something went wrong");
+    }
+  }, [error]);
 
-    const handleSubmitData = async (values) => {
-      await postPhase4({ data: values, applicationId: application?._id });
-      console.log("submitted", values.phase4?.education);
-    };
+  const handleSubmitData = async (values) => {
+    await postCharacter({
+      data: values.phase4.character,
+      applicationId: application?._id,
+    });
+    console.log("submitted Character", values.phase4);
+  };
 
-    const handleBackClick = () => {
-      setActiveTab("/travel");
-    };
+  const handleBackClick = () => {
+    setActiveTab("/travel");
+  };
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmitData}
-        validationSchema={educationSchema}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleSubmitData}>
         {({ setFieldValue, errors, touched }) => (
           <Form
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
@@ -83,6 +89,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={everChargedWithCriminalOffence}
                   type="radio"
@@ -99,6 +106,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!everChargedWithCriminalOffence}
                   type="radio"
@@ -122,6 +130,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={everChargedWithCriminalOffence}
                     type="text"
                     className="genral-input-left-side"
@@ -145,6 +154,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isPendingProsecutions}
                   type="radio"
@@ -161,6 +171,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isPendingProsecutions}
                   type="radio"
@@ -187,6 +198,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isPendingProsecutions}
                     type="text"
                     className="genral-input-left-side"
@@ -212,6 +224,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isTerroristViews}
                   type="radio"
@@ -225,6 +238,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isTerroristViews}
                   type="radio"
@@ -248,6 +262,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                     i. Please provide details*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isTerroristViews}
                     type="text"
                     className="genral-input-left-side"
@@ -273,6 +288,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={isWorkedForJudiciary}
                   type="radio"
@@ -289,6 +305,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   required
                   checked={!isWorkedForJudiciary}
                   type="radio"
@@ -315,7 +332,8 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                     i. Please provide details*
                   </p>
                   <Field
-                  required={isWorkedForJudiciary}
+                    disabled={isEditting}
+                    required={isWorkedForJudiciary}
                     type="text"
                     className="genral-input-left-side"
                     placeholder="Type Text"
@@ -340,6 +358,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                 }}
               >
                 <button
+                  disabled={isLoading}
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
@@ -347,6 +366,8 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                   Back
                 </button>
                 <button
+                  disabled={isLoading}
+                  ref={buttonRef}
                   type="submit"
                   className="Next-button"
                   style={{
@@ -356,7 +377,7 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
                     marginTop: "0",
                   }}
                 >
-                  {isLoading ? <Loader /> : "Next"}
+                  {isLoading ? <Loader /> : "Submit"}
                 </button>
               </div>
             </div>
@@ -367,4 +388,4 @@ const CharacterForm = ({ data, setActiveTab, initialValues }) => {
   );
 };
 
-export default CharacterForm
+export default CharacterForm;

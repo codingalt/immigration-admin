@@ -1,11 +1,10 @@
-import React, { useState,useMemo } from 'react';
+import React, { useState,useMemo, useRef } from 'react';
 import '../style/forgetpassword.css';
-import Logo from '../Assets/Ukimmigration-logo.png';
-import Sideimg from '../Assets/side-img-forget.png';
+import Logo from "../assests/Ukimmigration-logo.png";
+import Sideimg from "../assests/side-img-forget.png";
 import { Link } from 'react-router-dom';
 import "../style/signin.css"
-import googlepic from "../Assets/google-pic.svg"
-import robort from "../Assets/recaptcha-img.svg"
+import googlepic from "../assests/google-pic.svg";
 import { useLoginpUserMutation, useVerifyCaptchaMutation } from "../services/api/userApi";
 import { toastError } from "./Toast";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -31,6 +30,7 @@ const [recaptchaToken, setRecaptchaToken] = useState("");
 const [verifyCaptcha, res] = useVerifyCaptchaMutation();
   const { isLoading: isLoadingCaptcha } = res;
 const dispatch = useDispatch();
+const recaptchaRef = useRef();
 
 useMemo(() => {
   if (isSuccess) {
@@ -41,6 +41,10 @@ useMemo(() => {
 useMemo(() => {
   if (error) {
     toastError(error?.data?.message);
+    setEmail("");
+    setPassword("");
+    setRecaptchaToken("");
+    recaptchaRef.current.reset();
   }
 }, [error]);
 
@@ -67,6 +71,8 @@ const handleSend = async () => {
 
   if (!captchaResult.success) {
     toastError("Invalid Captcha");
+    setRecaptchaToken("");
+    recaptchaRef.current.reset();
     return;
   }
 
@@ -85,7 +91,7 @@ const handleSigninWithGoogle = useGoogleLogin({
     console.log(data);
     if (data.success) {
       setTimeout(() => {
-        navigate("/companyscreen");
+        navigate(data.redirect);
       }, 900);
     }
   },
@@ -152,6 +158,7 @@ function onChange(value) {
               />
 
               <ReCAPTCHA
+                ref={recaptchaRef}
                 sitekey={import.meta.env.VITE_SITE_KEY}
                 onChange={onChange}
                 style={{ marginTop: "2.5rem", marginLeft: "3.5rem" }}
@@ -161,11 +168,22 @@ function onChange(value) {
                 disabled={isLoading}
                 type="button"
                 onClick={handleSend}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={
+                  isLoading
+                    ? {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        opacity: 0.55,
+                        pointerEvents:"none",
+                        userSelect:"none"
+                      }
+                    : {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }
+                }
               >
                 {isLoading ? (
                   <Loader width={25} color={"#fff"} />
@@ -179,10 +197,7 @@ function onChange(value) {
             <NavLink className="forget-password" to={"/forgetpassword"}>
               Forgot Password?{" "}
             </NavLink>
-            <p className="question-1">Don’t have an account?</p>
-            <NavLink className="sgn-up-heading" to="/Signup">
-              SIGN UP
-            </NavLink>
+
             <p className="Or-gap">Or</p>
             <div
               className="sign-in-with-google"

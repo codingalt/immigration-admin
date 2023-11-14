@@ -1,29 +1,42 @@
 import React, { useMemo, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import SelectCountry from "../SelectCountry";
-import { usePostPhase4Mutation } from "../../services/api/applicationApi";
+import { usePostAccomodationMutation, usePostPhase4Mutation } from "../../services/api/applicationApi";
 import { toastError } from "../Toast";
 import Loader from "../Loader";
 import { accommodationSchema } from "../../utils/ValidationSchema";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
+const AccomodationForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef
+}) => {
   const application = data?.application;
-  console.log("Accomodation Phase 4", initialValues);
-  const homeType = initialValues?.phase4?.accommodation?.homeType
-  console.log(homeType);
-  const [isRented, setIsRented] = useState(homeType && homeType === "Rented" ? true : false);
+  // console.log("Accomodation Phase 4", initialValues);
+  const homeType = initialValues?.phase4?.accommodation?.homeType;
+  // console.log(homeType);
+  const [isRented, setIsRented] = useState(
+    homeType && homeType === "Rented" ? true : false
+  );
   const [isOther, setIsOther] = useState(
     homeType && homeType === "Other" ? true : false
   );
-  const [landLordTelephone, setLandLordTelephone] = useState(initialValues?.phase4?.accommodation?.landLordTelephone)
+  const [landLordTelephone, setLandLordTelephone] = useState(
+    initialValues?.phase4?.accommodation?.landLordTelephone
+  );
 
-  const [postPhase4, res] = usePostPhase4Mutation();
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postAccomodation, res] = usePostAccomodationMutation();
   const { isLoading, isSuccess, error } = res;
 
   useMemo(() => {
     if (isSuccess) {
+      refetch();
       setActiveTab("/family");
     }
   }, [isSuccess]);
@@ -43,12 +56,15 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
       toastError("Please specify Other rooms of your home");
       return;
     }
-    if (values.phase4.accommodation.landLordTelephone.length < 5){
+    if (isRented && values.phase4.accommodation.landLordTelephone.length < 5) {
       toastError("Please Enter a Valid Telephone Number");
       return;
     }
-      console.log("submitted accomodation", values?.phase4?.accommodation);
-    await postPhase4({ data: values, applicationId: application?._id });
+    // console.log("submitted accomodation", values?.phase4?.accommodation);
+    await postAccomodation({
+      data: values.phase4.accommodation,
+      applicationId: application?._id,
+    });
   };
 
   const handleBackClick = () => {
@@ -67,12 +83,13 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
               <p className="genral-text-left-side">1.Address 1*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.address1"
                 id="phase4.accommodation.address1"
@@ -88,6 +105,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">2.Address 2*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.address2"
                 id="phase4.accommodation.address2"
@@ -103,6 +121,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">3.Location Name*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.locationName"
                 id="phase4.accommodation.locationName"
@@ -118,6 +137,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">4.Location Code*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.locationCode"
                 id="phase4.accommodation.locationCode"
@@ -133,6 +153,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">5.Town*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.town"
                 id="phase4.accommodation.town"
@@ -148,6 +169,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">6.County*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.county"
                 id="phase4.accommodation.county"
@@ -163,6 +185,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">7.Post Code*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.postCode"
                 id="phase4.accommodation.postCode"
@@ -178,6 +201,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">8.Country Prefix*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.countryPrefix"
                 id="phase4.accommodation.countryPrefix"
@@ -193,10 +217,12 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">9.Country*</p>
               <Field
+                disabled={isEditting}
                 name="phase4.accommodation.country"
                 id="phase4.accommodation.country"
                 render={({ field }) => (
                   <SelectCountry
+                    disabled={isEditting}
                     name={field.name}
                     id={field.name}
                     className="genral-input-left-side-selector"
@@ -212,6 +238,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">10.FAX</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.fax"
                 id="phase4.accommodation.fax"
@@ -227,6 +254,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">11.VAT Rate</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.vatRate"
                 id="phase4.accommodation.vatRate"
@@ -244,6 +272,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 12.What date did you move in ? (mm/dd/yyyy)*
               </p>
               <Field
+                disabled={isEditting}
                 required
                 type="date"
                 name="phase4.accommodation.moveInDate"
@@ -255,6 +284,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 13.Time lived at current address?*
               </p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.timeLivedAtCurrentAddress"
                 id="phase4.accommodation.timeLivedAtCurrentAddress"
@@ -272,48 +302,70 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 14.Is your home owned/rented/other ?*
               </p>
 
-              <div className="genral-checkbox-acc-3">
-                <p className="owned-check-text">Owned</p>
-                <input
-                  required
-                  defaultChecked={homeType === "Owned"}
-                  type="radio"
-                  name="phase4.accommodation.homeType"
-                  id="phase4.accommodation.homeType"
-                  className="owned-check"
-                  onChange={(e) => {
-                    setFieldValue("phase4.accommodation.homeType", "Owned");
-                    setFieldValue("phase4.accommodation.otherHomeDetails", "");
-                    setFieldValue("phase4.accommodation.landLordName", "");
-                    setFieldValue("phase4.accommodation.landLordEmail", "");
-                    setFieldValue("phase4.accommodation.landLordTelephone", "");
-                    setFieldValue("phase4.accommodation.landLordAddress1", "");
-                    setFieldValue("phase4.accommodation.landLordAddress2", "");
-                    setFieldValue(
-                      "phase4.accommodation.landLordLocationName",
-                      ""
-                    );
-                    setFieldValue(
-                      "phase4.accommodation.landLordLocationCode",
-                      ""
-                    );
-                    setFieldValue("phase4.accommodation.landLordCounty", "");
-                    setFieldValue("phase4.accommodation.landLordTown", "");
-                    setFieldValue("phase4.accommodation.landLordPostCode", "");
-                    setFieldValue(
-                      "phase4.accommodation.landLordCountryPrefix",
-                      ""
-                    );
-                    setFieldValue("phase4.accommodation.landLordCountry", "");
-                    setFieldValue("phase4.accommodation.landLordFax", "");
-                    setFieldValue("phase4.accommodation.landLordVatRate", "");
-                    setFieldValue("phase4.accommodation.landLordVatRate", "");
-                    setIsRented(false);
-                    setIsOther(false);
-                  }}
-                />
+              <div
+                className="genral-checkbox-acc-3"
+                style={{ marginTop: "5px" }}
+              >
+                <div>
+                  <p className="owned-check-text">Owned</p>
+                  <input
+                    disabled={isEditting}
+                    required
+                    defaultChecked={homeType === "Owned"}
+                    type="radio"
+                    name="phase4.accommodation.homeType"
+                    id="phase4.accommodation.homeType"
+                    className="owned-check"
+                    onChange={(e) => {
+                      setFieldValue("phase4.accommodation.homeType", "Owned");
+                      setFieldValue(
+                        "phase4.accommodation.otherHomeDetails",
+                        ""
+                      );
+                      setFieldValue("phase4.accommodation.landLordName", "");
+                      setFieldValue("phase4.accommodation.landLordEmail", "");
+                      setFieldValue(
+                        "phase4.accommodation.landLordTelephone",
+                        ""
+                      );
+                      setFieldValue(
+                        "phase4.accommodation.landLordAddress1",
+                        ""
+                      );
+                      setFieldValue(
+                        "phase4.accommodation.landLordAddress2",
+                        ""
+                      );
+                      setFieldValue(
+                        "phase4.accommodation.landLordLocationName",
+                        ""
+                      );
+                      setFieldValue(
+                        "phase4.accommodation.landLordLocationCode",
+                        ""
+                      );
+                      setFieldValue("phase4.accommodation.landLordCounty", "");
+                      setFieldValue("phase4.accommodation.landLordTown", "");
+                      setFieldValue(
+                        "phase4.accommodation.landLordPostCode",
+                        ""
+                      );
+                      setFieldValue(
+                        "phase4.accommodation.landLordCountryPrefix",
+                        ""
+                      );
+                      setFieldValue("phase4.accommodation.landLordCountry", "");
+                      setFieldValue("phase4.accommodation.landLordFax", "");
+                      setFieldValue("phase4.accommodation.landLordVatRate", "");
+                      setFieldValue("phase4.accommodation.landLordVatRate", "");
+                      setIsRented(false);
+                      setIsOther(false);
+                    }}
+                  />
+                </div>
                 <p className="rented-check-text">Rented</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={homeType === "Rented"}
                   required
                   type="radio"
@@ -329,6 +381,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="other-check-text">Other</p>
                 <input
+                  disabled={isEditting}
                   required
                   defaultChecked={homeType === "Other"}
                   type="radio"
@@ -347,6 +400,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 <>
                   <p className="genral-text-left-side">Other Details*</p>
                   <Field
+                    disabled={isEditting}
                     required={isOther}
                     type="text"
                     name="phase4.accommodation.otherHomeDetails"
@@ -361,6 +415,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 <>
                   <p className="genral-text-left-side">i.Landlord's Name*</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordName"
@@ -379,6 +434,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                     ii. Landlord's Email Address*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordEmail"
@@ -397,6 +453,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                     iii. Landlord's Telephone Number*
                   </p>
                   <PhoneInput
+                    disabled={isEditting}
                     country={"us"}
                     inputClass={"mobileInput"}
                     placeholder="(485)-845-8542658"
@@ -447,6 +504,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                     iv. Landlord's Address 1*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordAddress1"
@@ -465,6 +523,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                     iv. Landlord's Address 2*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordAddress2"
@@ -481,6 +540,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">iv. Location Name*</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordLocationName"
@@ -497,6 +557,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">vi. Location Code</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordLocationCode"
@@ -513,6 +574,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">vii. Town*</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordTown"
@@ -535,6 +597,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 <>
                   <p className="genral-text-left-side">viii. County*</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordCounty"
@@ -551,6 +614,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">ix. Post Code*</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordPostCode"
@@ -567,6 +631,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">x. Country Prefix*</p>
                   <Field
+                    disabled={isEditting}
                     required={isRented}
                     type="text"
                     name="phase4.accommodation.landLordCountryPrefix"
@@ -583,6 +648,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">xi. Country*</p>
                   <SelectCountry
+                    disabled={isEditting}
                     name="phase4.accommodation.landLordCountry"
                     id="phase4.accommodation.landLordCountry"
                     className="genral-input-right-side-selector"
@@ -590,6 +656,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">xii. FAX</p>
                   <Field
+                    disabled={isEditting}
                     type="text"
                     name="phase4.accommodation.landLordFax"
                     id="phase4.accommodation.landLordFax"
@@ -605,6 +672,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-left-side">xiii. VAT Rate</p>
                   <Field
+                    disabled={isEditting}
                     type="text"
                     name="phase4.accommodation.landLordVatRate"
                     id="phase4.accommodation.landLordVatRate"
@@ -624,6 +692,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 xiv. How many bedrooms are in your house ?*
               </p>
               <Field
+                disabled={isEditting}
                 required
                 min={0}
                 type="number"
@@ -643,6 +712,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 xv. How many other rooms are in your house ?*
               </p>
               <Field
+                disabled={isEditting}
                 type="number"
                 min={0}
                 name="phase4.accommodation.otherRooms"
@@ -661,6 +731,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 xvi. Who else lives there and their names?*
               </p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.otherWhoLives"
                 id="phase4.accommodation.otherWhoLives"
@@ -681,6 +752,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">i. Address 1*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.address1"
                 id="phase4.accommodation.previousHomeDetails.address1"
@@ -690,6 +762,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">ii. Address 2*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.address2"
                 id="phase4.accommodation.previousHomeDetails.address2"
@@ -699,6 +772,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">iii. Location Name*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.locationName"
                 id="phase4.accommodation.previousHomeDetails.locationName"
@@ -708,6 +782,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">iv. Location Code*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.locationCode"
                 id="phase4.accommodation.previousHomeDetails.locationCode"
@@ -717,6 +792,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">vii. Town*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.town"
                 id="phase4.accommodation.previousHomeDetails.town"
@@ -726,6 +802,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">vi. County*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.county"
                 id="phase4.accommodation.previousHomeDetails.county"
@@ -735,6 +812,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">vii. Post Code*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.postCode"
                 id="phase4.accommodation.previousHomeDetails.postCode"
@@ -744,6 +822,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">viii. Country Prefix*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.countryPrefix"
                 id="phase4.accommodation.previousHomeDetails.countryPrefix"
@@ -753,6 +832,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">9.Country*</p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.accommodation.previousHomeDetails.country"
                 id="phase4.accommodation.previousHomeDetails.country"
                 className="genral-input-right-side-selector"
@@ -761,6 +841,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-left-side">x. FAX</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.fax"
                 id="phase4.accommodation.previousHomeDetails.fax"
@@ -769,6 +850,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
               />
               <p className="genral-text-left-side">xi. VAT Rate</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 name="phase4.accommodation.previousHomeDetails.vatRate"
                 id="phase4.accommodation.previousHomeDetails.vatRate"
@@ -778,6 +860,7 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
 
               {/* Back and Next buttons */}
               <button
+                disabled={isLoading}
                 type="button"
                 className="back-button-accomodation"
                 onClick={handleBackClick}
@@ -785,6 +868,8 @@ const AccomodationForm = ({ data, setActiveTab, initialValues }) => {
                 Back
               </button>
               <button
+                disabled={isLoading}
+                ref={buttonRef}
                 type="submit"
                 className="Next-button-acomodation"
                 style={{

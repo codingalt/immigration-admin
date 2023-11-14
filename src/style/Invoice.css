@@ -1,0 +1,422 @@
+.invoice-heading{
+     position: relative;
+     left: 150px;
+    width: 173px;
+    /* font-family: Poppins; */
+font-size: 23px;
+font-weight: 600;
+
+letter-spacing: 0em;
+text-align: left;
+margin-top: 11px;
+
+}
+
+
+
+.invoice-main-container{
+    display: flex;
+
+}
+
+.Invoice-main{
+    width: 36%;
+
+    height: 44rem;
+
+    border-radius: 20px;
+    background-color: #fcfcfc;
+    border: 1px solid #e2e2e4;
+     position: relative;
+     right: 488px;
+  margin-top: 58px;
+
+  font-size: 14px;
+}
+.Invoice-sub-heading{
+    position: relative;
+    left: 40px;
+ font-family: Poppins;
+font-size: 22px;
+font-weight: 500;
+
+letter-spacing: 0em;
+text-align: left;
+
+}
+
+.billing-banner-img-2{
+    position: relative;
+    left: 745px;
+    margin-top: 209px;
+}
+
+.Invoice-form{
+    /* position: relative;
+    bottom: 1781px;
+left: 247px; */
+
+}
+
+
+.jhon-input-1{
+    position: relative;
+border-radius: 10px;
+width: 40%;
+height: 40px;
+background-color: #E2E2E4;
+border: 1px solid #E2E2E4;
+left: 26px;
+padding-left: 12px;
+}
+
+
+.client-label-1{
+    position: relative;
+    left: 26px;
+}
+
+.email-3{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px;
+    padding-left: 12px;
+}
+
+.email-label-1{
+    position: relative;
+    left: 26px;
+}
+
+.contact-1{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.contact-label-1{
+    position: relative;
+    left: 26px;
+}
+
+.calender-3{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.dob-label-1{
+    position: relative;
+    left: 26px;
+}
+
+.dob-label-2{
+    position: relative;
+    left: 46px;
+}
+
+.invoice-form-2{
+    position: relative;
+    top: 14px;
+    
+}
+
+.Invoice-sub-heading-2{
+    position: relative;
+    left: 42px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.Adress-3{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.address-label-1{
+    position: relative;
+    left: 26px;
+}
+
+.nationalty-3{
+    position: relative;
+    border-radius: 10px;
+    width: 40%;
+    height: 40px;
+    background-color: #E2E2E4;
+    border: 1px solid #E2E2E4;
+    left: 26px; 
+    padding-left: 12px;
+}
+
+.nationality-label-1{
+    position: relative;
+    left: 26px;
+}
+
+.button-container-invoice{
+
+    margin-top: 41%;
+    position: absolute;
+    right: 59rem;
+}
+
+
+
+ .Create-invoice-button{
+    left: 80px;
+padding: 6px 20px 6px 20px;
+border-radius: 5px;
+position: relative;
+
+background-color: #5D982E;
+gap: 8px;
+border: 1px solid #5D982E;
+color: white;
+cursor: pointer;
+ }
+
+ .cancel-button{
+   
+    padding: 6px 20px 6px 20px;
+    border-radius: 5px;
+    position: absolute;
+    right: 90px;
+
+    background-color: white;
+    gap: 8px;
+    border: 1px solid #E2E2E4;
+    color: black;
+    cursor: pointer; 
+ }
+
+
+/* Base styles for all devices */
+.jhon-input-1,
+.email-3,
+.contact-1,
+.calender-3,
+.Adress-3,
+.nationalty-3 {
+  position: relative;
+  border-radius: 10px;
+  width: 82%;
+  height: 35px;
+  background-color: #e2e2e4;
+  border: 1px solid #e2e2e4;
+  left: 39px;
+  padding-left: 12px;
+}
+
+.client-label-1,
+.email-label-1,
+.contact-label-1,
+.dob-label-1,
+.address-label-1,
+.nationality-label-1 {
+    position: relative;
+    left: 44px;
+}
+
+.from-container {
+  margin-top: 11px;
+}
+
+.Sideform-img {
+  width: 554.1987915039062px;
+  height: 394.63372802734375px;
+  left: 533px;
+  position: relative;
+  bottom: 413px;
+}
+
+
+@media (max-width: 1920px) {
+
+ 
+    .invoice-main-container {
+        display: flex;
+        margin-left: 127px;
+
+    }
+    
+    .Invoice-main {
+     
+        right: 463px;
+      
+    }
+
+    
+
+.invoice-heading {
+
+    left: 184px;
+
+}
+
+
+  
+}
+
+
+@media (max-width: 1680px) {
+    .button-container-invoice {
+  
+       
+        margin-top: 50rem;
+        position: absolute;
+        right: 45.6rem;      
+    }
+
+    .billing-banner-img-2 {
+        position: relative;
+        left: 598px;
+        margin-top: 209px;
+    }
+  }
+
+
+@media (max-width: 1440px) {
+
+ 
+  
+    .invoice-main-container {
+        display: flex;
+        margin-left: -12px;
+    }
+
+  
+
+    .invoice-heading {
+   
+        left: 187px;
+  
+       
+    }
+
+    .button-container-invoice {
+        margin-top: 59%;
+        position: absolute;
+        right: 669px;
+    }
+
+    .billing-banner-img-2 {
+        position: relative;
+        left: 582px;
+        margin-top: 209px;
+    }
+}
+
+@media (max-width: 1366px) {
+
+    .invoice-main-container {
+        display: flex;
+        margin-left: 150px;
+    }
+    .Invoice-main {
+        right: 460px;
+    
+    }
+
+    .button-container-invoice {
+        margin-top: 59%;
+        position: absolute;
+        right: 556px;
+    }
+
+    .billing-banner-img-2 {
+        position: relative;
+        left: 582px;
+        margin-top: 129px;
+    }
+  
+}
+
+@media (max-width: 1280px) {
+
+    .invoice-main-container {
+        display: flex;
+        margin-left: 40px;
+    }
+
+    .button-container-invoice {
+        margin-top: 63%;
+        position: absolute;
+        right: 572px;
+    }
+
+    .dob-label-2 {
+        position: relative;
+        left: 48px;
+    }
+    /* .Invoice-main {
+        right: 460px;
+        height: 600px;
+    } */
+  
+}
+
+@media (max-width: 1024px){
+    .button-container-invoice{
+        margin-top: 50rem;
+        position: absolute;
+        right: 15.6rem;
+    }
+
+    .Invoice-main {
+        right: 10.5rem;
+        /* height: 600px; */
+        position: absolute;
+        width: 32rem;
+    }
+
+
+
+  
+}
+
+
+
+
+
+/* Media queries for phone version */
+@media screen and (max-width: 760px) {
+  .jhon-input-1,
+  .email-3,
+  .contact-1,
+  .calender-3,
+  .Adress-3,
+  .nationalty-3 {
+    width: 94%;
+    left: 7px;
+  }
+
+
+  .Sideform-img {
+    display: none;
+  }
+}

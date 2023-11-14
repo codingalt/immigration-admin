@@ -11,6 +11,34 @@ const signupSchema = Yup.object({
   referringAgent: Yup.string(), 
 });
 
+export const createCaseWorkerSchema = Yup.object({
+  firstName: Yup.string().min(3).required("First Name is Required"),
+  lastName: Yup.string().min(3).required("Last Name is Required"),
+  email: Yup.string()
+    .email("Please Enter a valid email address")
+    .required("Email is Required"),
+  contact: Yup.string().required("Contact is Required"),
+  country: Yup.string().required("Country is Required"),
+  birthDate: Yup.string().required("Birth Date is Required"),
+  state: Yup.string().required("State is Required"),
+  password: Yup.string().min(6).required("Password is Required"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password")],
+    "Password not matched"
+  ),
+});
+
+export const createCompanySchema = Yup.object({
+  name: Yup.string().min(3).required("Name is Required"),
+  fullName: Yup.string().min(3).required("Full Name is Required"),
+  address: Yup.string().min(3).required("Address is Required"),
+  telephone: Yup.string().min(3).required("Telephone is Required"),
+  confirmIndustry: Yup.string().min(3).required("Confirm Industry is Required"),
+  email: Yup.string()
+    .email("Please Enter a valid email address")
+    .required("Email is Required"),
+});
+
 export const resetPasswordSchema = Yup.object({
   password: Yup.string().min(6).required("Password is Required"),
   confirmPassword: Yup.string().oneOf(

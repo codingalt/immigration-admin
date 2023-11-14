@@ -1,35 +1,53 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useGetCountriesQuery, usePostPhase4Mutation } from "../../services/api/applicationApi";
+import {
+  useGetCountriesQuery,
+  usePostGeneralMutation,
+  usePostPhase4Mutation,
+} from "../../services/api/applicationApi";
 import SelectCountry from "../SelectCountry";
 import { generalSchema } from "../../utils/ValidationSchema";
 import { toastError } from "../Toast";
 import Loader from "../Loader";
 
-const GeneralForm = ({ data, setActiveTab, initialValues }) => {
+const GeneralForm = ({
+  data,
+  setActiveTab,
+  initialValues,
+  refetch,
+  isEditting,
+  buttonRef,
+}) => {
   const application = data?.application;
-  console.log("General Phase 4",initialValues);
+  // console.log("General Phase 4", initialValues);
 
-  const [postPhase4, res] = usePostPhase4Mutation();
-  const {isLoading, isSuccess, error} = res;
+  // const [postPhase4, res] = usePostPhase4Mutation();
+  const [postGeneral, res] = usePostGeneralMutation();
+  const { isLoading, isSuccess, error } = res;
 
-  useMemo(()=>{
-    if(isSuccess){
+  useMemo(() => {
+    if (isSuccess) {
+      refetch();
       setActiveTab("/Accomodation");
     }
-  },[isSuccess])
+  }, [isSuccess]);
 
   useMemo(() => {
     if (error) {
-      toastError("Something went wrong")
+      toastError("Something went wrong");
     }
   }, [error]);
 
+  console.log("Button ref", buttonRef);
+
   const handleSubmitData = async (values) => {
     console.log(values);
-    await postPhase4({ data: values, applicationId: application?._id });
-    console.log("submitted",values);
+    // console.log("Button ref", buttonRef);
+    await postGeneral({
+      data: values.phase4.general,
+      applicationId: application?._id,
+    });
   };
 
   const [isKnownByOtherName, setIsKnownByOtherName] = useState(
@@ -48,7 +66,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
   const [isUKDrivingLicense, setIsUKDrivingLicense] = useState(
     initialValues?.phase4?.general?.isUKDrivingLicense
   );
-  
+
   return (
     <>
       <Formik
@@ -61,13 +79,14 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
             style={{
               display: "flex",
               width: "100%",
-              columnGap: "10rem",
+              gap: "2rem",
             }}
           >
             <div className="left-side-phase">
               <>
                 <p className="genral-text-left-side">1.Full Name*</p>
                 <Field
+                  disabled={isEditting}
                   type="text"
                   className="genral-input-left-side"
                   placeholder="Jhon Leo"
@@ -96,6 +115,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 <div className="checkbox-phase1">
                   <p className="yes-check-text">Yes</p>
                   <input
+                    disabled={isEditting}
                     defaultChecked={isKnownByOtherName}
                     type="radio"
                     name="phase4.general.isKnownByOtherName"
@@ -108,6 +128,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                   />
                   <p className="no-check-text">No</p>
                   <input
+                    disabled={isEditting}
                     defaultChecked={!isKnownByOtherName}
                     type="radio"
                     name="phase4.general.isKnownByOtherName"
@@ -127,6 +148,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                   <>
                     <p className="genral-text-left-side">i. Previous Name*</p>
                     <Field
+                      disabled={isEditting}
                       required={isKnownByOtherName}
                       type="text"
                       className="genral-input-left-side"
@@ -140,6 +162,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                     />
                     <p className="genral-text-left-side">ii. From*</p>
                     <Field
+                      disabled={isEditting}
                       required={isKnownByOtherName}
                       type="date"
                       className="genral-input-left-side"
@@ -152,6 +175,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                     />
                     <p className="genral-text-left-side">iii. To*</p>
                     <Field
+                      disabled={isEditting}
                       required={isKnownByOtherName}
                       type="date"
                       className="genral-input-left-side"
@@ -167,6 +191,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                 <p className="genral-text-left-side">3.Country of Birth*</p>
                 <SelectCountry
+                  disabled={isEditting}
                   name="phase4.general.countryOfBirth"
                   id="phase4.general.countryOfBirth"
                   className="genral-input-left-side-selector"
@@ -174,6 +199,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                 <p className="genral-text-left-side">4.Place of Birth*</p>
                 <SelectCountry
+                  disabled={isEditting}
                   name="phase4.general.placeOfBirth"
                   id="phase4.general.placeOfBirth"
                   className="genral-input-left-side-selector"
@@ -185,6 +211,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 <div className="checkbox-phase1">
                   <p className="yes-check-text">Yes</p>
                   <input
+                    disabled={isEditting}
                     defaultChecked={isOtherNationality}
                     type="radio"
                     name="phase4.general.isOtherNationality"
@@ -197,6 +224,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                   />
                   <p className="no-check-text">No</p>
                   <input
+                    disabled={isEditting}
                     defaultChecked={!isOtherNationality}
                     name="phase4.general.isOtherNationality"
                     id="phase4.general.isOtherNationality"
@@ -217,6 +245,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                       i. Other Nationality*
                     </p>
                     <SelectCountry
+                      disabled={isEditting}
                       name="phase4.general.otherNationality"
                       id="phase4.general.otherNationality"
                       className="genral-input-left-side-selector"
@@ -227,6 +256,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                     ></SelectCountry>
                     <p className="genral-text-left-side">ii. From*</p>
                     <Field
+                      disabled={isEditting}
                       required={isOtherNationality}
                       type="date"
                       className="genral-input-left-side"
@@ -242,6 +272,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                     <p className="genral-text-left-side">iii. Until*</p>
                     <Field
+                      disabled={isEditting}
                       required={isOtherNationality}
                       type="date"
                       className="genral-input-left-side"
@@ -261,6 +292,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                   7.Current passport number*
                 </p>
                 <Field
+                  disabled={isEditting}
                   type="text"
                   placeholder="Current Passport Number"
                   className="genral-input-left-side"
@@ -285,6 +317,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                 <p className="genral-text-left-side">8.Issue date*</p>
                 <Field
+                  disabled={isEditting}
                   required
                   type="date"
                   className="genral-input-left-side"
@@ -309,6 +342,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                 <p className="genral-text-left-side">9.Expiry date*</p>
                 <Field
+                  disabled={isEditting}
                   type="date"
                   className="genral-input-left-side"
                   name="phase4.general.passportExpiryDate"
@@ -332,6 +366,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                 <p className="genral-text-left-side">10.Issuing authority*</p>
                 <Field
+                  disabled={isEditting}
                   type="text"
                   className="genral-input-left-side"
                   placeholder="Issuing autority"
@@ -356,6 +391,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                 <p className="genral-text-left-side">11.Place of issue*</p>
                 <SelectCountry
+                  disabled={isEditting}
                   name="phase4.general.passportPlaceOfIssue"
                   id="phase4.general.passportPlaceOfIssue"
                   className="genral-input-left-side-selector"
@@ -369,6 +405,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 <div className="checkbox-phase1">
                   <p className="yes-check-text">Yes</p>
                   <input
+                    disabled={isEditting}
                     defaultChecked={isNationalIDCard}
                     name="phase4.general.isNationalIDCard"
                     id="phase4.general.isNationalIDCard"
@@ -381,6 +418,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                   />
                   <p className="no-check-text">No</p>
                   <input
+                    disabled={isEditting}
                     defaultChecked={!isNationalIDCard}
                     name="phase4.general.isNationalIDCard"
                     id="phase4.general.isNationalIDCard"
@@ -401,6 +439,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                       i. National Id card Number*
                     </p>
                     <Field
+                      disabled={isEditting}
                       required={isNationalIDCard}
                       type="text"
                       className="genral-input-left-side"
@@ -414,6 +453,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                     />
                     <p className="genral-text-left-side">ii. Date of issue*</p>
                     <Field
+                      disabled={isEditting}
                       required={isNationalIDCard}
                       type="date"
                       className="genral-input-left-side"
@@ -436,6 +476,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={isBrp}
                   name="phase4.general.isBrp"
                   id="phase4.general.isBrp"
@@ -448,6 +489,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={!isBrp}
                   name="phase4.general.isBrp"
                   id="phase4.general.isBrp"
@@ -466,6 +508,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 <>
                   <p className="genral-text-right-side">ii. BRP Number*</p>
                   <Field
+                    disabled={isEditting}
                     type="text"
                     className="genral-input-right-side"
                     placeholder="Type Number"
@@ -480,6 +523,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-right-side">iii. Date of issue*</p>
                   <Field
+                    disabled={isEditting}
                     type="date"
                     className="genral-input-right-side"
                     required={isBrp}
@@ -495,6 +539,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-right-side">13.Name of Mother*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-right-side"
                 placeholder="Jhon Leo"
@@ -519,6 +564,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-right-side">14.Date of Birth*</p>
               <Field
+                disabled={isEditting}
                 type="date"
                 className="genral-input-right-side"
                 name="phase4.general.motherDob"
@@ -532,12 +578,14 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               />
               <p className="genral-text-right-side">15.Nationality*</p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.general.motherNationality"
                 id="phase4.general.motherNationality"
                 className="genral-input-left-side-selector"
               ></SelectCountry>
               <p className="genral-text-right-side">16.Select Country*</p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.general.motherCountry"
                 id="phase4.general.motherCountry"
                 className="genral-input-left-side-selector"
@@ -546,12 +594,14 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 17.Mother's Place of Birth*
               </p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.general.motherPlaceOfBirth"
                 id="phase4.general.motherPlaceOfBirth"
                 className="genral-input-left-side-selector"
               ></SelectCountry>
               <p className="genral-text-right-side">18.Name of Father*</p>
               <Field
+                disabled={isEditting}
                 type="text"
                 className="genral-input-right-side"
                 placeholder="Jhon Leo"
@@ -566,6 +616,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               />
               <p className="genral-text-right-side">19.Date of Birth*</p>
               <Field
+                disabled={isEditting}
                 type="date"
                 className="genral-input-right-side"
                 name="phase4.general.fatherDob"
@@ -579,12 +630,14 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               />
               <p className="genral-text-right-side">20.Nationality*</p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.general.fatherNationality"
                 id="phase4.general.fatherNationality"
                 className="genral-input-left-side-selector"
               ></SelectCountry>
               <p className="genral-text-right-side">21.Select Country*</p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.general.fatherCountry"
                 id="phase4.general.fatherCountry"
                 className="genral-input-left-side-selector"
@@ -593,6 +646,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 22.Father's Place of Birth*
               </p>
               <SelectCountry
+                disabled={isEditting}
                 name="phase4.general.fatherPlaceOfBirth"
                 id="phase4.general.fatherPlaceOfBirth"
                 className="genral-input-left-side-selector"
@@ -605,6 +659,8 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
+                  required
                   defaultChecked={isUKNINumber}
                   name="phase4.general.isUKNINumber"
                   id="phase4.general.isUKNINumber"
@@ -617,6 +673,8 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
+                  required
                   defaultChecked={!isUKNINumber}
                   name="phase4.general.isUKNINumber"
                   id="phase4.general.isUKNINumber"
@@ -635,7 +693,8 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 <>
                   <p className="genral-text-right-side">i. UK NI Number*</p>
                   <Field
-                    require={isUKNINumber}
+                    disabled={isEditting}
+                    required={isUKNINumber}
                     type="text"
                     className="genral-input-right-side"
                     placeholder="Type Number"
@@ -649,7 +708,8 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-right-side">ii. Date of issue*</p>
                   <Field
-                    require={isUKNINumber}
+                    disabled={isEditting}
+                    required={isUKNINumber}
                     type="date"
                     className="genral-input-right-side"
                     name="phase4.general.niNumberIssueDate"
@@ -669,6 +729,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               <div className="checkbox-phase1">
                 <p className="yes-check-text">Yes</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={isUKDrivingLicense}
                   name="phase4.general.isUKDrivingLicense"
                   id="phase4.general.isUKDrivingLicense"
@@ -681,6 +742,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                 />
                 <p className="no-check-text">No</p>
                 <input
+                  disabled={isEditting}
                   defaultChecked={!isUKDrivingLicense}
                   name="phase4.general.isUKDrivingLicense"
                   id="phase4.general.isUKDrivingLicense"
@@ -701,6 +763,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
                     i. UK driving license Number*
                   </p>
                   <Field
+                    disabled={isEditting}
                     required={isUKDrivingLicense}
                     type="text"
                     className="genral-input-right-side"
@@ -717,6 +780,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
                   <p className="genral-text-right-side">ii. Date of issue*</p>
                   <Field
+                    disabled={isEditting}
                     required={isUKDrivingLicense}
                     type="date"
                     className="genral-input-right-side"
@@ -734,6 +798,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
 
               <p className="genral-text-right-side">25.Email Address*</p>
               <Field
+                disabled={isEditting}
                 type="email"
                 className="genral-input-right-side"
                 placeholder="Email"
@@ -757,6 +822,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               />
               <p className="genral-text-right-side">26.Mobile Number*</p>
               <Field
+                disabled={isEditting}
                 type="tel"
                 className="genral-input-right-side"
                 placeholder="Mobile Number"
@@ -780,6 +846,7 @@ const GeneralForm = ({ data, setActiveTab, initialValues }) => {
               />
 
               <button
+                ref={buttonRef}
                 disabled={isLoading}
                 style={{
                   display: "flex",

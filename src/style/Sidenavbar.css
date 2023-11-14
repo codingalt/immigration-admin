@@ -1,0 +1,161 @@
+
+.sidenavbar-Container{
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  /* width: 7%; */
+  height: 52rem;
+  left: 144px;
+  top: 16px;
+
+}
+
+.Logo{
+  position: relative;
+  right: 3px;
+
+}
+
+
+.dp-img{
+    position: absolute;
+    top: 85.37px;
+    left: 35.37px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+
+.Home-icon{
+  position: absolute;
+  left: 2.6rem;
+  width: 1.5rem;
+  top: 13.3rem;
+}
+
+
+.Notification-icon{
+  position: absolute;
+  left: 2.6rem;
+  top: 18rem;
+  width: 1.5rem;
+  }
+
+  .icon-badge{
+  position: absolute;
+  left: 3.1rem;
+  top: 17.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background-color: #5D982E;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+
+.Message-icon{
+  position: absolute;
+  left: 2.1rem;
+  width: 2rem;
+  top: 28rem;
+}
+
+.Calender-icon{
+  position: absolute;
+  left: 2.6rem;
+  top: 23rem;
+  width: 1.5rem;
+}
+
+.Caseworker-icon{
+  position: absolute;
+  left: 2.6rem;
+  width: 1.5rem;
+  top: 32.6rem;
+
+}
+
+.billing-icon{
+  position: absolute;
+    left: 2.7rem;
+
+    width: 1.3rem;
+    top: 37.5rem;
+}
+
+
+.Setting-icon{
+  position: absolute;
+  left: 2.6rem;
+  width: 1.5rem;
+  top: 42.2rem;
+}
+
+.Logout-icon{
+  position: absolute;
+  left: 2.6rem;
+  width: 1.5rem;
+
+  top: 51.2rem;
+}
+
+
+
+
+.Dashboard-heading{
+  position: relative;
+  right: 183rem;
+  margin-top: 73px;
+  font-size: 20px;
+  color: #5D982E;
+
+}
+
+.Icons{
+  position: absolute;
+  bottom: 54rem;
+
+}
+  @media (max-width: 1920px) {
+    .Dashboard-heading{
+      right: 146.4rem;
+    }
+  } 
+
+  
+  @media (max-width: 1440px) {
+
+
+    .sidenavbar-Container{
+   
+      left: 121px;
+
+    }
+
+  } 
+
+  @media (max-width: 1280px) {
+
+    .Dashboard-heading {
+      right: 146.5rem;
+  }
+
+  } 
+
+  @media (max-width: 1024px) {
+ 
+
+  } 
+
+
+  @media screen and (max-width: 760px) {
+    .sidenavbar-Container{
+      display: none;
+    }
+
+}

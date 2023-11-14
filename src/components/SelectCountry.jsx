@@ -2,7 +2,7 @@ import { Field } from "formik";
 import React, { useEffect, useState } from "react";
 import { useGetCountriesQuery } from "../services/api/applicationApi";
 
-const SelectCountry = ({ name, className, notReq }) => {
+const SelectCountry = ({ name, className, notReq, disabled }) => {
   const [countries, setCountries] = useState([]);
   const { data: country } = useGetCountriesQuery();
 
@@ -14,6 +14,7 @@ const SelectCountry = ({ name, className, notReq }) => {
 
   return (
     <Field
+      disabled={disabled}
       required={notReq ? false : true}
       as="select"
       name={name}

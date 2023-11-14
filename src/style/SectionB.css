@@ -1,0 +1,67 @@
+/* Base styles for all devices */
+.sectionb-container {
+  position: relative;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  box-sizing: border-box;
+  height: 427px;
+  /* right: 0px; */
+  margin-top: 271px;
+  /* left: 358px; */
+  /* transform: translate(-140%, 12px); */
+  right: 119rem;
+  width: 64rem;
+  height: 36rem;
+
+  /* transform: translate(-140%, 12px); */
+  }
+  
+
+  
+  /* Media queries for phone version */
+
+  @media (max-width: 1920px) {
+    .sectionb-container{
+  
+  
+      width: 1027px;
+      margin-top: 290px;
+      /* left: 22.7%; */
+      height: 558px;
+      right: 82.4rem;
+  }
+  }
+    
+  
+
+  @media (max-width: 1680px){
+
+  }
+
+
+  @media (max-width: 1440px) {
+
+  } 
+
+  
+  @media (max-width: 1366px) {
+
+  } 
+
+  @media (max-width: 1280px) {
+
+  } 
+  
+    /* Media queries for tablet and smaller screens */
+    @media screen and (max-width: 1024px) {
+   
+    }
+
+  @media screen and (max-width: 760px) {
+    .sectionb-container {
+      width: 100%;
+      left: 32%;
+        bottom: 500px; /* Adjust the value as needed for proper positioning on smaller screens */
+    }
+  }

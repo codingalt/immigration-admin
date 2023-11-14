@@ -1,0 +1,275 @@
+.Addingcompany-sub-container{
+    border: 1px solid #e2e2e4;
+    position: relative;
+    /* right: 172px; */
+    /* bottom: -16px; */
+    width: 64.2rem;
+    height: -9%;
+    border-radius: 13px;
+    top: 119px;
+    background-color: #fcfcff;
+    height: 45.6rem;
+    right: 79px;
+
+    display: flex;
+
+}
+
+.right-side-add-company{
+    
+    margin-top: 7rem;
+}
+
+
+.Addcompany-Topnavbar-client-profile-2{
+    position: absolute;
+    left: 244px;
+  }
+
+.heading-ist{
+    font-family: Poppins;
+font-size: 16px;
+font-weight: 600;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+/* margin-left: 22px; */
+    margin-top: 14px;
+   color:  #6A6C6F;
+   width: 102%;
+}
+
+.input-full-name-acc-left-adding-profile{
+    width: 27rem;
+
+    height: 33px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding-left: 15px;
+}
+
+.left-add-company-profile{
+    margin-left: 36px;
+}
+
+
+.full-name-text-accc-left-adding-profile{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 9px;
+    padding: 6px;
+}
+
+.country-cnfrm-text-add-company{
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+.checkbox-add-company {
+    display: flex;
+    font-size: 12px;
+    position: relative;
+    top: 1px;
+    column-gap: 12px;
+}
+
+.custom-file-input {
+    display: none; /* Hide the default file input */
+}
+
+.custom-file-label {
+
+    color: #E2E2E4; /* Text color for the label */
+    padding: 10px 15px; /* Add some padding for better appearance */
+    /* border-radius: 5px; Add rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    width: 27rem;
+
+    height: 33px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    /* padding-left: 15px; */
+    margin-top: -80px;
+
+}
+
+/* Style for the upload icon */
+.upload-icon {
+    font-size: 24px;
+    margin-right: 61px;
+    /* margin-bottom: 13px; */
+    position: relative;
+    bottom: 7px;
+    left: 16px;
+}
+
+.upload{
+
+    position: relative;
+    bottom: 47px;
+    left: 173px;
+    color: #777777;
+}
+
+.addcompany-profile-heading{
+    position: relative;
+    margin-top: 71px;
+    left: 197px;
+    color: black;
+    width: 15%;
+}
+
+
+
+
+
+.create-profile-button{
+    width: 27rem;
+    height: 40px;
+    background-color: #5D982E;
+    color: white;
+    margin-top: 13px;
+    border: 1px solid #5D982E ;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+@media (max-width: 1680px) {
+
+    .Addingcompany-sub-container {
+        right: 3.3rem;
+
+    }
+
+    .addcompany-profile-heading {
+        position: relative;
+        margin-top: 71px;
+        left: 197px;
+        color: black;
+        width: 15rem;
+    }
+}
+
+
+@media (max-width: 1440px) {
+
+
+    .addcompany-profile-heading {
+        left: 11.7rem;
+    }
+    .Addcompany-Topnavbar-client-profile-2 {
+        position: absolute;
+        left: 107px;
+    }
+
+    .addcompany-profile-heading {
+        width: 16rem;
+        position: absolute;
+        left: 297px;
+    }
+
+    .Addingcompany-sub-container {
+        left: 11.7rem;
+
+    }
+}
+
+@media (max-width: 1366px) {
+    .Addingcompany-sub-container {
+        border: 1px solid #e2e2e4;
+    position: relative;
+  
+
+
+
+    display: flex;
+  
+    }
+
+    .Addcompany-Topnavbar-client-profile-2{
+     left: 268px;
+    }
+
+    .addcompany-profile-heading {
+        position: absolute;
+   
+        left: 28.7rem;
+        color: black;
+        width: 20%;
+    }
+}
+
+
+@media (max-width: 1280px) {
+    .Addingcompany-sub-container {
+        border: 1px solid #e2e2e4;
+    position: relative;
+  
+
+
+
+    display: flex;
+  
+    }
+
+    .Addcompany-Topnavbar-client-profile-2{
+     left: 157px;
+    }
+
+    .addcompany-profile-heading {
+        position: absolute;
+   
+        left: 21.7rem;
+        color: black;
+        width: 20%;
+    }
+}
+
+
+
+
+@media (max-width: 1024px){
+    .addcompany-profile-heading {
+        position: absolute;
+        margin-top: 12px;
+        left: 21rem;
+        color: black;
+        width: 25%;
+    }
+    .heading-ist {
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+        /* margin-left: 22px; */
+        margin-top: 14px;
+        color: #6A6C6F;
+        width: 141%;
+    }
+
+    .Addingcompany-sub-container {
+        border: 1px solid #e2e2e4;
+        position: relative;
+        /* right: 172px; */
+        /* bottom: -16px; */
+      
+  
+        border-radius: 13px;
+        top: 59px;
+        background-color: #F7F7F7;
+
+        /* right: 48px; */
+        display: flex;
+        left: 10rem;
+        
+    }
+}

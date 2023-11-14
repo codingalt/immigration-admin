@@ -1,207 +1,179 @@
 * {
-    padding:0;
-    margin:0;
+  padding:0;
+  margin:0;
+}
+body {
+
+  font-family:monospace;
+  font-size:16px;
+  line-height:2;
+  overflow: hidden;
+}
+
+
+h1,h2,h3,h4,h5,h6,p,span,a {
+  padding:0;
+  margin:0;
+}
+a {
+  text-decoration:none; 
+}
+li {
+  list-style-type: none;
+}
+
+.Container-main-div{
+  max-width: 1920px;
+  margin: 0 auto;
+  height: 100vh;
+  padding: 0 5px;
+}
+
+
+
+
+
+
+
+  @media (max-width: 1920px) {
+    .Container-main-div {
+      max-width: 1920px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+          transform: scale(1.1) !important;
+          /* transform: translate(37%, 12px); */
+          margin-top: 3rem !important;
+          margin-left: 6rem;
+    }
   }
-  body {
-    background-color: #f7f7f7;
-    font-family:monospace;
-    font-size:15px;
-    line-height:2;
-    overflow: auto;
+
+  @media (max-width: 1866px) {
+    .Container-main-div {
+      max-width: 1680px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+          transform: scale(1);
+          /* transform: translate(37%, 12px); */
+    }
   }
-  
-  
-  h1,h2,h3,h4,h5,h6,p,span,a {
-    padding:0;
-    margin:0;
-  }
-  a {
-    text-decoration:none; 
-  }
-  li {
-    list-style-type: none;
-  }
-  
-  .App{
-    max-width: 1920px;
+
+
+  @media (min-width: 1730px) {
+    .Container-main-div {
+      height: 100vh;
     margin: 0 auto;
-    height: 100vh;
+    min-width: 1730px;
     padding: 0 5px;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    margin-top: 0rem !important;
+    /* margin-left: 6rem; */
+    }
   }
-  
 
-  
-  
-  
-  
-  
-  
-  
-    @media (max-width: 1920px) {
-      .App{
-        max-width: 1920px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.85) !important;
-            /* transform: translate(37%, 12px); */
-      }
-    }
-  
-    @media (max-width: 1866px) {
-      .App{
-        max-width: 1680px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.9);
-            /* transform: translate(37%, 12px); */
-      }
-    }
-  
-  
-    @media (min-width: 1730px) {
-      .App{
-        min-width: 1730px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.9);
-            /* transform: translate(37%, 12px); */
-      }
-    }
-  
-  
-    @media (max-width: 1600px) {
-      .App{
-        max-width: 1680px;
-        margin-top: -3rem !important;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.8) !important;
-            /* transform: translate(37%, 12px); */
-      }
-    }
-  
-    
-    @media (max-width: 1530px) {
-      .App{
-        max-width: 1680px;
-        margin: 0 auto;
 
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-        transform: scale(0.7) !important;
-            /* transform: translate(37%, 12px); */
-      }
+  @media (max-width: 1600px) {
+    .Container-main-div {
+      max-width: 1680px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+          transform: scale(0.9) !important;
+          margin-top: -2.5rem !important;
+          /* transform: translate(37%, 12px); */
     }
-  
-  
-  
-  
-  
-  
-  
-    @media (max-width: 1440px) {
-      .App{
-        max-width: 1366px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.8) !important;
-      }
-    } 
-  
+  }
 
-    @media (max-width: 1366px) {
-      .App{
-        max-width: 1366px;
-        margin: 0 auto;
-        margin-top: -5.5rem !important;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.64) !important;
-      }
-    } 
-
-      
  
+
+
+
+
+
+
+
+  @media (max-width: 1440px) {
+    .Container-main-div{
+      max-width: 1440px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+      transform: scale(0.9) !important ;
+      margin-left: -1rem;
+      margin-top: -2rem !important;
+    }
+  } 
+
+
+
+  @media (max-width: 1366px) {
+    .Container-main-div{
+      max-width: 1366px;
+      margin: 0 auto;
+      /* margin-top: 18px; */
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+          transform: scale(0.75) !important;
+          margin-top: -5rem !important;
+          margin-left: -9rem;
+    }
+  } 
+
+
+
+
+
+   
+  @media (max-width: 1280px) {
+    .Container-main-div{
+      max-width: 1280px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+      /* transform: scale(0.83) !important; */
+      margin-left: -6rem;
+    }
+  } 
+
+  @media (max-width: 1130px) {
+    .Container-main-div{
+      max-width: 1280px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+          transform: scale(0.83);
+    }
+  } 
+
+
+
+
+
+  @media (max-width: 1024px) {
+    .Container-main-div{
+      max-width: 1024px;
+      margin: 0 auto;
+      height: 100vh;
+      padding: 0 5px;
+      transform-origin: center center;
+          transform: scale(0.66) !important;
+          margin-left: -12rem !important;
+    }
+  } 
+
   
-    @media (max-width: 1280px) {
-      .App{
-        max-width: 1366px;
-        margin: 0 auto;
-       margin-top: -2rem !important;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.6);
-      }
-    }  
-  
-  
-  
-  
-     
-    @media (max-width: 1280px) {
-      .App{
-        max-width: 1280px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.83);
-      }
-    } 
-  
-    @media (max-width: 1130px) {
-      .App{
-        max-width: 1280px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.83);
-      }
-    } 
-  
-  
-  
-  
-  
-    @media (max-width: 1024px) {
-      .App{
-        max-width: 1024px;
-        margin: 0 auto;
-        height: 100vh;
-        padding: 0 5px;
-        transform-origin: center center;
-            transform: scale(0.66);
-      }
-    } 
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-    
-
+ 
+ 
 
 

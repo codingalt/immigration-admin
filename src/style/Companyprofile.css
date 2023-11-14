@@ -1,0 +1,340 @@
+.company-Topnavbar-client-profile-2{
+  position: absolute;
+  left: 244px;
+}
+.company-proile-border{
+    height: 100vh;
+}
+.company-sub-container{
+  border: 1px solid #e2e2e4;
+  position: relative;
+
+  left: 19.2%;
+  bottom: 23px;
+  width: 1010px;
+  overflow-y: scroll;
+  height: 44rem;
+  border-radius: 13px;
+  scrollbar-color: #5d982e white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+
+}
+
+
+
+
+.company-profile-addbtn{
+  position: absolute;
+  left: 67%;
+
+  top: 90px;
+  padding: 9px;
+  background-color: white;
+  color: black;
+  border: 1px solid #E2E2E4;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.company-prolie-boxes{
+  display: flex;
+  column-gap: 18px;
+  flex-wrap: wrap;
+}
+
+.company-All-boxes{
+  position: relative;
+  right: 139px;
+  bottom: 80px;
+  font-size: 12px;
+}
+
+.company-prolie-boxes-2{
+  display: flex;
+  column-gap: 18px;
+}
+
+.company-prolie-boxes-3{
+  display: flex;
+  column-gap: 18px;
+}
+.Box-10{
+  border: 1px solid #e2e2e4;
+  width: 354px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 10.1rem;
+  margin-top: 103px;
+  border-radius: 16px;
+
+}
+
+.Box-11{
+  border: 1px solid #e2e2e4;
+  width: 315px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+
+  margin-top: 103px;
+  border-radius: 16px;
+}
+
+.Box-12{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 103px;
+  border-radius: 16px;
+}
+
+.Box-13{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-14{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-15{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+    
+}
+
+
+.Box-16{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-17{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-18{
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+.company-Name{
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.company-caseid{
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.company-ApplicationType{
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.company-Applicationstatus{
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.comapnayprofile-main-container{
+  display: flex;
+  margin-left: 127px;
+  flex-wrap: wrap;
+}
+
+.company-Client-inputs{
+  border: none;
+  margin-left: 6px;
+  width: 146px;
+  outline: none;
+  background-color: transparent;
+  user-select: none;
+}
+
+.company-Vector-line{
+    position: relative;
+    left: 3px;
+    top: 7px;;
+}
+
+.company-profile-heading{
+  position: relative;
+  left: 384px;
+  color:black;
+  bottom: 48px;
+  width: 22%;
+}
+
+
+.company-profile-heading::after {
+  content: "";
+  width: 0;
+  height: 3px;
+  background-color: #5d982e;
+  margin: auto;
+  display: block;
+}
+
+
+.company-profile-heading:hover,
+.company-profile-headingg:active {
+  color: #5d982e;
+}
+
+@media (max-width: 1680px) {
+
+  .company-profile-addbtn {
+    left: 80.3rem;
+}
+
+
+} 
+
+
+@media (max-width: 1440px) {
+   
+  .company-Topnavbar-client-profile-2  {
+    position: absolute;
+    left: 106px;
+}
+.comapnayprofile-main-container {
+  display: flex;
+  max-width: 1990px;
+  margin: 0 auto;
+  height: 100vh;
+  margin-left: -12px;
+}
+
+.company-profile-addbtn {
+ 
+  left: 71.6rem;
+
+}
+
+
+    } 
+
+
+
+    @media (max-width: 1366px) {
+   
+      .company-Topnavbar-client-profile-2 {
+        position: absolute;
+        left: 268px;
+    }
+    .comapnayprofile-main-container {
+      display: flex;
+      max-width: 1990px;
+      margin: 0 auto;
+      height: 100vh;
+      margin-left: 150px;
+  }
+    
+  .company-profile-addbtn  {
+    left: 81.3rem;
+    width: 11rem;
+    
+    }
+
+
+        } 
+
+
+        @media (max-width: 1280px){
+          .company-profile-addbtn{
+            left: 92%;
+        
+    width: 12rem;
+        }
+
+      .company-Topnavbar-client-profile-2 {
+        position: absolute;
+        left: 157px;
+    }
+    .comapnayprofile-main-container {
+      display: flex;
+      max-width: 1990px;
+      margin: 0 auto;
+      height: 100vh;
+      margin-left: 40px;
+  }
+ 
+        }
+
+        @media (max-width: 1024px){
+    
+
+    
+
+      .company-profile-addbtn  {
+        left: 114%;
+        width: 191px;
+    }
+        }
+

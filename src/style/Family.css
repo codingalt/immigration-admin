@@ -1,0 +1,152 @@
+.Family-main{
+    width: 64.3rem;
+    height: 42.2rem;
+    top: 173px;
+    left: 433px;
+    border-radius: 20px;
+    border: 1px solid #E2E2E4;
+    position: absolute;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #5d982e white;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.phase-1-text-left-side-2{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 14px;
+    padding: 6px;
+}
+
+.phase-1-text-left-side-3{
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 14px;
+    padding: 6px;
+}
+
+
+
+.input-full-name-acc-right-family{
+    width: 27rem;
+    height: 39px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding-left: 15px;
+}
+
+
+
+.input-full-name-acc-left-family{
+
+    width: 27rem;
+
+    height: 39px;
+    border: 1px solid #E2E2E4;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding-left: 15px;
+}
+
+
+.Download-button-family{
+    position: relative;
+    left: 19.55rem;
+    padding: 7px 21px;
+    top: 23px;
+    height: 34px;
+    width: 120px;
+    background-color: #5D982E;
+    border: 1px solid #5D982E;
+    color: white;
+    border-radius: 8px;
+
+    
+}
+.left-side-general-family{
+    width: 50%;
+    margin-top: 15px;
+    margin-left: 6px;
+    padding: 6px;
+}
+
+
+.right-side-acc-family{
+    margin-left: 580px;
+    position: relative;
+    bottom: 229.8%;
+
+
+}
+
+.checkbox-family {
+    display: flex;
+    font-size: 12px;
+    position: relative;
+    top: 9px;
+    column-gap: 12px
+}
+
+.country-cnfrm-text-family{
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@media (max-width: 1366px) {
+ 
+   
+        .Family-main {
+            left: 460px;
+        }
+    
+        
+}
+
+
+
+
+@media (max-width: 1024px) {
+   
+    .right-side-acc-family{
+        margin-left: 580px;
+        position: relative;
+        bottom:100rem;
+     
+    }
+
+    .phase-1-text-left-side-3{
+        font-family: Poppins;
+        font-size: 5px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-top: 14px;
+        padding: 6px;
+    }
+
+
+    .phase-1-text-left-side-2{
+        font-family: Poppins;
+        font-size: 8px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-top: 14px;
+        padding: 6px;
+    }
+
+} 

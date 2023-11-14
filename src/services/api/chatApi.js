@@ -29,11 +29,23 @@ export const chatApi = createApi({
       query: () => `api/chats`,
       providesTags: ["Chat"],
     }),
+
+    getAllChats: builder.query({
+      query: () => `api/chats/all`,
+      providesTags: ["Chat"],
+    }),
+
+    getChatByApplicationId: builder.query({
+      query: (applicationId) => `api/chat/${applicationId}`,
+      providesTags: ["Chat"],
+    }),
   }),
 });
 
 export const {
   useGetUserChatsQuery,
   useGetUserMessagesQuery,
-  useSendMessageMutation
+  useSendMessageMutation,
+  useGetChatByApplicationIdQuery,
+  useGetAllChatsQuery
 } = chatApi;

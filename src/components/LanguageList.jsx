@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "formik";
 
-function LanguageList({ name, className, onChange, prevValue, setFieldValue }) {
+function LanguageList({ name, className, onChange, defaultValue, prevValue, setFieldValue,disabled }) {
   const [languages, setLanguages] = useState([]);
 
   useEffect(() => {
@@ -24,10 +24,13 @@ function LanguageList({ name, className, onChange, prevValue, setFieldValue }) {
       });
   }, []);
 
-  console.log(name);
+  console.log("default", defaultValue);
+
 
   return (
     <select
+      disabled={disabled}
+      value={defaultValue}
       required
       as="select"
       name={name}
@@ -36,7 +39,7 @@ function LanguageList({ name, className, onChange, prevValue, setFieldValue }) {
       onChange={(e) => {
         if (!prevValue.includes(e.target.value)) {
           onChange([...prevValue, e.target.value]);
-          setFieldValue("phase1.otherLanguagesSpeak", [
+          setFieldValue(name, [
             ...prevValue,
             e.target.value,
           ]);

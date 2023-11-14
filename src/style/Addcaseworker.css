@@ -1,0 +1,241 @@
+.Addcaseworkerproile-sub-container{
+    border: 1px solid #e2e2e4;
+    position: relative;
+    /* right: 172px; */
+    left: -67px;
+
+    /* bottom: -16px; */
+    width: 64.1rem;
+    height: 44rem;
+    border-radius: 13px;
+
+    top: 144px;
+    background-color: #fcfcfc;
+}
+
+.AddCaseworkerprofile-main-container{
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    height: 100vh;
+    margin-left: 127px;
+
+}
+
+.right-side-add{
+
+ 
+    margin-left: 555px;
+    position: relative;
+    bottom: 32rem;
+    width: 95%;
+
+}
+
+
+.add-case-form{
+    display: table-caption;
+    margin-top: 7px;
+    margin-left: 19px;
+    width: 50%;
+}
+
+.basic-inputs-add-case-2{
+    border-radius: 10px;
+    width: 27rem;
+    height: 34px;
+    background-color: #e2e2e4;
+    border: 1px solid #e2e2e4;
+    padding-left: 12px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.add-case-lable{
+    font-size: 12px;
+   margin-top: 7px;
+}
+
+.basic-inputs-add-case{
+   
+    border-radius: 10px;
+    width: 27rem;
+    height: 34px;
+    background-color: #e2e2e4;
+    border: 1px solid #e2e2e4;
+    padding-left: 12px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+
+.selector-inputs-add-case{
+    border-radius: 10px;
+  
+    width: 27rem;
+
+    height: 34px;
+    background-color: #e2e2e4;
+    border: 1px solid #e2e2e4;
+    padding-left: 12px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.sumbit-add-case{
+    width: 151px;
+    height: 40px;
+    /* margin-left: 5px; */
+    position: relative;
+    /* left: -18px; */
+    left: 199px;
+    top: 17px;
+    background-color: #e2e2e4;
+    border: 1px solid #e2e2e4;
+    border-radius: 10px;
+}
+
+.cancel-add-case{
+    width: 151px;
+    height: 40px;
+    /* margin-left: 5px; */
+    position: relative;
+    /* left: -18px; */
+    right: 147px;
+    top: 17px;
+    background-color: #e2e2e4;
+    border: 1px solid #e2e2e4;
+    border-radius: 10px;
+}
+
+@media (max-width: 1680px) {
+
+}
+
+  
+@media (max-width: 1440px) {
+     
+    .Addcaseworkerproile-sub-container {
+        border: 1px solid #e2e2e4;
+        position: relative;
+        /* right: 172px; */
+        left: -4.7%;
+        /* bottom: -16px; */
+        width: 64rem;
+        height: 43.7rem;
+        border-radius: 13px;
+        top: 144px;
+ 
+    }
+
+    .AddCaseworkerprofile-main-container {
+        display: flex;
+        max-width: 1990px;
+        margin: 0 auto;
+        height: 100vh;
+
+        margin-left: -12px;
+
+
+    }
+      } 
+
+
+      @media (max-width: 1366px) {
+     
+     
+    
+        .AddCaseworkerprofile-main-container {
+            display: flex;
+            max-width: 1990px;
+            margin: 0 auto;
+            height: 100vh;
+            margin-left: 150px;
+        }
+
+        .Caseworker-profile-heading {
+            position: absolute;
+            margin-top: 85px;
+            left: 457px;
+            width: 15rem;
+            color: #5d982e;
+            text-decoration: underline #5d982e;
+        }
+
+
+        .Addcaseworkerproile-sub-container {
+            border: 1px solid #e2e2e4;
+            position: relative;
+            /* right: 172px; */
+            left: 15.9%;
+            /* bottom: -16px; */
+            width: 63.9rem;
+            height: 43.7rem;
+            border-radius: 13px;
+            top: 143px;
+        }
+
+        
+     
+          } 
+
+
+          
+      @media (max-width: 1280px) {
+     
+     
+    
+        .AddCaseworkerprofile-main-container {
+            display: flex;
+            max-width: 1990px;
+            margin: 0 auto;
+            height: 100vh;
+            margin-left: 40px;
+        }
+
+        .Caseworker-profile-heading {
+            position: absolute;
+            margin-top: 85px;
+            left: 347px;
+
+            width: 15rem;
+            color: #5d982e;
+            text-decoration: underline #5d982e;
+        }
+
+
+        .Addcaseworkerproile-sub-container {
+            border: 1px solid #e2e2e4;
+            position: relative;
+            /* right: 172px; */
+            left: 15.9%;
+            /* bottom: -16px; */
+            width: 63.9rem;
+            height: 43.7rem;
+            border-radius: 13px;
+            top: 143px;
+        }
+
+        
+     
+          } 
+
+
+          @media (max-width: 1024px){
+        
+            .Addcaseworkerproile-sub-container {
+                /* border: 1px solid #e2e2e4; */
+                /* position: relative; */
+                /* right: 172px; */
+                left: 33.9%;
+                /* bottom: -16px; */
+                /* width: 63.9rem; */
+                /* height: 43.7rem; */
+                /* border-radius: 13px; */
+                /* top: 143px; */
+                position: absolute;
+            }
+       
+          }
+
+ 

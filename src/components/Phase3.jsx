@@ -1,257 +1,275 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
-import Logo2 from '../Assets/Ukimmigration-logo.png';
-import bellicon2 from "../Assets/bell-icon-svg.svg"
-import profileimg from "../Assets/profile-img-svg.svg"
-import dropdownicon from "../Assets/dropdown-icon-svg.svg"
-import addicon from "../Assets/add-icon.svg"
-import creditpic from "../Assets/debit-card-pic.svg"
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import NotificationBox from './Notification';
-import SettingBox from "./Settingbox"
-import "../style/Phase3.css"
-import { useGetApplicationByUserIdQuery, usePayWithCardMutation, usePostPhase3Mutation } from '../services/api/applicationApi';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
+import SideNavbar from './SideNavbar'
+import editpen from "../assests/edit-pen.png"
+import { Link,NavLink, useNavigate, useParams } from 'react-router-dom';
+import "../style/phase3.css"
+import pdfimg from "../assests/pdf-img.png"
+import Editimgapp from "../assests/Edit-file-img.svg"
+import Approvedimgapp from "../assests/Approved-img.svg"
+import Rejectimgapp from "../assests/Delete-File-img.svg"
+import { useApprovePhase3Mutation, useGetApplicationDataByIdQuery } from '../services/api/applicationApi';
 import { toastError, toastSuccess } from './Toast';
 import Loader from './Loader';
-import StripeCheckout from "react-stripe-checkout";
-import Navbar from './Navbar';
+import MainContext from './Context/MainContext';
 
 const Phase3 = () => {
-    const [chalan, setChalan] = useState("");
-    const chalanRef = useRef();
-    const [fileName,setFileName] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [postPhase3, result] = usePostPhase3Mutation();
-    const {isLoading,isSuccess,error} = result;
-    const [payWithCard, res] = usePayWithCardMutation();
-    const { isLoading: paymentLoading, error: paymentError, isSuccess: paymentSuccess } = res;
-    const navigate = useNavigate();
-    const { data: applicationData } = useGetApplicationByUserIdQuery();
-    const application = applicationData?.application;
-    console.log(application?._id);
-    const [isAllowed, setIsAllowed] = useState(false);
 
-    useMemo(()=>{
-        if(error){
-            toastError(error?.data?.message);
-        }
-    },[error]);
-
-    useMemo(()=>{
-        if(isSuccess){
-            toastSuccess("Chalan Submitted Successfully.");
-            setTimeout(() => {
-                navigate("/filldata")
-            }, 1200);
-        }
-    },[isSuccess]);
-
-    const openFile = (e) => {
-      if (e.target.files && e.target.files[0]) {
-        let pdf = e.target.files[0];
-        setFileName(pdf.name);
-        setChalan(pdf);
-      }
-    };
-
-    const handleChalanUpload = async()=>{
-        let formData = new FormData();
-        formData.append("applicationId", application?._id);
-        formData.append("chalan", chalan);
-        await postPhase3({formData: formData, applicationId: application?._id})
-    }
-
-    const handleToken = async (token) => {
-      try {
-       const {data} = await payWithCard({token: token, applicationId: application?._id})
-        console.log(data);
-        
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    useMemo(()=>{
-      if(paymentError){
-        toastError(paymentError?.data?.message);
-      }
-    },[paymentError]);
-
-    useMemo(() => {
-      if (paymentSuccess) {
-        toastSuccess("Congratulations! Payment Successfull.");
-        setTimeout(() => {
-          navigate("/filldata")
-        }, 1200);
-      }
-    }, [paymentSuccess]);
+  const { applicationId } = useParams();
+  const navigate = useNavigate();
+  const {
+    data,
+    refetch,
+    isLoading: isLoadingApplication,
+  } = useGetApplicationDataByIdQuery(applicationId,{refetchOnMountOrArgChange: true});
+  const app = data?.application;
+  console.log("Application data", app);
+    const { socket } = useContext(MainContext);
+    const [received, setReceived] = useState()
 
     useEffect(() => {
-      if (application) {
-        if (
-          application.requestedPhase === 3 &&
-          application.phaseSubmittedByClient === 2
-        ) {
-          setIsAllowed(true);
-        } else {
-          setIsAllowed(false);
-          navigate("/filldata");
-        }
-      }
-    }, [application]);
+        socket.on("phase data received", (phaseData) => {
+          if (phaseData) {
+            setReceived(phaseData);
+            console.log("phase data received", phaseData);
+          }
+        });
+      
+    }, [received]);
 
+    useEffect(()=>{
+      if(received){
+        refetch();
+      }
+    },[received]);
+
+        const links = [
+          { to: "/phase1", label: "Phase 1" },
+          { to: "/prephase2", label: "Pre-Phase 2" },
+          { to: "/phase2", label: "Phase 2" },
+          { to: "/prephase3", label: "Pre-Phase 3" },
+          { to: "/phase3", label: "Phase 3" },
+          { to: "/phase4", label: "Phase 4" },
+      
+          // Add more links as needed
+      ];
+      
+      const [activeLink, setActiveLink] = useState("/phase3");
+      
+      useEffect(() => {
+          // Get the current path from window.location.pathname
+          const currentPath = window.location.pathname;
+      
+          // Find the matching label from the links array based on the current path
+          const matchedLink = links.find((link) => link.to === currentPath);
+      
+          if (matchedLink) {
+              setActiveLink(matchedLink.label);
+          }
+      }, [links]);
+      
+      const handleLinkClick = (linkName) => {
+          setActiveLink(linkName);
+      };
+
+        const [approvePhase3, result] = useApprovePhase3Mutation();
+        const {
+          isLoading: approveLoading,
+          isSuccess: approveSuccess,
+          error: approveErr,
+        } = result;
+
+        const handleApprove = async () => {
+          await approvePhase3({ applicationId: applicationId });
+        };
+
+        useMemo(() => {
+          if (approveErr) {
+            toastError(approveErr?.data?.message);
+          }
+        }, [approveErr]);
+
+        useMemo(() => {
+          if (approveSuccess) {
+            socket.emit("phase notification", {
+              userId: app?.userId,
+              applicationId: applicationId,
+              phase: 3,
+              phaseStatus: "approved",
+            });
+            toastSuccess("Phase 3 Approved");
+            handleLinkClick("/phase4");
+            navigate(`/admin/prescreening/${applicationId}`);
+          }
+        }, [approveSuccess]);
 
     return (
-      <>
-        {isAllowed && (
-          <div className="Container-forgetpassword-phase1">
-            <Navbar />
-            <div className="Forgetpassword-sub-2">
-              <div className="left-side-forget-password-2">
-                <p className="Required-data-text">Choose your payment method</p>
-                <NavLink to="/filldata">
-                  <button type="submit" className="back-button">
-                    back
-                  </button>
-                </NavLink>
-                <p className="Pay-credit-text">Pay with Credit Card</p>
-                {/* <NavLink to="/adddetails">
-                    <p className='Add-debit-text'>Add Debit / Credit Card <img src={addicon} alt="" /></p>
-                    </NavLink> */}
-                <img src={creditpic} alt="" className="credit-card" />
-
-                <p className="detail-text">Details</p>
-                <div className="border-line-phase3"></div>
-
-                <div className="Details">
-                  <div>
-                    <p>Service Fee</p>
-                    <p>Tax</p>
-                    <p>Total</p>
-                  </div>
-
-                  <div>
-                    <p>${application?.phase3?.cost}</p>
-                    <p>$0.00</p>
-                    <p>${application?.phase3?.cost}</p>
-                  </div>
-                </div>
-                <StripeCheckout
-                  name="UK Immigration"
-                  image={Logo2}
-                  amount={parseInt(application?.phase3?.cost) * 100}
-                  stripeKey={import.meta.env.VITE_STRIPE_KEY}
-                  token={handleToken}
-                >
-                  <button
-                    type="submit"
-                    className="click-to-pay"
-                    disabled={paymentLoading}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    {paymentLoading ? <Loader /> : "Click to Pay"}
-                  </button>
-                </StripeCheckout>
-                {/* <NavLink to={`/adddetails/${application?._id}`}> */}
-                {/* <button
-              onClick={() => paymentRef.current.click()}
-              type="submit"
-              className="click-to-pay"
-            >
-              Click to Pay
-            </button> */}
-                {/* </NavLink> */}
-              </div>
-
-              <div className="Border-line-between"></div>
-              <div className="right-side-phase3">
-                <p className="pay-to-bank-text">Pay with Bank Account</p>
-                <p className="phase-3-right-text">Bank Name</p>
-                <input
-                  disabled
-                  className="Input-right-phase3"
-                  type="text"
-                  name="bankName"
-                  placeholder="Bank Alfalah"
-                />
-                <p className="phase-3-right-text">IBAN</p>
-                <input
-                  disabled
-                  className="Input-right-phase3"
-                  type="text"
-                  name="iban"
-                  placeholder="B8HF85H5J58588580644"
-                />
-                <p className="phase-3-right-text">Company Recipient</p>
-                <input
-                  disabled
-                  className="Input-right-phase3"
-                  type="text"
-                  name="companyRecipient"
-                  placeholder="907437640921315"
-                />
-
-                <p className="If-you-paid-text">
-                  {fileName
-                    ? `Chalan Selected: ${fileName}`
-                    : "If you have paid, please upload proof of payment."}{" "}
-                </p>
-                <div
+      <div className="Phase-2-main-container">
+        <SideNavbar />
+        <h2 className="Pre-screening-text">Pre-Screening</h2>
+        <div className="Buttons-preescreening">
+          {/* <button className="Edit-appliction-btn">
+            Edit <img src={Editimgapp} alt="" />
+          </button> */}
+          {app?.phaseSubmittedByClient >= 3 &&
+            app?.applicationStatus != "rejected" && (
+              <>
+                <button
+                  disabled={approveLoading}
                   style={{
-                    width: "100%",
                     display: "flex",
+                    justifyContent: "center",
                     alignItems: "center",
-                    gap: "10px",
+                    cursor: "pointer",
                   }}
+                  onClick={handleApprove}
+                  className="Approved-appliction-btn"
                 >
-                  <input
-                    ref={chalanRef}
-                    type="file"
-                    id="passport"
-                    name="passport"
-                    accept=".pdf"
-                    onChange={(event) => openFile(event)}
-                    style={{ display: "none" }}
-                  />
-                  <button
-                    style={{
-                      width: "40%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      background: "#FCFCFC",
-                      color: "#000",
-                      border: "1px solid #E2E2E4",
-                    }}
-                    type="button"
-                    className="Upload-evidence"
-                    onClick={() => chalanRef.current.click()}
-                  >
-                    Upload Evidence
-                  </button>
-                  <button
-                    style={{
-                      width: "40%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    type="button"
-                    className="Upload-evidence"
-                    disabled={isLoading}
-                    onClick={handleChalanUpload}
-                  >
-                    {isLoading ? <Loader /> : "Submit"}
-                  </button>
-                </div>
+                  {approveLoading ? <Loader /> : "Approve"}{" "}
+                  <img src={Approvedimgapp} alt="" />
+                </button>
+                <button
+                  disabled={approveLoading}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate(`/admin/reject/${applicationId}`)}
+                  className="Reject-appliction-btn"
+                >
+                  {" "}
+                  Reject <img src={Rejectimgapp} alt="" />
+                </button>
+              </>
+            )}
+        </div>
+        <img src={editpen} alt="" className="edit-pen" />
+        <button
+          disabled={approveLoading}
+          onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
+          className="back-btn"
+        >
+          Back
+        </button>
+
+        <div className="phase-4-all-phase">
+          {app?.phaseSubmittedByClient >= 1 && (
+            <NavLink
+              to={`/admin/phase1/${applicationId}`}
+              className={`link-hover-effect ${
+                activeLink === "/phase1" ? "link-active" : ""
+              }`}
+              onClick={() => handleLinkClick("/phase1")}
+              style={{ width: "2.9rem" }}
+            >
+              <span className="routes-all">Phase 1</span>
+            </NavLink>
+          )}
+          {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+            <NavLink
+              to={`/admin/prephase2/${applicationId}`}
+              className={`link-hover-effect ${
+                activeLink === "/prephase2" ? "link-active" : ""
+              }`}
+              onClick={() => handleLinkClick("/prephase2")}
+              style={{ width: "4.4rem" }}
+            >
+              <span className="routes-all">Pre-Phase 2</span>
+            </NavLink>
+          )}
+          {app?.phaseSubmittedByClient >= 2 && (
+            <NavLink
+              to={`/admin/phase2/${applicationId}`}
+              className={`link-hover-effect ${
+                activeLink === "/phase2" ? "link-active" : ""
+              }`}
+              onClick={() => {
+                handleLinkClick("/phase2");
+              }}
+              style={{ width: "2.9rem" }}
+            >
+              <span className="routes-all">Phase 2</span>
+            </NavLink>
+          )}
+          {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+            <NavLink
+              to={`/admin/prephase3/${applicationId}`}
+              className={`link-hover-effect ${
+                activeLink === "/prephase3" ? "link-active" : ""
+              }`}
+              onClick={() => {
+                handleLinkClick("/prephase3");
+              }}
+              style={{ width: "4.4rem" }}
+            >
+              <span className="routes-all">Pre-Phase 3</span>
+            </NavLink>
+          )}
+          {app?.phaseSubmittedByClient >= 3 && (
+            <NavLink
+              to={`/admin/phase3/${applicationId}`}
+              className={`link-hover-effect ${
+                activeLink === "/phase3" ? "link-active" : ""
+              }`}
+              onClick={() => {
+                handleLinkClick("/phase3");
+              }}
+              style={{ width: "2.9rem" }}
+            >
+              <span className="routes-all">Phase 3</span>
+            </NavLink>
+          )}
+          {app?.phaseSubmittedByClient > 3 && (
+            <NavLink
+              to={`/admin/phase4/${applicationId}`}
+              className={`link-hover-effect ${
+                activeLink === "/phase4" ? "link-active" : ""
+              }`}
+              onClick={() => {
+                handleLinkClick("/phase4");
+              }}
+              style={{ width: "2.9rem" }}
+            >
+              <span className="routes-all">Phase 4</span>
+            </NavLink>
+          )}
+        </div>
+
+        <div className="phase-3">
+          <p className="evidence-payement-text">Evidence of Payment*</p>
+          {app?.phase3?.isOnlinePayment ? (
+            <Link to={app?.phase3?.onlinePaymentEvidence} target="_blank">
+              <div
+                className="pdf-17"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span>Click here to open PDF</span>
+
+                <img
+                  style={{ marginRight: "15px" }}
+                  src={pdfimg}
+                  alt=""
+                  className="pdf-icon"
+                />
               </div>
-            </div>
-          </div>
-        )}
-      </>
+            </Link>
+          ) : (
+            <Link
+              to={`${import.meta.env.VITE_IMG_URI}${
+                app?.phase3?.paymentEvidence
+              }`}
+              target="_blank"
+            >
+              <div className="pdf-17">
+                Click here to open PDF
+                <img src={pdfimg} alt="" className="pdf-icon" />
+              </div>
+            </Link>
+          )}
+
+          {/* <button className="Download-btn-2">Download</button> */}
+        </div>
+      </div>
     );
 }
 
