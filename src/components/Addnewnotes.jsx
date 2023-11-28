@@ -78,17 +78,17 @@ const Addnewnotes = ({ onCancel, onSubmit, applicationId }) => {
             Lorem ipsum dolor sit amen consectetur adipisicing elite. Culpa,
             vitae.
           </textarea>
+          <button onClick={handleCancel} className="cncl-btn">
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmitNotes}
+            disabled={isLoading}
+            className="submit-btn"
+          >
+            Submit
+          </button>
         </div>
-        <button onClick={handleCancel} className="cncl-btn">
-          Cancel
-        </button>
-        <button
-          onClick={handleSubmitNotes}
-          disabled={isLoading}
-          className="submit-btn"
-        >
-          Submit
-        </button>
       </div>
     </div>
   );

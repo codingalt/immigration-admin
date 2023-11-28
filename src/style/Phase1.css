@@ -344,13 +344,20 @@ margin-left: 2rem;
 .checkboxes-all-group{
   position: absolute;
   top: 16rem;
-  left: -75px;
+  left: -8px;
   font-size: 12px;
   font-weight: 400;
   line-height: 37px;
   letter-spacing: 0em;
   text-align: left;
   display: grid;
+}
+
+.prephase2-inner-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
 }
 
 .right-side-group-phase3{
@@ -395,7 +402,7 @@ text-align: left;
 
 .Send-button{
   height: 2.5rem;
-  width: 27rem;
+  width: 24rem;
   background-color: #5D982E;
   border: 1px solid #5D982E;
   border-radius: 8px;

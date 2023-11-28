@@ -19,7 +19,7 @@ const Report = () => {
           Back
         </button>
 
-        <div className="Report-1" style={{flexDirection:"column"}}>
+        <div className="Report-1" style={{ flexDirection: "column" }}>
           {data?.application?.report.length === 0 && !isLoading && (
             <p
               style={{
@@ -35,7 +35,15 @@ const Report = () => {
             </p>
           )}
           {data?.application?.report?.map((item) => (
-            <div key={item._id} style={{display:"flex",width:"100%"}}>
+            <div
+              key={item._id}
+              style={{
+                display: "flex",
+                width: "100%",
+                height: "5.1rem",
+                position: "relative",
+              }}
+            >
               <div className="left-report-side">
                 <img src={reportprofile} alt="" />
                 <p className="phases-report-heading">
@@ -58,17 +66,17 @@ const Report = () => {
                   {item.status === "approved" ? "Approved" : "Rejected"}
                 </button>
               </div>
+
+              {item.status === "rejected" && data?.application?.rejectPhaseReason && (
+                <div className="report-reason">
+                  <p className="reason-text">
+                    {data?.application?.rejectPhaseReason}
+                  </p>
+                </div>
+              )}
             </div>
           ))}
         </div>
-
-        {data?.application?.rejectPhaseReason && (
-          <div className="report-reason">
-            <p className="reason-text">
-              {data?.application?.rejectPhaseReason}
-            </p>
-          </div>
-        )}
       </div>
     );
 }

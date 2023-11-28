@@ -24,10 +24,38 @@ export const companyApi = createApi({
       }),
       invalidatesTags: ["Company"],
     }),
+
+    getApplicationsByCompany: builder.query({
+      query: (companyId) => `api/company/applications/${companyId}`,
+      providesTags: ["Company", "Application"],
+    }),
+
+    getGroupApplicationById: builder.query({
+      query: (applicationId) => `api/company/application/${applicationId}`,
+      providesTags: ["Company", "Application"],
+    }),
+
+    getCompanyDetailsById: builder.query({
+      query: (companyId) => `api/company/${companyId}`,
+      providesTags: ["Company", "Application"],
+    }),
+
+    sendRequestToCompanyClient: builder.mutation({
+      query: (data) => ({
+        url: `api/company/phase1/send`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Company", "AdminApi"],
+    }),
   }),
 });
 
 export const {
   useGetAllCompaniesQuery,
-  useCreateCompanyMutation
+  useCreateCompanyMutation,
+  useGetApplicationsByCompanyQuery,
+  useGetGroupApplicationByIdQuery,
+  useGetCompanyDetailsByIdQuery,
+  useSendRequestToCompanyClientMutation
 } = companyApi;

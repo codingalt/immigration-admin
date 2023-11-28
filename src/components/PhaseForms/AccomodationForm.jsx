@@ -37,7 +37,7 @@ const AccomodationForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/family");
+      // setActiveTab("/family");
     }
   }, [isSuccess]);
 
@@ -864,6 +864,7 @@ const AccomodationForm = ({
                 type="button"
                 className="back-button-accomodation"
                 onClick={handleBackClick}
+                style={{ opacity: "0", cursor: "default" }}
               >
                 Back
               </button>
@@ -876,6 +877,8 @@ const AccomodationForm = ({
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  opacity: "0",
+                  cursor: "default",
                 }}
               >
                 {isLoading ? <Loader /> : "Next"}

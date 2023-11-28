@@ -28,7 +28,7 @@ const MaintenanceForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/travel");
+      // setActiveTab("/travel");
     }
   }, [isSuccess]);
 
@@ -164,6 +164,7 @@ const MaintenanceForm = ({
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
+                  style={{ opacity: "0", cursor: "default" }}
                 >
                   Back
                 </button>
@@ -177,6 +178,8 @@ const MaintenanceForm = ({
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "0",
+                    opacity: "0",
+                    cursor: "default",
                   }}
                 >
                   {isLoading ? <Loader /> : "Next"}

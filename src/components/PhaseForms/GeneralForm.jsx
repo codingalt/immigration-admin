@@ -29,7 +29,7 @@ const GeneralForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/Accomodation");
+      // setActiveTab("/Accomodation");
     }
   }, [isSuccess]);
 
@@ -852,6 +852,8 @@ const GeneralForm = ({
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  opacity: "0",
+                  cursor: "default",
                 }}
                 type="submit"
                 className="Next-button-genral"

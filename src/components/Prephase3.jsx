@@ -295,7 +295,51 @@ const Prephase3 = () => {
                       </option>
                       <option value="Naturalisation">Naturalisation</option>
                       <option value="EEUS Settlement">EEUS Settlement</option>
-                      <option value="Others">Others</option>
+                      <option value="University Placement">
+                        University Placement
+                      </option>
+                      <option value="Immigration Matter">
+                        Immigration Matter
+                      </option>
+                      <option value="AN1 – Naturalisation">
+                        AN1 – Naturalisation{" "}
+                      </option>
+                      <option value="MN1 – Registration">
+                        MN1 – Registration{" "}
+                      </option>
+                      <option value="ILR – Indefinite Leave to Remain">
+                        ILR – Indefinite Leave to Remain
+                      </option>
+                      <option value="FLR – Further Leave to Remain">
+                        FLR – Further Leave to Remain{" "}
+                      </option>
+                      <option value="FLR(FP)">FLR(FP)</option>
+                      <option value="FLR(M)">FLR(M) </option>
+                      <option value="SW – Skilled Worker">
+                        SW – Skilled Worker{" "}
+                      </option>
+                      <option value="SL- Sponsor Licence">
+                        SL- Sponsor Licence{" "}
+                      </option>
+                      <option value="Student">Student </option>
+                      <option value="Student Child">Student Child</option>
+                      <option value="Graduate Visa">Graduate Visa</option>
+                      <option value="ECS- Entry Clearance Spouse">
+                        ECS- Entry Clearance Spouse{" "}
+                      </option>
+                      <option value="ECV – Entry Clearance Visitor">
+                        ECV – Entry Clearance Visitor{" "}
+                      </option>
+                      <option value="ECD – Entry Clearance Dependant">
+                        ECD – Entry Clearance Dependant{" "}
+                      </option>
+                      <option value="PS – Pre Settled Status">
+                        PS – Pre Settled Status
+                      </option>
+                      <option value="SS – Settled Status">
+                        SS – Settled Status{" "}
+                      </option>
+                      <option value="Others">Others </option>
                     </Field>
                     <p className="prephase-3-text-left">Application Type</p>
                     <Field

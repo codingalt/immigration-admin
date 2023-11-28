@@ -3,16 +3,17 @@ import "../style/notes.css"
 import SideNavbar from './SideNavbar'
 import TopNavbar from './TopNavbar'
 import Addnewnotes from "./Addnewnotes";
-import { useGetAllApplicationsQuery } from "../services/api/applicationApi";
+import { useGetAllApplicationNotesQuery, useGetAllApplicationsQuery } from "../services/api/applicationApi";
+import { useSelector } from "react-redux";
 
 const Notes = () => {
-    const [showAddNewNote1, setShowAddNewNote1] = useState(false);
-    const [showAddNewNote2, setShowAddNewNote2] = useState(false);
-    const [showAddNewNote3, setShowAddNewNote3] = useState(false);
-
     const [selectedNote, setSelectedNote] = useState();
+    const [showAddNewNote1,setShowAddNewNote1] = useState();
 
-    const {data} = useGetAllApplicationsQuery();
+  const { user } = useSelector((state) => state.user);
+  console.log("User",user);
+
+    const { data,isLoading } = useGetAllApplicationNotesQuery();
     console.log(data);
 
     const [applicationId, setApplicationId] = useState("")
@@ -33,6 +34,11 @@ const Notes = () => {
         <SideNavbar />
         <h2 className="Notes-text-5">Notes</h2>
         <div className="Notes-main-section">
+          {
+            !isLoading && data?.applications?.length === 0 && (
+              <p style={{color:"red",fontSize:"1.1rem",fontWeight:"500",textAlign:"center",marginTop:"4rem"}}>No Notes Found</p>
+            )
+          }
           {data?.applications?.map((item) => (
             <div key={item._id} className="Notes-box-1">
               <div className="all-notes-data">

@@ -2,186 +2,107 @@ import React, { useEffect, useState, useRef } from 'react';
 import SideNavbar from './SideNavbar';
 import TopNavbar from './TopNavbar';
 import "../style/tablelistid.css"
-import { Link , NavLink } from 'react-router-dom';
+import { Link , NavLink, useParams } from 'react-router-dom';
+import { useGetApplicationsByCompanyQuery } from '../services/api/companyApi';
+import moment from 'moment';
+import Loader from './Loader';
 
 const Companydetail = () => {
-    const handleAddProfileClick = () => {
-        // Add your logic here for what should happen when the button is clicked
-        // For example, you can navigate to a profile creation page or perform any other action.
-      };
 
+      const {companyId} = useParams();
+      const { data,isLoading,isSuccess,error } = useGetApplicationsByCompanyQuery(companyId);
+      console.log(data);
 
     return (
-        <div className='comapnayprofile-main-container'>
-                <div className='Addcompany-Topnavbar-client-profile-2'>
-                    <TopNavbar />
-                </div>
-    
-                <SideNavbar />
+      <div className="comapnayprofile-main-container">
+        <div className="Addcompany-Topnavbar-client-profile-2">
+          <TopNavbar />
+        </div>
 
+        <SideNavbar />
 
-    
-                <h2 className='changepassword-profile-heading'>LeSoft Pvt Ltd Cases</h2>
-                <Link to="/companylist">
-                <button className='Case-profile-addbtn' onClick={handleAddProfileClick}>Create New Case</button>
-                </Link>
-                <div className='table-list-sub-container'>
-    
-                <table>
-    
-    
-    
-    <tr className='Table-heading'>
-      <td>Case ID</td>
-      <td>Name</td>
-      <td>Email</td>
-      <td>Contact</td>
-      <td>Date of Birth</td>
-      <td>Country</td>
-      <td>Action</td>
-    </tr>
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td>
-      <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link>
-      </td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-    
-      <td>
-      <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link>
-      </td>
-    
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    <tr>
-      <td>001</td>
-      <td>John Leo</td>
-      <td>John@gmail.com</td>
-      <td>(485)-845-8542658</td>
-      <td>9-21-2023</td>
-      <td>United Kingdom</td>
-      <td> <Link to="/dashboard">
-      <button className='View-btn-tablelist'>View</button>
-      </Link></td>
-    </tr>
-    
-    </table>
-                </div>
-            </div>
-      )
+        <h2 className="changepassword-profile-heading">LeSoft Pvt Ltd Cases</h2>
+        <Link to={`/servicelist/${companyId}`}>
+          <button className="Case-profile-addbtn" type="button">
+            Create New Case
+          </button>
+        </Link>
+        <div className="table-list-sub-container">
+          <table>
+            <thead>
+              <tr className="Table-heading">
+                <td>Case ID</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Application Type</td>
+                <td>Date of Birth</td>
+                <td>Nationality</td>
+                <td>Action</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td colSpan={7} style={{ border: "none" }}>
+                  {isLoading && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "1rem",
+                      }}
+                    >
+                      <Loader color={"#5D982E"} width={34} />
+                    </div>
+                  )}
+                </td>
+              </tr>
+              {!isLoading &&
+                data?.applications?.map((item, index) => (
+                  item.phaseSubmittedByClient >= 1 &&
+                  <tr key={item._id}>
+                    <td>{item.caseId}</td>
+                    <td>{item.phase1.fullNameAsPassport}</td>
+                    <td>
+                      {item.phase1.clientContact
+                        ? item.phase1.clientContact
+                        : item.phase1.companyContact}
+                    </td>
+                    <td>{item.phase1.applicationType}</td>
+                    <td>
+                      {moment(item?.phase1?.birthDate).format("ddd, MMM D")}
+                    </td>
+                    <td>{item.phase1.nationality}</td>
+                    <td>
+                      <Link to={`/admin/prescreening/${item._id}`}>
+                        <button className="View-btn-tablelist">View</button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              <tr>
+                <td colSpan={7} style={{ border: "none" }}>
+                  {!isLoading && data?.applications.length === 0 && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "1rem",
+                        color: "red",
+                        fontWeight: "500",
+                        fontSize: "1.05rem",
+                      }}
+                    >
+                      No Applications Found
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
     }
 
 export default Companydetail

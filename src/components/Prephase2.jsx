@@ -24,7 +24,7 @@ const Prephase2 = () => {
     refetchOnMountOrArgChange: true,
   });
   const app = data?.application;
-  console.log("Application data", app?.phase2);
+  // console.log("Application data", app?.phase2);
   const [activeLink, setActiveLink] = useState("/prephase2");
     const { socket } = useContext(MainContext);
 
@@ -123,7 +123,7 @@ const Prephase2 = () => {
           : "",
       bankStatements:
         app && app?.phase2?.bankStatements ? app?.phase2?.bankStatements : "",
-      other: app && app?.phase2?.other ? [] : [],
+      other: [" "],
       otherDocumentNotes:
         app && app?.phase2?.otherDocumentNotes
           ? app?.phase2?.otherDocumentNotes
@@ -132,7 +132,7 @@ const Prephase2 = () => {
   };
 
   const handleSubmit = async (values, { resetForm }) => {
-    console.log(values);
+    console.log("submitted ---",values);
     const { otherDocumentNotes, ...phase2Values } = values.phase2;
 
     if (Object.values(phase2Values).some((value) => value !== "notreq")) {
@@ -145,7 +145,6 @@ const Prephase2 = () => {
     }
      
   };
-  console.log("Intial values", initialValues);
   return (
     <div className="Pre-phase-2-container">
       <SideNavbar />
@@ -438,19 +437,13 @@ const Prephase2 = () => {
                 <p className="Other">
                   {" "}
                   <input
-                    value="notreq"
+                    value={["notreq"]}
                     name="phase2.other"
                     id="phase2.other"
                     type="checkbox"
-                    defaultChecked={
-                      Array.isArray(initialValues?.phase2?.other) &&
-                      initialValues?.phase2?.other[0] &&
-                      (initialValues?.phase2?.other[0] === "" ||
-                        initialValues?.phase2?.other[0].includes("/Uploads"))
-                    }
+                    defaultChecked={true}
                     onChange={(e) => {
-                      const value = e.target.checked ? "" : "notreq";
-                      setFieldValue("phase2.other", value);
+                      setFieldValue("phase2.other", ["notreq"]);
                     }}
                   />{" "}
                   OTHER{" "}

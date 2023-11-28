@@ -5,6 +5,8 @@ const initialState = {
   isAuthenticated: false,
   applicationType: "",
   searchParams: null,
+  count: null,
+  notificationId: null,
 };
 
 export const userSlice = createSlice({
@@ -28,6 +30,12 @@ export const userSlice = createSlice({
     setSearchParams: (state, action) => {
       state.searchParams = action.payload;
     },
+    setNotiCount: (state, action) => {
+      state.count = action.payload;
+    },
+    setNotificationId: (state, action) => {
+      state.count = action.payload;
+    },
   },
 });
 
@@ -35,6 +43,8 @@ export const {
   setUserData,
   logout,
   setApplicationTypeToSlice,
-  setSearchParams
+  setSearchParams,
+  setNotiCount,
+  setNotificationId,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -36,7 +36,7 @@ const EmploymentForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/maintenance");
+      // setActiveTab("/maintenance");
     }
   }, [isSuccess]);
 
@@ -458,6 +458,7 @@ const EmploymentForm = ({
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
+                  style={{ opacity: "0", cursor: "default" }}
                 >
                   Back
                 </button>
@@ -471,6 +472,8 @@ const EmploymentForm = ({
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "0",
+                    opacity: "0",
+                    cursor: "default",
                   }}
                 >
                   {isLoading ? <Loader /> : "Next"}

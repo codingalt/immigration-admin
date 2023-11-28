@@ -47,6 +47,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 14px;
+    position: relative;
 }
 
 .Notes-box-2{
@@ -87,8 +88,8 @@
 }
 
 .all-textarea{
-    position: relative;
-  left: 30%;
+  position: absolute;
+  right: 1.8%;
   top: 17px;
 }
 
@@ -179,7 +180,7 @@
 
 .textarea-1{
     height: 62px;
-    width: 562px;
+    width: 88.5%;
     background-color: white;
     border-radius: 10px;
     padding: 12px;
@@ -203,23 +204,27 @@
 
 .dummy-data{
     background-color: #D9D9D9;
-    width: 641px;
+    width: 570px;
     height: 111px;
     border-radius: 10px;
     position: relative;
-    right: 129px;
     margin-bottom: 19px;
     border: 1px solid #D9D9D9;
     padding: 10px;
 }
 
+.dummy-data p:nth-child(1){
+    font-weight: 500;
+    font-size: 1.03rem;
+}
+
 .text-area-input-23{
     background-color: #D9D9D9;
-    width: 641px;
+    width: 570px;
     height: 111px;
     border-radius: 10px;
-    position: relative;
-    right: 129px;
+    position: absolute;
+    right: 0px;
     /* bottom: 169px; */
      border: 1px solid #D9D9D9;
      padding: 10px; 
@@ -277,13 +282,12 @@
 
 .text-area-input-3{
     background-color: #D9D9D9;
-    width: 641px;
+    width: 630px;
     height: 111px;
     border-radius: 10px;
     position: absolute;
     border: 1px solid #D9D9D9;
     padding: 10px;
-
     top: -35px;
 }
 
@@ -324,12 +328,11 @@
     background-color: #5D982E;
     border: 1px solid #5D982E;
     color: white;
-    position: relative;
-    left: 423px;
+    position: absolute;
+    right: 8px;
     width: 92px;
     height: 29px;
     border-radius: 10px;
-    bottom: 10px;
 }
 
 .add-button-2{
@@ -361,26 +364,26 @@
     background-color: #5D982E;
     border: 1px solid #5D982E;
     color: white;
-    position: relative;
-    left: 324px;
+    position: absolute;
+    right: 140px;
     width: 92px;
     height: 29px;
     border-radius: 10px;
     cursor: pointer;
-    top: 12px;
+    bottom: -43%;
 }
 
 .submit-btn{
       background-color: #5D982E;
     border: 1px solid #5D982E;
     color: white;
-    position: relative;
-    left: 330px;
+    position: absolute;
+    right: 24px;
     width: 92px;
     height: 29px;
     border-radius: 10px;
     cursor: pointer;
-    top: 12px;
+    bottom: -43%;
 }
 
 

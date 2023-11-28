@@ -137,6 +137,7 @@ export const userApi = createApi({
         url: "api/phases/notification",
         method: "GET",
       }),
+      providesTags: ["Users", "Application"],
     }),
   }),
 });

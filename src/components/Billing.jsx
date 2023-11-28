@@ -14,6 +14,7 @@ import Search from "../assests/search-icon.svg";
 import moment from 'moment';
 import { useRef } from 'react';
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import Loader from './Loader';
 
 const Billing = () => {
 
@@ -285,7 +286,11 @@ const Billing = () => {
                 >
                   <option>Case Worker Name</option>
                   {data?.caseWorker?.map((item) => (
-                    <option key={item._id} value={item.name} data-id={item._id}>
+                    <option
+                      key={item._id}
+                      value={item.name}
+                      data-id={item.userId}
+                    >
                       {item.name}
                     </option>
                   ))}
@@ -296,11 +301,63 @@ const Billing = () => {
                   className="ApT-billing-drop"
                 >
                   <option>APT</option>
-                  <option value={"University Placement"}>
+                  <option value="Sponsor License">Sponsor License</option>
+                  <option value="Certificate of Sponsorship">
+                    Certificate of Sponsorship
+                  </option>
+                  <option value="Certificate of Acceptance of Studies">
+                    Certificate of Acceptance of Studies
+                  </option>
+                  <option value="Entry Clearance">Entry Clearance</option>
+                  <option value="Leave to Remain">Leave to Remain</option>
+                  <option value="Indefinite Leave to Remain">
+                    Indefinite Leave to Remain
+                  </option>
+                  <option value="Naturalisation">Naturalisation</option>
+                  <option value="EEUS Settlement">EEUS Settlement</option>
+                  <option value="University Placement">
                     University Placement
                   </option>
-                  <option value={"Student Visa"}>Student Visa</option>
-                  <option value={"Other"}>Other</option>
+                  <option value="Immigration Matter">Immigration Matter</option>
+                  <option value="AN1 – Naturalisation">
+                    AN1 – Naturalisation{" "}
+                  </option>
+                  <option value="MN1 – Registration">
+                    MN1 – Registration{" "}
+                  </option>
+                  <option value="ILR – Indefinite Leave to Remain">
+                    ILR – Indefinite Leave to Remain
+                  </option>
+                  <option value="FLR – Further Leave to Remain">
+                    FLR – Further Leave to Remain{" "}
+                  </option>
+                  <option value="FLR(FP)">FLR(FP)</option>
+                  <option value="FLR(M)">FLR(M) </option>
+                  <option value="SW – Skilled Worker">
+                    SW – Skilled Worker{" "}
+                  </option>
+                  <option value="SL- Sponsor Licence">
+                    SL- Sponsor Licence{" "}
+                  </option>
+                  <option value="Student">Student </option>
+                  <option value="Student Child">Student Child</option>
+                  <option value="Graduate Visa">Graduate Visa</option>
+                  <option value="ECS- Entry Clearance Spouse">
+                    ECS- Entry Clearance Spouse{" "}
+                  </option>
+                  <option value="ECV – Entry Clearance Visitor">
+                    ECV – Entry Clearance Visitor{" "}
+                  </option>
+                  <option value="ECD – Entry Clearance Dependant">
+                    ECD – Entry Clearance Dependant{" "}
+                  </option>
+                  <option value="PS – Pre Settled Status">
+                    PS – Pre Settled Status
+                  </option>
+                  <option value="SS – Settled Status">
+                    SS – Settled Status{" "}
+                  </option>
+                  <option value="Others">Others </option>
                 </select>
               </div>
               <div
@@ -342,6 +399,7 @@ const Billing = () => {
               </div>
             </div>
           </div>
+
           <tr className="Table-heading">
             <td>Case ID</td>
             <td>Client Name</td>
@@ -353,18 +411,65 @@ const Billing = () => {
             <td>Action</td>
           </tr>
 
-          {invoices?.map((item) => (
+          {isLoading && (
+            <tr>
+              <td colSpan={7} style={{ border: "none" }}>
+                {isLoading && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "2.5rem",
+                    }}
+                  >
+                    <Loader color={"#5D982E"} width={34} />
+                  </div>
+                )}
+              </td>
+            </tr>
+          )}
+
+          {!isLoading && invoices?.length === 0 && (
+            <tr>
+              <td colSpan={7} style={{ border: "none" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "2rem",
+                  }}
+                >
+                  <span
+                    style={{
+                      textAlign: "center",
+                      color: "red",
+                      marginTop: "0rem",
+                      fontWeight: "500",
+                      fontSize: "1.05rem",
+                    }}
+                  >
+                    No Invoice to show!
+                  </span>
+                </div>
+              </td>
+            </tr>
+          )}
+
+          {!isLoading &&
+            invoices?.map((item) => (
               <tr key={item._id} ref={pdfRef}>
                 <td>{item.caseId}</td>
-                <td>{item.phase1.name}</td>
+                <td>
+                  {item.phase1.name
+                    ? item.phase1.name
+                    : item.phase1.fullNameAsPassport}
+                </td>
                 <td>{item.phase1.applicationType}</td>
-                <td>{item.caseWorkerName}</td>
+                <td>{item.caseWorkerName ? item.caseWorkerName : "Admin"}</td>
                 <td>{moment(item.phase3.dateTime).format("dddd, MMMM Do")}</td>
                 <td>{item.phase3.cost}</td>
                 <td>{item.phase3.isPaid ? "Paid" : "Pending"}</td>
-                <td
-              
-                >
+                <td>
                   <i
                     className="fa fa-download clickable green-icon"
                     style={{ fontSize: "15pt" }}
@@ -372,7 +477,7 @@ const Billing = () => {
                   ></i>
                 </td>
               </tr>
-          ))}
+            ))}
         </table>
       </div>
     </div>

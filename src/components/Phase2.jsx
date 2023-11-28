@@ -114,6 +114,7 @@ const Phase2 = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 cursor: "pointer",
+                opacity: approveLoading ? 0.55 : 1,
               }}
               onClick={handleApprove}
               className="Approved-appliction-btn"

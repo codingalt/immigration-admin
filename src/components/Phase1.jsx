@@ -60,7 +60,7 @@ const Phase1 = () => {
     const [activeLink, setActiveLink] = useState("/phase1");
     const [isEditting, setIsEditting] = useState(true);
 
-    const { user, applicationType } = useSelector((state) => state.user);
+    const { notificationId } = useSelector((state) => state.user);
     const [permissionInCountryErr, setPermissionInCountryErr] = useState(
       app?.phase1?.permissionInCountry
     );
@@ -157,7 +157,10 @@ const Phase1 = () => {
     };
 
     const handleApprove = async()=>{
-        await approvePhase1({ applicationId: applicationId });
+        await approvePhase1({
+          applicationId: applicationId,
+          notificationId: notificationId,
+        });
     }
 
     const links = [
@@ -270,6 +273,7 @@ const Phase1 = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   cursor: "pointer",
+                  opacity: approveLoading ? 0.55 : 1,
                 }}
                 onClick={handleApprove}
                 className="Approved-appliction-btn"

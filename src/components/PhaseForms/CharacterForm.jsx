@@ -48,7 +48,7 @@ const CharacterForm = ({
       refetch();
       setActiveTab("/character");
       setTimeout(() => {
-        navigate(`/admin/prescreening/${application?._id}`);
+        // navigate(`/admin/prescreening/${application?._id}`);
       }, 1700);
     }
   }, [isSuccess]);
@@ -362,6 +362,7 @@ const CharacterForm = ({
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
+                  style={{ opacity: "0", cursor: "default" }}
                 >
                   Back
                 </button>
@@ -375,6 +376,8 @@ const CharacterForm = ({
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "0",
+                    opacity: "0",
+                    cursor: "default",
                   }}
                 >
                   {isLoading ? <Loader /> : "Submit"}

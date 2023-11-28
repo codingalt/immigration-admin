@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import SideNavbar from './SideNavbar'
 import "../style/Phase1.css"
 import editimg from "../assests/edit -img.png"
@@ -6,43 +6,52 @@ import editpen from "../assests/edit-pen.png"
 import link from "../assests/link-company.png"
 import selector from "./Selector"
 import Selector from './Selector';
-import { Link , NavLink } from 'react-router-dom';
+import { Link , NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import pdfimg from "../assests/pdf-img.png"
 import "../style/Genral.css"
 import Editimgapp from "../assests/Edit-file-img.svg"
 import Approvedimgapp from "../assests/Approved-img.svg"
 import Rejectimgapp from "../assests/Delete-File-img.svg"
+import { useGetCompanyDetailsByIdQuery, useSendRequestToCompanyClientMutation } from '../services/api/companyApi';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { toastError, toastSuccess } from './Toast';
+import Loader from './Loader';
 
 const GroupAdminPhase = () => {
-    const [Name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [contact, setContact] = useState('');
-    const [companyContactEmail, setCompanyContactEmail] = useState('');
-    const [companyContactPhoneNumber, setCompanyContactPhoneNumber] = useState('');
-    const [confirmIndustry, setConfirmIndustry] = useState('');
+    const {companyId,service} = useParams();
+    const {data} = useGetCompanyDetailsByIdQuery(companyId);
+    console.log("Company details", data);
+    const company = data?.company;
+    const navigate = useNavigate();
+    const [doesCompanyHelp, setDoesCompanyHelp] = useState(true)
+    const [isCompanyContact, setIsCompanyContact] = useState(null);
+    const [isClientContact, setIsClientContact] = useState(null);
 
-    // Define handleChange functions for each input
-    const handleEmailChange = (e) => {
-        setCompanyContactEmail(e.target.value);
-    };
-
-    const handlePhoneNumberChange = (e) => {
-        setCompanyContactPhoneNumber(e.target.value);
-    };
-
-    const handleIndustryChange = (e) => {
-        setConfirmIndustry(e.target.value);
-    };
-
+    const [sendRequestToCompanyClient,res] = useSendRequestToCompanyClientMutation();
+    const {isLoading, error,isSuccess} = res;
     
-    const fileInputRef = useRef(null);
-
-    const handlePdfDivClick = (e) => {
-        // Programmatically trigger a click on the hidden file input when the div is clicked
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
+    const initialValues = {
+      applicationType: "",
+      name: company?.name,
+      address: company?.address,
+      fullName: company?.fullName,
+      email: company?.email,
+      telephone: company?.telephone,
+      confirmIndustry: company?.confirmIndustry,
+      isSponsorLicense: company?.isSponsorLicense,
+      engagementLetter: company?.engagementLetter,
+      terms: company?.terms,
+      companyId: companyId,
+      phase1: {
+        doesCompanyHelp: true,
+        companyHelpService: "",
+        applicationType: "",
+        cost: 0,
+        dateTime: new Date(),
+        companyContact: "",
+        clientContact: "",
+      },
     };
 
     const links = [
@@ -56,7 +65,7 @@ const GroupAdminPhase = () => {
 
         // Add more links as needed
     ];
-    const [activeLink, setActiveLink] = useState(null);
+    const [activeLink, setActiveLink] = useState("/groupadminphase1");
     
     useEffect(() => {
         // Get the current path from window.location.pathname
@@ -73,245 +82,379 @@ const GroupAdminPhase = () => {
     const handleLinkClick = (linkName) => {
         setActiveLink(linkName);
     };
-    
-   
 
+    useMemo(()=>{
+      if(isSuccess){
+        toastSuccess("Application Details Sent to client.");
+      }
+    },[isSuccess])
 
+    useMemo(() => {
+      if (error) {
+        toastError(error?.data?.message);
+      }
+    }, [error]);
 
+    const handleSubmit = async (values, { resetForm }) => {
+      console.log(values);
+      if(!values.phase1.companyContact && !values.phase1.clientContact){
+        toastError("Please Enter Client or Company Contact");
+        return;
+      }
+
+      const {data} = await sendRequestToCompanyClient({ companyId: companyId, phase1: values.phase1 });
+      if(data.success){
+        resetForm({
+          values: initialValues,
+        });
+      }
+
+    };
 
     return (
-        <div className='Phase-1-main-container'>
-            <SideNavbar />
-            <h2 className='Pre-screening-text-2'>Pre-Screening</h2>
-            <div className='Buttons-preescreening'>
-              <button className='Edit-appliction-btn' >Edit <img src={Editimgapp} alt="" /></button>
-      <button className='Approved-appliction-btn' >Approved <img src={Approvedimgapp} alt="" /></button>
-      <button  className='Reject-appliction-btn'> Reject <img src={Rejectimgapp} alt="" /></button>
-              </div>
-            {/* <img src={editimg} alt="" className='edit-img' />
-            <img src={editpen} alt="" className='edit-pen' />
-            <div className='link-img-2'> <img src={link} alt="" className='link-company-2' /> </div> */}
-            <NavLink exact to="/prescreening" activeClassName="active-link">
-                <button className='back-btn'>Back</button>
-            </NavLink>
-                 
-      <div className='Group-side-All-phase'>
-        {links.map((link, index) => (
-            <NavLink
-                key={index}
-                to={link.to}
-                className={`link-hover-effect ${activeLink === link.label ? 'link-active' : ''}`}
-                onClick={() => handleLinkClick(link.label)}
-                style={
-              link.to === "/groupadminphase1"
-                ? { width: "5.8rem" }
-                : link.to === "/groupprephase2"
-                ? { width: "2.9rem" }
-                : link.to === "/groupphase2"
-                ? { width: "4.4rem" }
-                :
-                link.to === "/groupprephase3"
-                ? { width: "2.9rem" }
-                :
-                link.to === "/groupsideprephase3"
-                ? { width: "4.4rem" }
-                :
-                link.to === "/groupsidephase3"
-                ? { width: "2.9rem" }
-                :
-                
-                
-                
-                 {
-                    width: "4rem",
-                  }
-            }
-          
-         
-            >
-                <span className='routes-all'>{link.label}</span>
-            </NavLink>
-        ))}
-    </div>
+      <div className="Phase-1-main-container">
+        <SideNavbar />
+        <h2 className="Pre-screening-text-2">Pre-Screening</h2>
+        <div className="Buttons-preescreening"></div>
+        <button onClick={() => navigate(-1)} className="back-btn">
+          Back
+        </button>
 
-
-            <div className='phase-1'>
-                <div className='left-side-phase-1'>
-                    <form>
-                        <div className='phase-1-form'>
-                            <p className="phase-1-text-left-side">Company Name</p>
-                            <input className='phase-1-input-left-side'
-                                type="text"
-                                placeholder="Add Company name"
-
-                              
-                            />
-                        </div>
-                        <div className='email-input'>
-                            <p className="phase-1-text-left-side">Company Address</p>
-                            <input className='phase-1-input-left-side'
-                                type="email"
-                                placeholder="Add Company address"
-
-                         
-                            />
-                        </div>
-                        <div className='Phone-number'>
-                            <p className="phase-1-text-left-side">Full name of Company Contact</p>
-                            <input className='phase-1-input-left-side'
-                                type="tel"
-                                placeholder="Add Full name of company contact"
-
-                       
-                            />
-                        </div>
-
-                        <p className="phase-1-text-left-side">Company Contact E-Mail Address</p>
-                        <input
-                            className='phase-1-input-left-side'
-                            type="email"
-                            placeholder="Add Company Contact E-Mail Address"
-                            value={companyContactEmail}
-                    
-                        />
-
-                        <p className="phase-1-text-left-side">Company Contact Telephone Number</p>
-                        <input
-                            className='phase-1-input-left-side'
-                            type="tel"
-                            placeholder="Add Company Contact Telephone Number"
-                            value={companyContactPhoneNumber}
-                            onChange={handlePhoneNumberChange}
-                        />
-
-                        <p className="phase-1-text-left-side">Confirm Industry</p>
-                        <input
-                            className='phase-1-input-left-side'
-                            type="text"
-                            placeholder="Confirm Industry"
-                            value={confirmIndustry}
-                            onChange={handleIndustryChange}
-                        />
-
-
-
-
-
-                        <p className='country-cnfrm-text'> Confirm if the Company holds a Sponsor Licence</p>
-
-                        <div className='checkbox-phase1'>
-                            <p className='yes-check-text'>Yes</p>
-                            <input type="checkbox" className='yes-check' />
-                            <p className='no-check-text'>No</p>
-                            <input type="checkbox" className='no-check' />
-                        </div>
-
-
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            style={{ display: 'none' }}
-                        // Add any attributes you need for the file input
-                        />
-
-
-                        <p className='password-text'>Letter of Engagement</p>
-
-
-                        <div
-                            className='pdf-input'
-                            onClick={handlePdfDivClick}
-                        >
-                            Click here to Upload PDF
-                            <img src={pdfimg} alt="" className='pdf-icon' />
-                        </div>
-
-
-
-                        <p className='password-text'>Terms and Conditions</p>
-
-
-
-                        <div
-                            className='pdf-input'
-                            onClick={handlePdfDivClick}
-                        >
-                        Click here to Upload PDF
-                            <img src={pdfimg} alt="" className='pdf-icon' />
-                        </div>
-
-
-                    </form>
-                </div>
-
-
-
-                <div className='right-side'> 
-
-                 <p className='Conf-text'>Confirmtion</p>
-
-                    <p className='phase-1-text-right-side'>CONFIRMATION THAT THE COMPANY CAN HELP</p>
-
-                    <div className='checkbox-phase1'>
-                        <p className='yes-check-text'>Yes</p>
-                        <input type="checkbox" className='yes-check' />
-                        <p className='no-check-text'>No</p>
-                        <input type="checkbox" className='no-check' />
-                    </div>
-
-
-          
-
-
-                    <p className='phase-1-text-right-side'>How CAN THE COMPANY HELP?</p>
-
-                    <select name="languages[]" className='phase-1-input-right-side'>
-                        <option value="english">English</option>
-                        <option value="spanish">Spanish</option>
-                        <option value="french">French</option>
-                        <option value="german">German</option>
-
-                    </select>
-
-                    
-                    <p className='phase-1-text-right-side'>Application Type</p>
-                    <input type="text" placeholder='APL1' className='phase-1-input-left-side' />
-
-
-         
-
-
-      
-
-
-
-
-              
-                    <div className='checkbox-phase1'>
-             
-                        <input type="checkbox" className='yes-check' />
-                        <p className='yes-check-text'>Company Contact</p>
-               
-                    </div>
-                    <input type="text" placeholder='Type Email' className='phase-1-input-left-side' />
-
-
-               <div className='checkbox-phase1'>
-                  
-                        <input type="checkbox" className='yes-check' />
-                        <p className='yes-check-text'>Client Contact</p>
-               
-                    </div>
-                    <input type="text" placeholder='Type Email' className='phase-1-input-left-side' />
-                          
-                    <button className='Send-button'>Send</button>
-
-                    
-                </div>
-                <button className='Download-button'>Download</button>
-            </div>
+        <div className="Group-side-All-phase">
+          <NavLink
+            to={"#"}
+            className={`link-hover-effect ${
+              activeLink === "/groupadminphase1" ? "link-active" : ""
+            }`}
+            style={{ width: "7rem" }}
+          >
+            <span className="routes-all">Company Details</span>
+          </NavLink>
         </div>
-    )
+
+        {data && (
+          <div className="phase-1">
+            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+              {({ setFieldValue, errors, resetForm }) => (
+                <Form style={{ display: "flex", justifyContent: "center" }}>
+                  <div className="left-side-phase-1">
+                    <div className="phase-1-form">
+                      <p className="phase-1-text-left-side">Company Name</p>
+                      <Field
+                        disabled={true}
+                        className="phase-1-input-left-side"
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Add Company name"
+                      />
+                    </div>
+                    <div className="email-input">
+                      <p className="phase-1-text-left-side">Company Address</p>
+                      <Field
+                        disabled={true}
+                        className="phase-1-input-left-side"
+                        type="email"
+                        name="address"
+                        id="address"
+                        placeholder="Add Company address"
+                      />
+                    </div>
+                    <div className="Phone-number">
+                      <p className="phase-1-text-left-side">
+                        Full name of Company Contact
+                      </p>
+                      <Field
+                        disabled={true}
+                        className="phase-1-input-left-side"
+                        type="tel"
+                        name="fullName"
+                        id="fullName"
+                        placeholder="Add Full name of company contact"
+                      />
+                    </div>
+
+                    <p className="phase-1-text-left-side">
+                      Company Contact E-Mail Address
+                    </p>
+                    <Field
+                      disabled={true}
+                      className="phase-1-input-left-side"
+                      type="email"
+                      name="email"
+                      id="email"
+                    />
+
+                    <p className="phase-1-text-left-side">
+                      Company Contact Telephone Number
+                    </p>
+                    <Field
+                      disabled={true}
+                      className="phase-1-input-left-side"
+                      type="tel"
+                      name="telephone"
+                      id="telephone"
+                    />
+
+                    <p className="phase-1-text-left-side">Confirm Industry</p>
+                    <Field
+                      disabled={true}
+                      className="phase-1-input-left-side"
+                      type="text"
+                      name="confirmIndustry"
+                      id="confirmIndustry"
+                    />
+
+                    <p className="country-cnfrm-text">
+                      {" "}
+                      Confirm if the Company holds a Sponsor Licence
+                    </p>
+
+                    <div className="checkbox-phase1">
+                      <p className="yes-check-text">Yes</p>
+                      <Field
+                        disabled={true}
+                        type="checkbox"
+                        className="yes-check"
+                        checked={company?.isSponsorLicense}
+                      />
+                      <p className="no-check-text">No</p>
+                      <Field
+                        disabled={true}
+                        type="checkbox"
+                        className="no-check"
+                        checked={!company?.isSponsorLicense}
+                      />
+                    </div>
+
+                    <p className="password-text">Letter of Engagement</p>
+
+                    <Link
+                      to={`${import.meta.env.VITE_IMG_URI}${
+                        company?.engagementLetter
+                      }`}
+                      target="_blank"
+                    >
+                      <div className="pdf-input">
+                        {company?.engagementLetter?.split("/Uploads/")}
+                        <img src={pdfimg} alt="" className="pdf-icon" />
+                      </div>
+                    </Link>
+
+                    <p className="password-text">Terms and Conditions</p>
+
+                    <Link
+                      to={`${import.meta.env.VITE_IMG_URI}${company?.terms}`}
+                      target="_blank"
+                    >
+                      <div
+                        className="pdf-input"
+                        style={{ marginBottom: "4rem" }}
+                      >
+                        {company?.terms?.split("/Uploads/")}
+                        <img src={pdfimg} alt="" className="pdf-icon" />
+                      </div>
+                    </Link>
+                  </div>
+
+                  <div className="right-side" style={{ marginLeft: "0" }}>
+                    <p className="Conf-text">Confirmtion</p>
+
+                    <p className="phase-1-text-right-side">
+                      CONFIRMATION THAT THE COMPANY CAN HELP
+                    </p>
+
+                    <div className="checkbox-phase1">
+                      <p className="yes-check-text">Yes</p>
+                      <input
+                        checked={doesCompanyHelp}
+                        type="radio"
+                        required
+                        className="yes-check"
+                        name="phase1.doesCompanyHelp"
+                        id="phase1.doesCompanyHelp"
+                        onChange={(e) => {
+                          setFieldValue("phase1.doesCompanyHelp", true);
+                          setDoesCompanyHelp(true);
+                        }}
+                      />
+                      <p className="no-check-text">No</p>
+                      <input
+                        checked={!doesCompanyHelp}
+                        type="radio"
+                        required
+                        className="no-check"
+                        name="phase1.doesCompanyHelp"
+                        id="phase1.doesCompanyHelp"
+                        onChange={(e) => {
+                          setFieldValue("phase1.doesCompanyHelp", false);
+                          setDoesCompanyHelp(false);
+                        }}
+                      />
+                    </div>
+
+                    {doesCompanyHelp && (
+                      <>
+                        <p className="phase-1-text-right-side">
+                          How CAN THE COMPANY HELP?
+                        </p>
+
+                        <Field
+                          required={doesCompanyHelp}
+                          as="select"
+                          name="phase1.companyHelpService"
+                          id="phase1.companyHelpService"
+                          className="phase-1-input-right-side"
+                          style={{ width: "83%" }}
+                          onChange={(e) =>
+                            setFieldValue(
+                              "phase1.companyHelpService",
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option value="Sponsor License">
+                            Sponsor License
+                          </option>
+                          <option value="Certificate of Sponsorship">
+                            Certificate of Sponsorship
+                          </option>
+                          <option value="Certificate of Acceptance of Studies">
+                            Certificate of Acceptance of Studies
+                          </option>
+                          <option value="Entry Clearance">
+                            Entry Clearance
+                          </option>
+                          <option value="Leave to Remain">
+                            Leave to Remain
+                          </option>
+                          <option value="Indefinite Leave to Remain">
+                            Indefinite Leave to Remain
+                          </option>
+                          <option value="Naturalisation">Naturalisation</option>
+                          <option value="EEUS Settlement">
+                            EEUS Settlement
+                          </option>
+                          <option value="University Placement">
+                            University Placement
+                          </option>
+                          <option value="Immigration Matter">
+                            Immigration Matter
+                          </option>
+                          <option value="AN1 – Naturalisation">
+                            AN1 – Naturalisation{" "}
+                          </option>
+                          <option value="MN1 – Registration">
+                            MN1 – Registration{" "}
+                          </option>
+                          <option value="ILR – Indefinite Leave to Remain">
+                            ILR – Indefinite Leave to Remain
+                          </option>
+                          <option value="FLR – Further Leave to Remain">
+                            FLR – Further Leave to Remain{" "}
+                          </option>
+                          <option value="FLR(FP)">FLR(FP)</option>
+                          <option value="FLR(M)">FLR(M) </option>
+                          <option value="SW – Skilled Worker">
+                            SW – Skilled Worker{" "}
+                          </option>
+                          <option value="SL- Sponsor Licence">
+                            SL- Sponsor Licence{" "}
+                          </option>
+                          <option value="Student">Student </option>
+                          <option value="Student Child">Student Child</option>
+                          <option value="Graduate Visa">Graduate Visa</option>
+                          <option value="ECS- Entry Clearance Spouse">
+                            ECS- Entry Clearance Spouse{" "}
+                          </option>
+                          <option value="ECV – Entry Clearance Visitor">
+                            ECV – Entry Clearance Visitor{" "}
+                          </option>
+                          <option value="ECD – Entry Clearance Dependant">
+                            ECD – Entry Clearance Dependant{" "}
+                          </option>
+                          <option value="PS – Pre Settled Status">
+                            PS – Pre Settled Status
+                          </option>
+                          <option value="SS – Settled Status">
+                            SS – Settled Status{" "}
+                          </option>
+                          <option value="Others">Others </option>
+                          <option value="Others">Others</option>
+                        </Field>
+                      </>
+                    )}
+
+                    <p className="phase-1-text-right-side">Application Type</p>
+                    <Field
+                      required
+                      name="phase1.applicationType"
+                      id="phase1.applicationType"
+                      type="text"
+                      placeholder="Aplication Type"
+                      className="phase-1-input-left-side"
+                    />
+
+                    <div className="checkbox-phase1">
+                      <input
+                        defaultChecked
+                        onChange={() => {
+                          setIsCompanyContact(true);
+                        }}
+                        type="checkbox"
+                        className="yes-check"
+                      />
+                      <p className="yes-check-text">Company Contact</p>
+                    </div>
+                    <Field
+                      required={isCompanyContact}
+                      type="email"
+                      placeholder="Type Email"
+                      name="phase1.companyContact"
+                      id="phase1.companyContact"
+                      className="phase-1-input-left-side"
+                    />
+
+                    <div className="checkbox-phase1">
+                      <input
+                        defaultChecked
+                        type="checkbox"
+                        className="yes-check"
+                        onChange={() => {
+                          setIsClientContact(true);
+                        }}
+                      />
+                      <p className="yes-check-text">Client Contact</p>
+                    </div>
+                    <Field
+                      required={isClientContact}
+                      type="email"
+                      name="phase1.clientContact"
+                      id="phase1.clientContact"
+                      placeholder="Type Email"
+                      className="phase-1-input-left-side"
+                    />
+
+                    <button
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        opacity: isLoading ? 0.55 : 1,
+                      }}
+                      type="submit"
+                      className="Send-button"
+                    >
+                      {isLoading ? <Loader /> : "Send"}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        )}
+      </div>
+    );
 }
 
 export default GroupAdminPhase

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import SideNavbar from "./SideNavbar";
 import TopNavbar from "./TopNavbar";
 import { useLocation } from "react-router-dom"; // Import Link from react-router-dom
@@ -7,8 +7,10 @@ import "../style/Companyprofile.css";
 import vectorline from "../assests/Vector-line.png";
 import "../style/Genral.css";
 import { useGetAllCompaniesQuery } from "../services/api/companyApi";
+import Loader from "./Loader";
 const Companyprofile = () => {
-  const {data} = useGetAllCompaniesQuery();
+  const {data,isLoading} = useGetAllCompaniesQuery();
+  const navigate = useNavigate();
   console.log(data);
   const links = [
     { to: "/admin/clientprofiles", label: "Client Profile" },
@@ -75,12 +77,54 @@ const Companyprofile = () => {
         <div className="company-sub-container">
           <div className="company-All-boxes">
             <div className="company-prolie-boxes">
-              <Link
-                to="/companydetail"
+              {isLoading && (
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "14rem",
+                    marginLeft: "10rem",
+                  }}
+                >
+                  <Loader width={35} color={"#5B952D"} />
+                </div>
+              )}
+
+              {!isLoading && data?.company?.length === 0 && (
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "7.5rem",
+                    marginLeft: "10rem",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "1.05rem",
+                      fontWeight: "500",
+                      color: "red",
+                    }}
+                  >
+                    No Company Profile!
+                  </p>
+                </div>
+              )}
+
+              {/* <Link
+                to={`/company`}
                 style={{ display: "flex", gap: "30px" }}
-              >
-                {data?.company?.map((item) => (
-                  <div key={item._id} className="Box-10">
+              > */}
+              {!isLoading &&
+                data?.company?.map((item) => (
+                  <div
+                    style={{ cursor: "pointer" }}
+                    key={item._id}
+                    className="Box-10"
+                    onClick={() => navigate(`/company/${item._id}`)}
+                  >
                     <div className="company-Name">
                       <p>
                         {" "}
@@ -144,7 +188,7 @@ const Companyprofile = () => {
                           className="company-Vector-line"
                         />{" "}
                         <input
-                        disabled
+                          disabled
                           type="text"
                           value={item.telephone}
                           placeholder="Approved"
@@ -154,7 +198,7 @@ const Companyprofile = () => {
                     </div>
                   </div>
                 ))}
-              </Link>
+              {/* </Link> */}
             </div>
           </div>
         </div>

@@ -48,6 +48,14 @@
   border: 1px solid #E2E2E4;
   right: 9rem;
   }
+
+ .events .event .time-wrapper{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+  }
+
   .left {
     width: 60%;
   padding: 7px;
@@ -319,7 +327,7 @@
   }
   .events .event {
     position: relative;
-    width: 95%;
+    width: 100%;
     min-height: 70px;
     display: flex;
     justify-content: center;
@@ -328,16 +336,20 @@
     padding: 0 20px;
     padding-left: 50px;
     color: #fff;
-    background: linear-gradient(90deg, #3f4458, transparent);
-    cursor: pointer;
+    /* background: linear-gradient(90deg, #3f4458, transparent); */
+    background: #5d982e;
+    margin-bottom: 18px;
+    /* cursor: pointer; */
   }
   /* even event */
   .events .event:nth-child(even) {
     background: transparent;
-  }
-  .events .event:hover {
     background: linear-gradient(90deg, var(--primary-clr), transparent);
+    background: #5d982e;
   }
+  /* .events .event:hover {
+    background: linear-gradient(90deg, var(--primary-clr), transparent);
+  } */
   .events .event .title {
     display: flex;
     align-items: center;
@@ -349,7 +361,7 @@
     margin-left: 20px;
   }
   .events .event i {
-    color: var(--primary-clr);
+    color: #fff;
     font-size: 0.5rem;
   }
   .events .event:hover i {
@@ -358,15 +370,32 @@
   .events .event .event-time {
     font-size: 0.8rem;
     font-weight: 400;
-    color: #878895;
+    color: #fff;
     margin-left: 15px;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 0px;
   }
   .events .event:hover .event-time {
     color: #fff;
   }
+  .event-second{
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    font-size: 3rem;
+    line-height: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.3;
+    color: var(--primary-clr);
+    transform: translateY(-50%);
+  }
   /* add tick in event after */
-  .events .event::after {
+  /* .events .event::after {
     content: "✓";
     position: absolute;
     top: 50%;
@@ -382,7 +411,7 @@
   }
   .events .event:hover::after {
     display: flex;
-  }
+  } */
   .add-event {
     position: absolute;
     bottom: 11px;

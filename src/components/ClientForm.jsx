@@ -52,7 +52,11 @@ const ClientForm = () => {
               className="jhon-input"
               type="text"
               placeholder="John Leo"
-              value={searchParams?.phase1.name}
+              value={
+                searchParams?.phase1?.name
+                  ? searchParams?.phase1?.name
+                  : searchParams?.phase1?.fullNameAsPassport
+              }
             />
           </div>
           <div className="email-input">
@@ -62,7 +66,13 @@ const ClientForm = () => {
               className="email-2"
               type="email"
               placeholder="email@email.com"
-              value={searchParams?.phase1.email}
+              value={
+                searchParams?.phase1?.email
+                  ? searchParams?.phase1?.email
+                  : searchParams?.phase1?.companyContact
+                  ? searchParams?.phase1?.companyContact
+                  : searchParams?.phase1?.clientContact
+              }
             />
           </div>
           <div className="Phone-number">
@@ -72,7 +82,11 @@ const ClientForm = () => {
               className="contact"
               type="tel"
               placeholder="(485)-845-8542658"
-              value={searchParams?.phase1.contact}
+              value={
+                searchParams?.phase1?.contact
+                  ? searchParams?.phase1?.contact
+                  : "..."
+              }
             />
           </div>
           <div className="Date-input">
@@ -82,10 +96,14 @@ const ClientForm = () => {
               className="calender-2"
               type="date"
               placeholder="Select Date"
-              value={searchParams ? format(
-                new Date(searchParams?.phase1?.birthDate),
-                "yyyy-MM-dd"
-              ) : ""}
+              value={
+                searchParams
+                  ? format(
+                      new Date(searchParams?.phase1?.birthDate),
+                      "yyyy-MM-dd"
+                    )
+                  : ""
+              }
             />
           </div>
           <div className="Address">
@@ -105,7 +123,11 @@ const ClientForm = () => {
               className="nationalty-2"
               type="text"
               placeholder="Search Country"
-              value={searchParams?.phase1.country}
+              value={
+                searchParams?.phase1?.country
+                  ? searchParams?.phase1?.country
+                  : searchParams?.phase1?.nationality
+              }
             />
           </div>
         </form>
@@ -114,7 +136,13 @@ const ClientForm = () => {
         <img src={Formimg} alt="" className="Sideform-img-33" />
       </div>
       {searchParams ? (
-        <Link to={`/admin/prescreening/${searchParams?._id}`}>
+        <Link
+          to={
+            searchParams?.companyId
+              ? `/admin/group/prescreening/${searchParams?._id}`
+              : `/admin/prescreening/${searchParams?._id}`
+          }
+        >
           <p className="View-more-text">View More</p>
         </Link>
       ) : (

@@ -35,7 +35,7 @@ const LanguageProficiencyForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/education");
+      // setActiveTab("/education");
     }
   }, [isSuccess]);
 
@@ -202,6 +202,7 @@ const LanguageProficiencyForm = ({
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
+                  style={{ opacity: "0", cursor: "default" }}
                 >
                   Back
                 </button>
@@ -215,6 +216,8 @@ const LanguageProficiencyForm = ({
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "0",
+                    opacity: "0",
+                    cursor: "default",
                   }}
                 >
                   {isLoading ? <Loader /> : "Next"}

@@ -4,12 +4,33 @@ import '../style/Calender.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 import SideNavbar from './SideNavbar';
+import { useAddEventsMutation, useGetEventsDataQuery } from "../services/api/adminApi";
+import { useMemo } from 'react';
+import { toastError, toastSuccess } from './Toast';
 
 const Calendar = () => {
   const months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
   ];
+
+  const [addEvents, res] = useAddEventsMutation();
+  const {isLoading,error,isSuccess} = res;
+
+  const {data} = useGetEventsDataQuery();
+  console.log("Event from db", data?.events);
+
+  useMemo(()=>{
+    if(error){
+      toastError(error?.data?.message);
+    }
+  },[error]);
+
+  useMemo(() => {
+    if (isSuccess) {
+      toastSuccess("Event Saved");
+    }
+  }, [isSuccess]);
 
   const [today, setToday] = useState(new Date());
   const [activeDay, setActiveDay] = useState(today.getDate());
@@ -18,9 +39,11 @@ const Calendar = () => {
   const [eventsArr, setEventsArr] = useState([]);
 
   useEffect(() => {
-    initCalendar();
-    getEvents();
-  }, []);
+    if(data){
+      initCalendar();
+      getEvents();
+    }
+  }, [data]);
 
   const prevMonth = () => {
     setMonth((prevMonth) => (prevMonth - 1 + 12) % 12);
@@ -37,6 +60,12 @@ const Calendar = () => {
     }
     initCalendar();
   };
+
+  useEffect(()=>{
+    if(data){
+      setEventsArr(data?.events);
+    }
+  },[data]);
 
   const initCalendar = () => {
     const firstDay = new Date(year, month, 1);
@@ -58,7 +87,7 @@ const Calendar = () => {
 
     for (let i = 1; i <= lastDate; i++) {
       let event = false;
-      eventsArr.forEach((eventObj) => {
+      data?.events?.forEach((eventObj) => {
         if (eventObj.day === i && eventObj.month === month + 1 && eventObj.year === year) {
           event = true;
         }
@@ -158,21 +187,36 @@ const Calendar = () => {
 
   const updateEvents = (date) => {
     let events = "";
-    eventsArr.forEach((event) => {
-      if (date === event.day && month + 1 === event.month && year === event.year) {
-        event.events.forEach((event) => {
+    console.log(date);
+    console.log(month + 1);
+    console.log(year);
+    data?.events?.forEach((event) => {
+      if (
+        parseInt(date) === event.day &&
+        parseInt(month) + 1 === event.month &&
+        parseInt(year) === event.year
+      ) {
+        // event.events.forEach((event) => {
           events += `<div class="event">
               <div class="title">
                 <i class="fas fa-circle"></i>
-                <h3 class="event-title">${event.title}</h3>
+                <h3 class="event-title">${event?.events[0]?.title}</h3>
+              </div>
+              <div class="time-wrapper">
+              <div class="event-time">
+              <span class="from-span">From:</span>
+                <span class="event-time">${event?.events[0]?.time}</span>
               </div>
               <div class="event-time">
-                <span class="event-time">${event.time}</span>
+              <span class="from-span">To:</span>
+                <span class="event-time">${event?.events[1]?.time}</span>
+              </div>
               </div>
           </div>`;
-        });
+        // });
       }
     });
+
     const eventsContainer = document.querySelector(".events");
     if (events === "") {
       events = `<div class="no-event">
@@ -180,7 +224,7 @@ const Calendar = () => {
           </div>`;
     }
     eventsContainer.innerHTML = events;
-    saveEvents();
+    saveEvents(events);
   };
   
   const goToToday = () => {
@@ -193,6 +237,7 @@ const Calendar = () => {
   const handleDateInputChange = (e) => {
     const dateInput = document.querySelector(".date-input");
     dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
+    console.log(dateInput.value);
     if (dateInput.value.length === 2) {
       dateInput.value += "/";
     }
@@ -209,6 +254,7 @@ const Calendar = () => {
   const gotoDate = () => {
     const dateInput = document.querySelector(".date-input");
     const dateArr = dateInput.value.split("/");
+    console.log("dateArr: " + dateArr);
     if (dateArr.length === 2) {
       if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
         setMonth(dateArr[0] - 1);
@@ -225,7 +271,7 @@ const Calendar = () => {
     addEventWrapper.classList.toggle("active");
   };
 
-  const addEventSubmit = () => {
+  const addEventSubmit = async() => {
     const eventNameInput = document.querySelector(".event-name");
     const eventTimeFromInput = document.querySelector(".event-time-from");
     const eventTimeToInput = document.querySelector(".event-time-to");
@@ -248,7 +294,9 @@ const Calendar = () => {
   
     const updatedEventsArr = [...eventsArr, eventObj];
     setEventsArr(updatedEventsArr);
+    await addEvents(eventObj);
     saveEvents();
+
   
     eventNameInput.value = "";
     eventTimeFromInput.value = "";
@@ -256,7 +304,6 @@ const Calendar = () => {
   
     addEvent();
   };
-  
 
   const saveEvents = () => {
     localStorage.setItem("events", JSON.stringify(eventsArr));
@@ -268,6 +315,7 @@ const Calendar = () => {
       setEventsArr(JSON.parse(storedEvents));
     }
   };
+
 
   return (
     <div className='Main-container-calender'>
@@ -311,7 +359,7 @@ const Calendar = () => {
               <div className="event-date"></div>
             </div>
             <div className="events">
-              {eventsArr.map((eventObj, index) => (
+              {data?.events?.map((eventObj, index) => (
                 <div key={index}>
                   <Event event={eventObj} />
                 </div>

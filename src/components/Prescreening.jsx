@@ -8,7 +8,7 @@ import books from "../assests/view-report-icon.svg"
 import link from "../assests/Link-company-icon.svg"
 import Message from './Messagechatbox'
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { useAddNotesMutation, useGetApplicationDataByIdQuery } from '../services/api/applicationApi';
+import { useAddNotesMutation, useGetAllApplicationsQuery, useGetApplicationDataByIdQuery } from '../services/api/applicationApi';
 import { format } from "date-fns";
 import moment from 'moment';
 import { useAssignApplicationToCaseWorkerMutation, useGetCaseWorkerQuery } from '../services/api/caseworkerApi';
@@ -52,6 +52,9 @@ const Prescreening = () => {
   const [selectedCaseWorkerName, setSelectedCaseWorkerName] = useState(data?.application?.caseWorkerName);
   const [selectedApplicationType,setSelectedApplicationType] = useState(data?.application?.phase1?.applicationType)
   const [showSave, setShowSave] = useState(false)
+
+  const { data: notesData } = useGetAllApplicationsQuery();
+  console.log(notesData);
 
   useEffect(() => {
     if (data?.application?.caseWorkerName) {
@@ -120,11 +123,22 @@ const Prescreening = () => {
       toastError("Please Select Case Worker to assign");
       return;
     }
-     await assignApplicationToCaseWorker({
+     const {data: res} = await assignApplicationToCaseWorker({
        applicationId: applicationId,
        caseWorkerId: selectedCaseWorker.caseWorkerId,
        caseWorkerName: selectedCaseWorker.caseWorkerName,
      });
+
+     if (res.success) {
+       console.log("Assigned data", res?.data);
+       socket.emit("send noti to caseworker", {
+         userId: data?.application?.userId,
+         applicationId: applicationId,
+         phase: data?.application?.phase,
+         phaseSubmittedByClient: data?.application?.phaseSubmittedByClient,
+         caseWorkerId: selectedCaseWorker.caseWorkerId,
+       });
+     }
   }
 
   useMemo(()=>{
@@ -281,7 +295,43 @@ const Prescreening = () => {
                   University Placement
                 </option>
                 <option value="Immigration Matter">Immigration Matter</option>
-                <option value="Others">Others</option>
+                <option value="AN1 – Naturalisation">
+                  AN1 – Naturalisation{" "}
+                </option>
+                <option value="MN1 – Registration">MN1 – Registration </option>
+                <option value="ILR – Indefinite Leave to Remain">
+                  ILR – Indefinite Leave to Remain
+                </option>
+                <option value="FLR – Further Leave to Remain">
+                  FLR – Further Leave to Remain{" "}
+                </option>
+                <option value="FLR(FP)">FLR(FP)</option>
+                <option value="FLR(M)">FLR(M) </option>
+                <option value="SW – Skilled Worker">
+                  SW – Skilled Worker{" "}
+                </option>
+                <option value="SL- Sponsor Licence">
+                  SL- Sponsor Licence{" "}
+                </option>
+                <option value="Student">Student </option>
+                <option value="Student Child">Student Child</option>
+                <option value="Graduate Visa">Graduate Visa</option>
+                <option value="ECS- Entry Clearance Spouse">
+                  ECS- Entry Clearance Spouse{" "}
+                </option>
+                <option value="ECV – Entry Clearance Visitor">
+                  ECV – Entry Clearance Visitor{" "}
+                </option>
+                <option value="ECD – Entry Clearance Dependant">
+                  ECD – Entry Clearance Dependant{" "}
+                </option>
+                <option value="PS – Pre Settled Status">
+                  PS – Pre Settled Status
+                </option>
+                <option value="SS – Settled Status">
+                  SS – Settled Status{" "}
+                </option>
+                <option value="Others">Others </option>
               </select>
             </div>
             <div className="Id-input">
@@ -393,10 +443,7 @@ const Prescreening = () => {
                   <td>{service.serviceType}</td>
                   <td>
                     {data
-                      ? format(
-                          new Date(service.dateTime),
-                          "yyyy-MM-dd"
-                        )
+                      ? format(new Date(service.dateTime), "yyyy-MM-dd")
                       : ""}
                   </td>
                   <td>
@@ -411,6 +458,40 @@ const Prescreening = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Diplay all the notes section  */}
+        <div className="display-notes">
+          {
+            data?.application?.notes.length > 0 &&
+              data?.application?.notes?.map((note) => (
+                <div key={note._id} className="notes-section-display">
+                  <form>
+                    <div className="borderline-notes-2"></div>
+                    <div className="Name-notes">
+                      <p className="Name-notes">Name</p>
+                      <input
+                        disabled={true}
+                        className="Name-4"
+                        type="text"
+                        value={note.name}
+                      />
+                    </div>
+                    <div className="Borderline-notes"></div>
+                    <div className="Notes-1">
+                      <p className="Notes-text">Notes</p>
+                      <input
+                        disabled={true}
+                        className="Notes-input"
+                        type="text"
+                        value={note.content}
+                      />
+                    </div>
+                  </form>
+                </div>
+              ))
+          }
+      
         </div>
         <div className="preescreen-form-third">
           <p className="Notes-heading">Notes</p>
@@ -447,7 +528,7 @@ const Prescreening = () => {
             onClick={handleSubmit}
             disabled={isLoading}
           >
-            Submit
+            {isLoading ? "Submit.." : "Submit"}
           </button>
           <button
             style={{ cursor: "pointer" }}
@@ -468,7 +549,7 @@ const Prescreening = () => {
           >
             <option value={""}>Select Case Worker</option>
             {caseworkers?.caseWorker?.map((item) => (
-              <option key={item._id} value={item.name} data-id={item._id}>
+              <option key={item._id} value={item.name} data-id={item.userId}>
                 {item.name}
               </option>
             ))}

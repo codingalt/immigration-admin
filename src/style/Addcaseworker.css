@@ -23,15 +23,15 @@
 }
 
 .right-side-add{
-
- 
-    margin-left: 555px;
+    /* margin-left: 555px;
     position: relative;
-    bottom: 32rem;
+    bottom: 32rem; */
     width: 95%;
-
 }
 
+.form-left-side{
+    margin-left: 7px;
+}
 
 .add-case-form{
     display: table-caption;
@@ -83,26 +83,16 @@
 }
 
 .sumbit-add-case{
-    width: 151px;
+    width: 161px;
     height: 40px;
-    /* margin-left: 5px; */
-    position: relative;
-    /* left: -18px; */
-    left: 199px;
-    top: 17px;
     background-color: #e2e2e4;
     border: 1px solid #e2e2e4;
     border-radius: 10px;
 }
 
 .cancel-add-case{
-    width: 151px;
+    width: 161px;
     height: 40px;
-    /* margin-left: 5px; */
-    position: relative;
-    /* left: -18px; */
-    right: 147px;
-    top: 17px;
     background-color: #e2e2e4;
     border: 1px solid #e2e2e4;
     border-radius: 10px;

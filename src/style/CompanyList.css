@@ -1,8 +1,6 @@
 .Main-title-heading{
     width: 653px;
- 
     height: 48px;
-
     border: 1px solid #E2E2E4;
     background-color: #FCFCFC;
     position: relative;
@@ -10,7 +8,39 @@
     left: 101px;
     border-radius: 10px;
     padding-left: 100px;
+}
 
+.AddingcompanyList-sub-container{
+    position: relative;
+}
+
+.button-company-screen{
+    position: absolute;
+    right: 23rem;
+    bottom: 2%;
+}
+
+.Next-btn-company-screen{
+    width: 7rem;
+    height: 2.5rem;
+    border: 1px solid #5d982e;
+    background-color: #5d982e;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.title-space-option{
+    width: 9rem;
+    height: 29.97px;
+    position: relative;
+    top: 12rem;
+    left: 19px;
+    border: 1px solid #E2E2E4;
+    background-color: #FCFCFC;
+    border-bottom-left-radius: 110px;
+    border-bottom-right-radius: 110px;
+    text-align: center;
 }
 
 .starts-new-client-heading{
@@ -349,6 +379,12 @@
         right: 51px;
         bottom: -2rem;
     }
+}
+
+@media (max-width: 1600px) {
+    .Main-title-heading{
+    top: 120px;
+}
 }
 
 @media (max-width: 1440px) {

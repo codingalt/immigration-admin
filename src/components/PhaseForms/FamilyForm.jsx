@@ -95,7 +95,7 @@ const FamilyForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/languageprofeciency");
+      // setActiveTab("/languageprofeciency");
     }
   }, [isSuccess]);
 
@@ -1532,6 +1532,7 @@ const FamilyForm = ({
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
+                  style={{ opacity: "0", cursor: "default" }}
                 >
                   Back
                 </button>
@@ -1545,6 +1546,8 @@ const FamilyForm = ({
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "0",
+                    opacity: "0",
+                    cursor: "default",
                   }}
                 >
                   {isLoading ? <Loader /> : "Next"}

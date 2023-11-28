@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
 import "../style/Sidenavbar.css";
 import Logo from "../assests/normal-removebg-preview 1.png"
@@ -16,17 +16,46 @@ import { useMemo } from 'react';
 import { toastError } from './Toast';
 import { useSelector } from 'react-redux';
 import { useGetNotificationCountAdminQuery } from '../services/api/applicationApi';
+import MainContext from "./Context/MainContext";
+import { useChatNotificationsMutation, useGetAllChatsQuery } from '../services/api/chatApi';
+import { useState } from 'react';
 
-const SideNavbar = ({ getData }) => {
+const SideNavbar = () => {
+  const { socket } = useContext(MainContext);
+  const [chatNotifications, resp] = useChatNotificationsMutation();
+  const {data: respCount} = resp;
   const [logout, result] = useLogoutMutation();
   const { error, isSuccess } = result;
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
-  const { name, profilePic } = user ? user : "";
+  const { user,count } = useSelector((state) => state.user);
+  const [unread,setUnread] = useState();
+  const [receiveNoti, setReceiveNoti] = useState();
+  const [getCount, setGetCount] = useState();
 
-  const { data, refetch: refetchCount } =
-    useGetNotificationCountAdminQuery();
-    console.log("count",data);
+  const {
+    data,
+    refetch: refetchChats,
+    isLoading: isLoadingChats,
+  } = useGetAllChatsQuery(null,{refetchOnMountOrArgChange: true});
+
+  useEffect(() => {
+    if (data) {
+      data?.chats?.map((item) => {
+        if (item.unseen > 0) {
+          setUnread(true);
+        }
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (receiveNoti) {
+      refetchChats();
+    }
+  }, [receiveNoti]);
+
+  const { isCaseWorker, profilePic } = user ? user : "";
+
   useMemo(() => {
     if (error) {
       toastError(error?.data?.message);
@@ -39,16 +68,23 @@ const SideNavbar = ({ getData }) => {
     }
   }, [isSuccess]);
 
-  useMemo(() => {
-    if (getData) {
-      console.log("Side nav get data");
-      refetchCount();
-    }
-  }, [getData]);
-
   const handleLogout = async () => {
     await logout();
   };
+
+  useEffect(()=>{
+    if(getCount){
+      chatNotifications(getCount?.chatId);
+    }
+  },[getCount]);
+
+  useEffect(() => {
+    socket?.on("message received", async (newMessageReceived) => {
+        setReceiveNoti(newMessageReceived.result);
+        setGetCount(newMessageReceived.result);
+    });
+  });
+
   return (
     <div className="sidenavbar-Container">
       <div className="profile-logo">
@@ -67,32 +103,39 @@ const SideNavbar = ({ getData }) => {
         />
       </div>
 
-      <div className="Icons">
+      <div className="icons-sidebar">
         <Link to="/admin/dashboard">
           <img src={Home} alt="" className="Home-icon" />
         </Link>
 
         <Link to="/admin/notification">
           <img src={NotificationIcon} alt="" className="Notification-icon" />
-          {
-            data?.count > 0 ? 
-              <div className="icon-badge">
-            <span>{data?.count}</span>
-          </div> : null
-          }        
+          {count > 0 ? (
+            <div className="icon-badge">
+              <span>{count}</span>
+            </div>
+          ) : null}
         </Link>
 
         <Link to="/admin/message">
           <img src={Message} alt="" className="Message-icon" />
+          {unread ? (
+            <div className="icon-badge-message">
+              <span></span>
+            </div>
+          ) : null}
         </Link>
 
         <Link to="/calender">
           <img src={Calender} alt="" className="Calender-icon" />
         </Link>
 
-        <Link to="/admin/caseworker">
-          <img src={caseworker} alt="" className="Caseworker-icon" />
-        </Link>
+        {!isCaseWorker && (
+          <Link to="/admin/caseworker">
+            <img src={caseworker} alt="" className="Caseworker-icon" />
+          </Link>
+        )}
+
         <Link to="/admin/billing">
           <img src={Billing} alt="" className="billing-icon" />
         </Link>

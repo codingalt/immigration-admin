@@ -1,10 +1,12 @@
 import { Field } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useGetCountriesQuery } from "../services/api/applicationApi";
+import countryList from "react-select-country-list";
 
 const SelectCountry = ({ name, className, notReq, disabled }) => {
   const [countries, setCountries] = useState([]);
   const { data: country } = useGetCountriesQuery();
+  const options = useMemo(() => countryList().getData(), []);
 
   useEffect(() => {
     const countryNames = country?.map((country) => country.name.common);
@@ -22,9 +24,9 @@ const SelectCountry = ({ name, className, notReq, disabled }) => {
       className={className}
     >
       <option value="">Select Country</option>
-      {countries?.map((country, index) => (
-        <option key={index} value={country}>
-          {country}
+      {options?.map((country, index) => (
+        <option key={index} value={country.label}>
+          {country.label}
         </option>
       ))}
     </Field>

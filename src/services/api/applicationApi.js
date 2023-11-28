@@ -172,14 +172,32 @@ export const applicationApi = createApi({
       providesTags: ["Application", "AdminApi"],
     }),
 
+    getAllApplicationNotes: builder.query({
+      query: () => `api/application/notes/get`,
+      providesTags: ["Application", "AdminApi"],
+    }),
+
     getNotificationCountAdmin: builder.query({
       query: () => `api/notification/count/admin`,
+      providesTags: ["Application", "AdminApi"],
+    }),
+
+    getNotificationCountCaseWorker: builder.query({
+      query: () => `api/notification/count/caseworker`,
       providesTags: ["Application", "AdminApi"],
     }),
 
     readNotificationAdmin: builder.mutation({
       query: () => ({
         url: `api/notification/read/admin`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Application", "AdminApi"],
+    }),
+
+    readNotificationCaseWorker: builder.mutation({
+      query: () => ({
+        url: `api/notification/read/caseworker`,
         method: "PUT",
       }),
       invalidatesTags: ["Application", "AdminApi"],
@@ -195,37 +213,37 @@ export const applicationApi = createApi({
     }),
 
     approvePhase1: builder.mutation({
-      query: ({ data, applicationId }) => ({
+      query: ({ notificationId, applicationId }) => ({
         url: `api/phase1/approve/${applicationId}`,
         method: "POST",
-        body: data,
+        body: { notificationId: notificationId },
       }),
       invalidatesTags: ["Application"],
     }),
 
     approvePhase2: builder.mutation({
-      query: ({ data, applicationId }) => ({
+      query: ({ notificationId, applicationId }) => ({
         url: `api/phase2/approve/${applicationId}`,
         method: "POST",
-        body: data,
+        body: { notificationId: notificationId },
       }),
       invalidatesTags: ["Application"],
     }),
 
     approvePhase3: builder.mutation({
-      query: ({ data, applicationId }) => ({
+      query: ({ notificationId, applicationId }) => ({
         url: `api/phase3/approve/${applicationId}`,
         method: "POST",
-        body: data,
+        body: { notificationId: notificationId },
       }),
       invalidatesTags: ["Application"],
     }),
 
     approvePhase4: builder.mutation({
-      query: ({ data, applicationId }) => ({
+      query: ({ notificationId, applicationId }) => ({
         url: `api/phase4/approve/${applicationId}`,
         method: "POST",
-        body: data,
+        body: { notificationId: notificationId },
       }),
       invalidatesTags: ["Application"],
     }),
@@ -268,7 +286,7 @@ export const applicationApi = createApi({
 
     getApplicationDataById: builder.query({
       query: (applicationId) => `api/application/${applicationId}`,
-      providesTags: ["Application"],
+      providesTags: ["Application", "AdminApi"],
     }),
   }),
 });
@@ -304,5 +322,8 @@ export const {
   usePostTravelMutation,
   usePostCharacterMutation,
   useGetNotificationCountAdminQuery,
-  useReadNotificationAdminMutation
+  useReadNotificationAdminMutation,
+  useGetAllApplicationNotesQuery,
+  useGetNotificationCountCaseWorkerQuery,
+  useReadNotificationCaseWorkerMutation
 } = applicationApi;

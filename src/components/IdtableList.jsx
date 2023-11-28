@@ -8,6 +8,7 @@ import { useFilterApplicationMutation } from "../services/api/applicationApi";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { setSearchParams } from "../services/redux/userSlice";
+import Loader from "./Loader";
 const IdtableList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -74,19 +75,59 @@ const IdtableList = () => {
             </thead>
 
             <tbody>
-              {data?.result?.map((item) => (
-                <tr key={item._id} style={{}}>
-                  <td>{item.caseId}</td>
-                  <td>{item.phase1.name}</td>
-                  <td>{item.phase1.email}</td>
-                  <td>{item.phase1.contact}</td>
-                  <td>{moment(item.phase1.birthDate).format("MMMM D, YYYY")}</td>
-                  <td>{item.phase1.country}</td>
-                  <td>
-                      <button onClick={()=>handleView(item)} className="View-btn-tablelist">View</button>
+              {isLoading && (
+                <tr>
+                  <td colSpan={7} style={{ border: "none" }}>
+                    {isLoading && (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginTop: "1rem",
+                        }}
+                      >
+                        <Loader color={"#5D982E"} width={34} />
+                      </div>
+                    )}
                   </td>
                 </tr>
-              ))}
+              )}
+
+              {!isLoading &&
+                data?.result?.map((item) => (
+                  <tr key={item._id} style={{}}>
+                    <td>{item.caseId}</td>
+                    <td>
+                      {item.phase1.name
+                        ? item.phase1.name
+                        : item.phase1.fullNameAsPassport}
+                    </td>
+                    <td>
+                      {item.phase1.email
+                        ? item.phase1.email
+                        : item.phase1.companyContact
+                        ? item.phase1.companyContact
+                        : item.phase1.clientContact}
+                    </td>
+                    <td>{item.phase1.contact ? item.phase1.contact : "..."}</td>
+                    <td>
+                      {moment(item.phase1.birthDate).format("MMMM D, YYYY")}
+                    </td>
+                    <td>
+                      {item.phase1.country
+                        ? item.phase1.country
+                        : item.phase1.nationality}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleView(item)}
+                        className="View-btn-tablelist"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

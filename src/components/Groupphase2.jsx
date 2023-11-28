@@ -158,8 +158,6 @@ const Groupphase2 = () => {
                             <input className='phase-1-input-left-side'
                                 type="text"
                                 placeholder="John Snow"
-
-
                             />
                         </div>
                         <div className='email-input'>

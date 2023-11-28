@@ -7,6 +7,7 @@ import { chatApi } from "./services/api/chatApi";
 import { caseworkerApi } from "./services/api/caseworkerApi";
 import { companyApi } from "./services/api/companyApi";
 import { adminApi } from "./services/api/adminApi";
+import { companyClientApi } from "./services/api/companyClient";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [caseworkerApi.reducerPath]: caseworkerApi.reducer,
     [companyApi.reducerPath]: companyApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
+    [companyClientApi.reducerPath]: companyClientApi.reducer,
     user: userSlice,
   },
   middleware: (getDefaultMiddleware) =>
@@ -25,7 +27,8 @@ export const store = configureStore({
       chatApi.middleware,
       caseworkerApi.middleware,
       companyApi.middleware,
-      adminApi.middleware
+      adminApi.middleware,
+      companyClientApi.middleware,
     ]),
 });
 

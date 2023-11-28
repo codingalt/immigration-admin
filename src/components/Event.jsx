@@ -2,15 +2,27 @@ import React from 'react';
 
 const Event = ({ event }) => {
   return (
-    <div className="event">
-      <div className="title">
-        <i className="fas fa-circle"></i>
-        <h3 className="event-title">{event.title}</h3>
+    <>
+      <div
+        key={event._id}
+        style={{ color: "#fff" }}
+      >
+        <div className="title">
+          <i className="fas fa-circle"></i>
+          <h3 className="event-title">{event?.events[0]?.title}</h3>
+        </div>
+        <div className="time-wrapper">
+          <div className="event-time">
+            <span className="from-span">From:</span>
+            <span className="event-time">{event?.events[0]?.time}</span>
+          </div>
+          <div className="event-time">
+            <span className="from-span">To:</span>
+            <span className="event-time">{event?.events[1]?.time}</span>
+          </div>
+        </div>
       </div>
-      <div className="event-time">
-        <span className="event-time">{event.time}</span>
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -6,7 +6,6 @@ import Ottp from './components/Ottp';
 import Message from './components/Message';
 import Calender from './components/Calender';
 import Billing from './components/Billing';
-import Tracking from './components/Tracking';
 import Invoice from './components/Invoice';
 import ClientProfile from './components/ClientProfile';
 import Email from './components/Email';
@@ -19,21 +18,9 @@ import Prephase2 from './components/Prephase2';
 import Prephase3 from "./components/Prephase3"
 import Notes from './components/Notes';
 import Phase3 from './components/Phase3';
-import Phase4 from './components/Phase4';
-import General from './components/General';
-import Accommodation from './components/Accommodation';
-import Family from './components/Family';
-import Education from './components/Education';
-import Employment from './components/Employment';
-import Languageproficiency from './components/Languageproficiency';
-import Membership from './components/Membership';
-import Maintenance from './components/Maintenance';
-import Travel from './components/Travel';
-import Character from './components/Character';
 import Caseworker from './components/Caseworker';
 import Addcaseworker from './components/Addcaseworker';
 import Addingprofile from './components/Addingprofile';
-import Companylist from './components/Companylist';
 import Changepassowrd from './components/Changepassowrd';
 import IdtableList from './components/IdtableList';
 import Report from './components/Report';
@@ -55,34 +42,29 @@ import AddPhase2 from './components/ManualApplication/AddPhase2';
 import AddPhase1Filled from './components/ManualApplication/AddPhase1Filled';
 import AddPhase3 from './components/ManualApplication/AddPhase3';
 import Phase4PageManual from './pages/Phase4PageManual';
+import ServiceList from './components/ServiceList';
+import GroupPrescreening from './components/GroupPrescreening';
+import RejectGroup from './components/RejectGroup';
+import ReportGroup from './components/ReportGroup';
+import LinkCompanyGroup from './components/LinkCompanyGroup';
+import Phase1Group from './components/Phase1Group';
+import Prephase2Group from './components/PrePhase2Group';
+import Phase2Group from './components/Phase2Group';
+import Prephase3Group from './components/Prephase3Group';
+import Phase3Group from './components/Phase3Group';
+import Phase4GroupPage from './pages/Phase4GroupPage';
 
 
-const NavRoutes = ({ setGetData, getData }) => {
+const NavRoutes = () => {
   return (
     <Routes>
       <Route path="/otp" element={<Ottp />} />
-
       <Route path="/" element={<Forgetpassword />} />
-      <Route path="/calender" element={<Calender />} />
-      <Route path="/tracking" element={<Tracking />} />
       <Route path="/invoice" element={<Invoice />} />
       <Route path="/prescreening" element={<Prescreening />} />
       <Route path="/rejectpopup" element={<Rejectpopup />} />
-      <Route path="/general" element={<General />} />
-      <Route path="/accommodation" element={<Accommodation />} />
-      <Route path="/family" element={<Family />} />
       <Route path="/email" element={<Email />} />
-      <Route path="/languageproficiency" element={<Languageproficiency />} />
-      <Route path="/membership" element={<Membership />} />
-      <Route path="/maintenance" element={<Maintenance />} />
-      <Route path="/education" element={<Education />} />
-      <Route path="/employment" element={<Employment />} />
-      <Route path="/travel" element={<Travel />} />
-      <Route path="/character" element={<Character />} />
-      <Route path="/companylist" element={<Companylist />} />
       <Route path="/congrats" element={<Congratspopup />} />
-      <Route path="/companydetail" element={<Companydetail />} />
-      <Route path="/groupadminphase1" element={<GroupAdminPhase />} />
       <Route path="/groupprephase2" element={<Groupphase2 />} />
       <Route path="/groupphase2" element={<GroupPrephase3 />} />
       <Route path="/groupprephase3" element={<GroupPhase3 />} />
@@ -92,17 +74,12 @@ const NavRoutes = ({ setGetData, getData }) => {
       {/* Admin Routes  */}
       <Route
         path="/admin/dashboard"
-        element={<Protected getData={getData} Component={Dashboard} />}
+        element={<Protected Component={Dashboard} />}
       />
+      <Route path="/calender" element={<Protected Component={Calender} />} />
       <Route
         path="/admin/notification"
-        element={
-          <Protected
-            setGetData={setGetData}
-            getData={getData}
-            Component={Notification}
-          />
-        }
+        element={<Protected Component={Notification} />}
       />
       <Route
         path="/admin/prescreening/:applicationId"
@@ -199,6 +176,60 @@ const NavRoutes = ({ setGetData, getData }) => {
       <Route
         path="/report/:applicationId"
         element={<Protected Component={Report} />}
+      />
+
+      {/* Group Client  */}
+      <Route
+        path="/company/:companyId"
+        element={<Protected Component={Companydetail} />}
+      />
+      <Route
+        path="/servicelist/:companyId"
+        element={<Protected Component={ServiceList} />}
+      />
+      <Route
+        path="/groupadminphase1/:companyId/:service"
+        element={<Protected Component={GroupAdminPhase} />}
+      />
+      <Route
+        path="/admin/group/prescreening/:applicationId"
+        element={<Protected Component={GroupPrescreening} />}
+      />
+      <Route
+        path="/admin/group/reject/:applicationId"
+        element={<Protected Component={RejectGroup} />}
+      />
+      <Route
+        path="/group/report/:applicationId"
+        element={<Protected Component={ReportGroup} />}
+      />
+      <Route
+        path="/admin/group/linkcompany/:applicationId"
+        element={<Protected Component={LinkCompanyGroup} />}
+      />
+      <Route
+        path="/admin/group/phase1/:applicationId"
+        element={<Protected Component={Phase1Group} />}
+      />
+      <Route
+        path="/admin/group/prephase2/:applicationId"
+        element={<Protected Component={Prephase2Group} />}
+      />
+      <Route
+        path="/admin/group/phase2/:applicationId"
+        element={<Protected Component={Phase2Group} />}
+      />
+      <Route
+        path="/admin/group/prephase3/:applicationId"
+        element={<Protected Component={Prephase3Group} />}
+      />
+      <Route
+        path="/admin/group/phase3/:applicationId"
+        element={<Protected Component={Phase3Group} />}
+      />
+      <Route
+        path="/admin/group/phase4/:applicationId"
+        element={<Protected Component={Phase4GroupPage} />}
       />
     </Routes>
   );

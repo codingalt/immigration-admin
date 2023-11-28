@@ -24,8 +24,6 @@ function LanguageList({ name, className, onChange, defaultValue, prevValue, setF
       });
   }, []);
 
-  console.log("default", defaultValue);
-
 
   return (
     <select

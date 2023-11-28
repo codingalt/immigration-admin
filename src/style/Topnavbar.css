@@ -55,14 +55,13 @@
     position: relative;
     border-radius: 0px 10px 10px 0px;
     background-color: #5d982e;
-    width: 8%;
+    width: 12%;
     height: 47px;
     color: white;
     left: 8%;
     padding-right: 56px;
     bottom: 8px;
 }
-
 
 .dob{
     margin-left: 20px;
@@ -73,7 +72,7 @@
     margin-left: 12px;
     position: relative;
     right: 10px;
-    bottom: 1px;
+    bottom: -3.6px;
     color: gray;
 }
 
@@ -117,7 +116,7 @@
 .Date-selctor{
     position: relative;
     bottom: 3px;
-    height: 35px;
+    height: 39px;
     padding-left: 5px;
     left: 55px;
     border: none;

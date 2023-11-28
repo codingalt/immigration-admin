@@ -74,6 +74,20 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["AdminApi", "Application"],
     }),
+
+    addEvents: builder.mutation({
+      query: (data) => ({
+        url: `api/event`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["AdminApi", "Application"],
+    }),
+
+    getEventsData: builder.query({
+      query: () => `api/events`,
+      providesTags: ["AdminApi","Application"],
+    }),
   }),
 });
 
@@ -85,5 +99,7 @@ export const {
   usePhase1ManualMutation,
   useUpdatePhase1ManualMutation,
   useTimeLeftQuery,
-  useUpdateServiceMutation
+  useUpdateServiceMutation,
+  useAddEventsMutation,
+  useGetEventsDataQuery
 } = adminApi;

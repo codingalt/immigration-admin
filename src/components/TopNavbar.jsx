@@ -13,7 +13,6 @@ import { setSearchParams } from '../services/redux/userSlice';
 const TopNavbar = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-
   const datePickerRef = useRef();
   const navigate = useNavigate();
   const [name, setName] = useState();

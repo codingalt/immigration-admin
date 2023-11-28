@@ -115,7 +115,7 @@
   /* position: relative;/ */
   position: relative;
   bottom: 36px;
-  left: 30px;
+  left: 20px;
   /* font-family: Poppins; */
   font-size: 24px;
   font-weight: 600;
@@ -283,7 +283,7 @@
   align-items: center;
   cursor: pointer;
   position: relative;
-  right: 63px;
+  right: 40px;
   top: 13px;
 }
 

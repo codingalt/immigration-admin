@@ -13,7 +13,7 @@ export const caseworkerApi = createApi({
   endpoints: (builder) => ({
     getCaseWorker: builder.query({
       query: () => `api/caseworker`,
-      providesTags: ["CaseWorker"],
+      providesTags: ["CaseWorker", "AdminApi"],
     }),
 
     createCaseWorker: builder.mutation({

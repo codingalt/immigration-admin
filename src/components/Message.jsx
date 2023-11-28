@@ -8,7 +8,7 @@ import Messagesvg from "../assests/message-svg.png"
 import Threedot from "../assests/threedot-svg.png"
 import Adminprofile from "../assests/admin-profile-img.png"
 import emailedit from "../assests/email-edit.png"
-import { useGetAllChatsQuery, useGetUserChatsQuery, useGetUserMessagesQuery, useSendMessageMutation } from '../services/api/chatApi';
+import { useChatNotificationsMutation, useGetAllChatsQuery, useGetChatMessagesCountQuery, useGetUserChatsQuery, useGetUserMessagesQuery, useReadMessagesByChatMutation, useSendMessageMutation } from '../services/api/chatApi';
 import { format } from "timeago.js";
 import io from "socket.io-client";
 import { useSelector } from 'react-redux';
@@ -30,14 +30,14 @@ const Message = () => {
   const [files, setFiles] = useState([]);
   const fileRef = useRef();
   const [newMessage, setNewMessage] = useState("");
-  // const { data, refetch: refetchChats, isLoading: isLoadingChats } = useGetUserChatsQuery();
-  const { data, refetch: refetchChats, isLoading: isLoadingChats } = useGetAllChatsQuery();
+  const { data, refetch: refetchChats, isLoading: isLoadingChats } = useGetAllChatsQuery(null,{refetchOnMountOrArgChange: true});
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const [name,setName] = useState();
   const [sendMessage, sendMsgRes] = useSendMessageMutation();
   const { isLoading: isLoadingSend, error: isSendMsgErr } = sendMsgRes;
   const [receiveMessage, setReceiveMessage] = useState(null);
+  const [getChats, setGetChats] = useState(null);
 
   useMemo(() => {
     if (isSendMsgErr) {
@@ -52,11 +52,14 @@ const Message = () => {
     refetch,
   } = useGetUserMessagesQuery(selectedChat?._id, { skip: selectedChat === undefined });
 
+    const [readMessagesByChat, res] = useReadMessagesByChatMutation();
+    const { refetch: refetchReadMsgs, isSuccess: isSuccessMsgRead } = res;
+
   // console.log("Messages", messages);
 
-  // useEffect(() => {
-  //   setMessages(messageData?.result);
-  // }, [messageData, refetch]);
+  useEffect(() => {
+    setMessages(messageData?.result);
+  }, [messageData, refetch]);
 
   useEffect(() => {
     socket = io(import.meta.env.VITE_URI);
@@ -74,11 +77,13 @@ const Message = () => {
     if(selectedChat){
       setName(messageData?.name)
       setMessages(messageData?.result);
+      readMessagesByChat(selectedChat._id);
     }
-  },[selectedChat,messageData])
+  },[selectedChat])
 
   const handleChatClick = (chat) => {
     setSelectedChat(chat);
+    readMessagesByChat(chat?._id);
   };
 
    const chatContainerRef = useRef(null);
@@ -90,7 +95,7 @@ const Message = () => {
      }
    };
   //  console.log(messages);
-  console.log("Chats",chats);
+  // console.log("Chats",chats);
    const handleSendMessage = async () => {
      if (newMessage || files.length > 0) {
        setNewMessage("");
@@ -104,7 +109,8 @@ const Message = () => {
        }
        const { data } = await sendMessage(formData);
        console.log(data?.result);
-      //  setMessages([...messages, data]);
+      //  console.log("send msg",data?.result);
+       setMessages([...messages, data?.result?.result]);
        socket.emit("new message", data?.result);
        setFiles([]);
   
@@ -131,27 +137,37 @@ const Message = () => {
      setNewMessage(newMessage);
    };
 
-  //  useEffect(() => {
-  //    socket.on("message received", (newMessageReceived) => {
-       
-  //        const newMessage = newMessageReceived.result;
-  //        console.log("message received admin side");
-  //       //  if (!messages.some((message) => message === newMessage)) {
-  //         if(!messages.includes(newMessageReceived)){
-  //           setMessages((prevMessages) => [...prevMessages, newMessage]);
-  //         }
-  //       //    setReceiveMessage(newMessageReceived);
-  //       //    refetchChats();
-  //       //  }
-  //    });
-  //  }, []);
+  useEffect(()=>{
+    if(receiveMessage){
+      readMessagesByChat(selectedChat._id);
+    }
+  },[receiveMessage]);
+
+  useEffect(() => {
+    if (selectedChat) {
+      refetchChats();
+    }
+  }, [selectedChat]);
+
+  useEffect(() => {
+    if (getChats) {
+      refetchChats();
+    }
+  }, [getChats]);
+
+  const [chatNotifications, resp] = useChatNotificationsMutation();
 
    useEffect(() => {
      socket.on("message received", async (newMessageReceived) => {
-       // Give Notification 
-       !isLoadingChats && refetchChats();
-       !loading && refetch();
-       
+      setMessages([...messages, newMessageReceived.result]);
+      setGetChats(newMessageReceived.result);
+       //  Check if the user is within the chat
+       if (selectedChat?._id === newMessageReceived?.result?.chatId) {
+        setReceiveMessage(newMessageReceived.result);
+       } else {
+        // Otherwise get notification count 
+    
+       }
      });
      
    });
@@ -193,7 +209,6 @@ const Message = () => {
     }
    },[searchInput]);
 
-   console.log("Selected chat", selectedChat);
 
   return (
     <div className="Main-message-container">
@@ -214,8 +229,8 @@ const Message = () => {
             <section className="discussions">
               <div className="discussion search">
                 <h2 className="Inbox-heading">Inbox</h2>
-                <img src={Messagesvg} alt="" className="Message-svg-img" />
-                <img src={Threedot} alt="" className="Threedot-svg-img" />
+                {/* <img src={Messagesvg} alt="" className="Message-svg-img" /> */}
+                {/* <img src={Threedot} alt="" className="Threedot-svg-img" /> */}
                 <div className="searchbar">
                   <i className="fa fa-search" aria-hidden="true" />
                   <input
@@ -229,6 +244,7 @@ const Message = () => {
               {chats?.map((item) => (
                 <div
                   key={item._id}
+                  style={{ position: "relative" }}
                   className={
                     item?._id === selectedChat?._id
                       ? "discussion message-active"
@@ -236,22 +252,60 @@ const Message = () => {
                   }
                   onClick={() => handleChatClick(item)}
                 >
-                  <div className="photo">
-                    <img
+                  {item && item.unseen > 0 && (
+                    <span
                       style={{
-                        width: "2.3rem",
-                        height: "2.3rem",
+                        position: "absolute",
+                        right: "21%",
+                        top: "3.7rem",
+                        width: "21px",
+                        height: "21px",
+                        background: "#5D982E",
                         borderRadius: "50%",
+                        color: "#fff",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: "30",
+                        fontSize: ".75rem",
                       }}
-                      src={
-                        item.users[0]?.profilePic
-                          ? `${import.meta.env.VITE_IMG_URI}${
-                              item.users[0]?.profilePic
-                            }`
-                          : Adminprofile
-                      }
-                      alt=""
-                    />
+                    >
+                      {item?.unseen > 9 ? "9+" : item.unseen}
+                    </span>
+                  )}
+
+                  <div className="photo">
+                    {item.users[0]?.googleId ? (
+                      <img
+                        style={{
+                          width: "2.3rem",
+                          height: "2.3rem",
+                          borderRadius: "50%",
+                        }}
+                        src={
+                          item.users[0]?.profilePic
+                            ? item.users[0]?.profilePic
+                            : Messageprofileimg
+                        }
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        style={{
+                          width: "2.3rem",
+                          height: "2.3rem",
+                          borderRadius: "50%",
+                        }}
+                        src={
+                          item.users[0]?.profilePic
+                            ? `${import.meta.env.VITE_IMG_URI}${
+                                item.users[0]?.profilePic
+                              }`
+                            : Messageprofileimg
+                        }
+                        alt=""
+                      />
+                    )}
                   </div>
                   <div className="desc-contact">
                     <p className="name">{item.users[0]?.name}</p>
@@ -267,18 +321,40 @@ const Message = () => {
               {selectedChat ? (
                 <>
                   <div className="header-chat">
-                    <img
-                      src={
-                        selectedChat && selectedChat?.users[0]?.profilePic
-                          ? `${import.meta.env.VITE_IMG_URI}${
-                              selectedChat?.users[0]?.profilePic
-                            }`
-                          : Messageprofileimg
-                      }
-                      alt=""
-                      className="Message-profile-img-2"
-                    />
-                    <div style={{display:"flex",flexDirection:"column",gap:"3px",marginLeft:"23px",justifyContent:"flex-start",alignItems:"flex-start"}}>
+                    {selectedChat?.users[0]?.googleId ? (
+                      <img
+                        src={
+                          selectedChat && selectedChat?.users[0]?.profilePic
+                            ? selectedChat?.users[0]?.profilePic
+                            : Messageprofileimg
+                        }
+                        alt=""
+                        className="Message-profile-img-2"
+                      />
+                    ) : (
+                      <img
+                        src={
+                          selectedChat && selectedChat?.users[0]?.profilePic
+                            ? `${import.meta.env.VITE_IMG_URI}${
+                                selectedChat?.users[0]?.profilePic
+                              }`
+                            : Messageprofileimg
+                        }
+                        alt=""
+                        className="Message-profile-img-2"
+                      />
+                    )}
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "3px",
+                        marginLeft: "23px",
+                        justifyContent: "flex-start",
+                        alignItems: "flex-start",
+                      }}
+                    >
                       <p className="name">{selectedChat?.users[0]?.name}</p>
                       <p className="Gmail-text">
                         {selectedChat?.users[0]?.email}
@@ -315,27 +391,55 @@ const Message = () => {
                           key={item._id + index}
                         >
                           <div className="photo-2">
-                            <img
-                              style={{
-                                borderRadius: "50%",
-                                width: "2rem",
-                                height: "2rem",
-                              }}
-                              src={
-                                !loading &&
-                                !isUserMessage &&
-                                selectedChat?.users[0]?.profilePic
-                                  ? `${import.meta.env.VITE_IMG_URI}${
-                                      selectedChat?.users[0]?.profilePic
-                                    }`
-                                  : !isUserMessage &&
-                                    !selectedChat?.users[0]?.profilePic
-                                  ? `${Messageprofileimg}`
-                                  : Adminprofile
-                              }
-                              alt=""
-                              className="Second-profile-img-2"
-                            />
+                            {selectedChat?.users[0]?.googleId ? (
+                              <img
+                                style={{
+                                  borderRadius: "50%",
+                                  width: "2rem",
+                                  height: "2rem",
+                                }}
+                                src={
+                                  !loading &&
+                                  !isUserMessage &&
+                                  selectedChat?.users[0]?.profilePic
+                                    ? `${selectedChat?.users[0]?.profilePic}`
+                                    : !isUserMessage &&
+                                      !selectedChat?.users[0]?.profilePic
+                                    ? `${Messageprofileimg}`
+                                    : user?.profilePic
+                                    ? import.meta.env.VITE_IMG_URI +
+                                      user.profilePic
+                                    : Adminprofile
+                                }
+                                alt=""
+                                className="Second-profile-img-2"
+                              />
+                            ) : (
+                              <img
+                                style={{
+                                  borderRadius: "50%",
+                                  width: "2rem",
+                                  height: "2rem",
+                                }}
+                                src={
+                                  !loading &&
+                                  !isUserMessage &&
+                                  selectedChat?.users[0]?.profilePic
+                                    ? `${import.meta.env.VITE_IMG_URI}${
+                                        selectedChat?.users[0]?.profilePic
+                                      }`
+                                    : !isUserMessage &&
+                                      !selectedChat?.users[0]?.profilePic
+                                    ? `${Messageprofileimg}`
+                                    : user?.profilePic
+                                    ? import.meta.env.VITE_IMG_URI +
+                                      user.profilePic
+                                    : Adminprofile
+                                }
+                                alt=""
+                                className="Second-profile-img-2"
+                              />
+                            )}
 
                             <p className="Second-profile-name">
                               {!loading && isUserMessage

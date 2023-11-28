@@ -29,7 +29,7 @@ const EducationForm = ({
   useMemo(() => {
     if (isSuccess) {
       refetch();
-      setActiveTab("/employement");
+      // setActiveTab("/employement");
     }
   }, [isSuccess]);
 
@@ -203,6 +203,7 @@ const EducationForm = ({
                   type="button"
                   className="back-button-new"
                   onClick={handleBackClick}
+                  style={{ opacity: "0", cursor: "default" }}
                 >
                   Back
                 </button>
@@ -216,6 +217,8 @@ const EducationForm = ({
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "0",
+                    opacity: "0",
+                    cursor: "default",
                   }}
                 >
                   {isLoading ? <Loader /> : "Next"}
