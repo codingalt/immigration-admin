@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import SideNavbar from "./SideNavbar";
 import TopNavbar from "./TopNavbar";
 import "../style/CLientprofile.css";
@@ -10,6 +10,7 @@ import { useGetUsersQuery } from "../services/api/adminApi";
 import { useGetAllApplicationsQuery } from "../services/api/applicationApi";
 import Loader from "./Loader";
 const ClientProfile = () => {
+  const navigate = useNavigate();
   const [activeProfileLink, setActiveProfileLink] = useState("/client-profile");
   const location = useLocation();
 
@@ -81,7 +82,7 @@ const ClientProfile = () => {
       </div>
 
       <div className="Client-proile-border">
-        <button className="client-profile-addbtn">Add Profile</button>
+        <button onClick={()=> navigate("/add/phase1")} className="client-profile-addbtn">Add Profile</button>
 
         <div className="clientproile-sub-container">
           <div className="All-boxes All-box-client">
@@ -173,6 +174,7 @@ const ClientProfile = () => {
                             <input
                               disabled
                               value={
+                                item.phase === 4 && item.phaseStatus === "approved" ? "Approved" :
                                 item.applicationStatus === "pending"
                                   ? "Pending"
                                   : "Approved"

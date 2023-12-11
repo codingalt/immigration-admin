@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import Editimgapp from "../assests/Edit-file-img.svg"
 import Approvedimgapp from "../assests/Approved-img.svg"
 import Rejectimgapp from "../assests/Delete-File-img.svg"
-import { useApprovePhase1Mutation, useGetApplicationDataByIdQuery, usePostPhase1Mutation, useUpdatePhaseByAdminMutation } from '../services/api/applicationApi';
+import { useApprovePhase1Mutation, useGetApplicationDataByIdQuery, usePostPhase1Mutation, useReRequestPhase1Mutation, useUpdatePhaseByAdminMutation } from '../services/api/applicationApi';
 import MainContext from './Context/MainContext';
 import { useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -20,11 +20,33 @@ import { format } from 'date-fns';
 import { toastError, toastSuccess } from './Toast';
 import tick from "../assests/tick.png"
 import cross from "../assests/cross.png";
+import RejectGroup from './RejectGroup';
+import Rejectpopup from './Rejectpopup';
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 
 const Phase1 = () => {
     const { socket } = useContext(MainContext);
     const {applicationId} = useParams();
     const navigate = useNavigate();
+    const [isReject, setIsReject] = useState();
+    const [companyId, setCompanyId] = useState();
+    const [isPhaseApproved, setIsPhaseApproved] = useState(false);
+
+    // Re Request Phase 1 
+    const [reRequestPhase1, resp] = useReRequestPhase1Mutation();
+    const {isLoading: isLoadingReRequest, isSuccess: isSuccessReRequest, error: reRequestErr} = resp;
+
+    useMemo(() => {
+      if(isSuccessReRequest){
+        toastSuccess("Phase 1 Requested.")
+      }
+    }, [isSuccessReRequest]);
+
+    useMemo(() => {
+      if (reRequestErr) {
+        toastSuccess(reRequestErr?.data?.message);
+      }
+    }, [reRequestErr]);
 
     const [approvePhase1, result] = useApprovePhase1Mutation();
     const {isLoading, error, isSuccess} = result
@@ -80,6 +102,14 @@ const Phase1 = () => {
       setActiveLink(linkName);
     };
 
+    useEffect(() => {
+      setContact(app?.phase1?.contact);
+      setPermissionInCountryErr(app?.phase1?.permissionInCountry);
+      setSpeakEnglishErr(app?.phase1?.speakEnglish);
+      setRefusedVisaErr(app?.phase1?.isRefusedVisaEntry);
+      setLanguagesArr(app?.phase1?.otherLanguagesSpeak);
+    }, [data]);
+
     useMemo(() => {
       if (updateErr) {
         toastError(updateErr?.data?.message);
@@ -106,6 +136,19 @@ const Phase1 = () => {
         navigate(`/admin/prephase2/${applicationId}`);
       }
     }, [approveSuccess]);
+
+    useEffect(() => {
+      if (data) {
+        if (
+          data?.application?.phase === 1 &&
+          data?.application?.phaseStatus === "approved"
+        ) {
+          setIsPhaseApproved(false);
+        } else {
+          setIsPhaseApproved(true);
+        }
+      }
+    }, [data]);
 
     const initialValues = app && {
       userId: app && app?.userId,
@@ -170,14 +213,21 @@ const Phase1 = () => {
         { to: "/prephase3", label: "Pre-Phase 3" },
         { to: "/phase3", label: "Phase 3" },
         { to: "/phase4", label: "Phase 4" },
-
     ];
+
+    const handleDeclineRequest = () => {
+      if (app?.companyId) {
+        setCompanyId(true);
+      } else {
+        setCompanyId(false);
+      }
+      setIsReject(true);
+    };
 
 
     useEffect(() => {
         // Get the current path from window.location.pathname
         const currentPath = window.location.pathname;
-        console.log(currentPath);
 
         // Find the matching label from the links array based on the current path
         const matchedLink = links.find((link) => link.to === currentPath);
@@ -189,9 +239,46 @@ const Phase1 = () => {
 
     const buttonRef = useRef();
 
+     const [isPhase2Rejected, setIsPhase2Rejected] = useState(false);
+
+     useEffect(() => {
+       if (app?.phase === 2 && app?.phaseStatus === "rejected") {
+         setIsPhase2Rejected(true);
+       }
+     }, [app]);
+
+    const handleReRequest = async()=>{
+      const {data: resp} = await reRequestPhase1(applicationId)
+      if(resp.success){
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 1,
+          phaseStatus: "pending",
+          phaseSubmittedByClient: 1,
+          reSubmit: 1,
+        });
+      }
+    }
+
     
     return (
       <div className="Phase-1-main-container">
+        {companyId
+          ? isReject && (
+              <RejectGroup
+                applicationId={applicationId}
+                show={isReject}
+                setShow={setIsReject}
+              />
+            )
+          : isReject && (
+              <Rejectpopup
+                applicationId={applicationId}
+                show={isReject}
+                setShow={setIsReject}
+              />
+            )}
         <SideNavbar />
         <h2 className="Pre-screening-text-2">Pre-Screening</h2>
         <div className="Buttons-preescreening">
@@ -264,34 +351,64 @@ const Phase1 = () => {
             </div>
           )}
 
-          {app?.requestedPhase < 2 && app?.applicationStatus != "rejected" && (
-            <>
+          {isPhaseApproved &&
+            app?.requestedPhase < 2 &&
+            app?.applicationStatus != "rejected" &&
+            app?.phaseSubmittedByClient === 1 && (
+              <>
+                <button
+                  disabled={approveLoading}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingRight: "10px",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    opacity: approveLoading ? 0.55 : 1,
+                  }}
+                  onClick={handleApprove}
+                  className="Approved-appliction-btn"
+                >
+                  {approveLoading ? <Loader /> : "Approve"}{" "}
+                  <img src={Approvedimgapp} alt="" />
+                </button>
+                <button
+                  disabled={approveLoading}
+                  style={{ cursor: "pointer" }}
+                  onClick={handleDeclineRequest}
+                  className="Reject-appliction-btn"
+                >
+                  {" "}
+                  Reject <img src={Rejectimgapp} alt="" />
+                </button>
+              </>
+            )}
+
+          {app?.phase === 1 &&
+            app?.phaseStatus === "rejected" &&
+            app?.requestedPhase < 2 && (
               <button
-                disabled={approveLoading}
+                disabled={isLoadingReRequest}
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "space-between",
+                  gap: "0",
+                  paddingRight: "10px",
                   alignItems: "center",
                   cursor: "pointer",
-                  opacity: approveLoading ? 0.55 : 1,
+                  opacity: isLoadingReRequest ? 0.55 : 1,
+                  width: "8.5rem",
+                  boxSizing: "border-box",
                 }}
-                onClick={handleApprove}
-                className="Approved-appliction-btn"
-              >
-                {approveLoading ? <Loader /> : "Approve"}{" "}
-                <img src={Approvedimgapp} alt="" />
-              </button>
-              <button
-                disabled={approveLoading}
-                style={{ cursor: "pointer" }}
-                onClick={() => navigate(`/admin/reject/${applicationId}`)}
+                onClick={handleReRequest}
                 className="Reject-appliction-btn"
               >
-                {" "}
-                Reject <img src={Rejectimgapp} alt="" />
+                <span style={{ wordBreak: "normal" }}>Re Request</span>
+                <VscGitPullRequestGoToChanges
+                  style={{ color: "#fff", fontSize: "1.3rem" }}
+                />
               </button>
-            </>
-          )}
+            )}
         </div>
         <button
           onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
@@ -302,7 +419,7 @@ const Phase1 = () => {
         </button>
 
         <div className="phase-4-all-phase">
-          {app?.phaseSubmittedByClient >= 1 && (
+          {app?.phase >= 1 && (
             <NavLink
               to={`/admin/phase1/${applicationId}`}
               className={`link-hover-effect ${
@@ -314,7 +431,7 @@ const Phase1 = () => {
               <span className="routes-all">Phase 1</span>
             </NavLink>
           )}
-          {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+          {app?.phase1?.status === "approved" && (
             <NavLink
               to={`/admin/prephase2/${applicationId}`}
               className={`link-hover-effect ${
@@ -340,7 +457,7 @@ const Phase1 = () => {
               <span className="routes-all">Phase 2</span>
             </NavLink>
           )}
-          {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+          {app?.phase2?.status === "approved" && (
             <NavLink
               to={`/admin/prephase3/${applicationId}`}
               className={`link-hover-effect ${
@@ -354,7 +471,7 @@ const Phase1 = () => {
               <span className="routes-all">Pre-Phase 3</span>
             </NavLink>
           )}
-          {app?.phaseSubmittedByClient >= 3 && (
+          {app?.phase >= 3 && (
             <NavLink
               to={`/admin/phase3/${applicationId}`}
               className={`link-hover-effect ${

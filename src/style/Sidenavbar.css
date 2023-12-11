@@ -9,6 +9,7 @@
   height: 52rem;
   left: 144px;
   top: 16px;
+  width: 7.2rem;
 
 }
 
@@ -18,9 +19,10 @@
   margin-top: 6.8rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2.2rem;
   align-items: center;
   position: relative;
+  min-width: 7.2rem;
 }
 
 .Logo{
@@ -64,8 +66,8 @@
 
   .icon-badge-message{
   position: absolute;
-  left: 3.9rem;
-  top: 9.4rem;
+  left: 3.8rem;
+  top: 9.2rem;
   width: .75rem;
   height: .75rem;
   border-radius: 50%;
@@ -102,7 +104,7 @@
   position: absolute;
   left: 2.6rem;
   width: 1.5rem;
-  bottom: 13rem;
+  bottom: 13.6rem;
 }
 
 
@@ -123,9 +125,9 @@
 
 }
   @media (max-width: 1920px) {
-    .Dashboard-heading{
+    /* .Dashboard-heading{
       right: 146.4rem;
-    }
+    } */
   } 
 
   

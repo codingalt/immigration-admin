@@ -16,10 +16,13 @@ import { toastError, toastSuccess } from "./Toast";
 import Loader from "./Loader";
 import { useContext } from "react";
 import MainContext from "./Context/MainContext";
+import { applicationServiceTypes } from "../utils";
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 
 const Prephase3 = () => {
   const navigate = useNavigate();
   const { applicationId } = useParams();
+  const [applicationType, setApplicationType] = useState();
   const {
     data,
     refetch,
@@ -87,10 +90,20 @@ const Prephase3 = () => {
     phase3: {
       doesCompanyHelp: app && isCompanyHelp,
       companyHelpService: app?.phase3?.companyHelpService,
-      applicationType: app?.phase3?.applicationType,
+      applicationType: app?.phase3?.applicationType
+        ? app.phase3?.applicationType
+        : applicationType,
       cost: app?.phase3?.cost,
       reason: app?.phase3?.reason,
     },
+  };
+
+  const handleChangeSelect = (e, setFieldValue) => {
+    console.log(e.target.value);
+    setFieldValue(
+      "phase3.applicationType",
+      applicationServiceTypes[e.target.value]
+    );
   };
 
   const [requestAPhase, res] = useRequestAPhaseMutation();
@@ -104,12 +117,25 @@ const Prephase3 = () => {
 
   useMemo(() => {
     if (isSuccess) {
-      socket.emit("phase notification", {
-        userId: app?.userId,
-        applicationId: applicationId,
-        phase: 2,
-        phaseStatus: "approved",
-      });
+      if(app?.phase === 3 && app?.phaseStatus === "rejected"){
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "pending",
+          phaseSubmittedByClient: 2,
+          reSubmit: 3,
+        });
+      }else{
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "approved",
+          phaseSubmittedByClient: app?.phaseSubmittedByClient,
+        });
+      }
+      
 
       toastSuccess("Phase 3 Requested");
       navigate(`/admin/prescreening/${applicationId}`);
@@ -124,28 +150,45 @@ const Prephase3 = () => {
     });
   };
 
+  const buttonRef = useRef();
+
   return (
     <div className="Prephase3-container">
       <SideNavbar />
       <h2 className="Pre-screening-text">Pre-Screening</h2>
-      {/* <div className="Buttons-preescreening">
-        <button className="Edit-appliction-btn">
-          Edit <img src={Editimgapp} alt="" />
-        </button>
-        <button className="Approved-appliction-btn">
-          Approved <img src={Approvedimgapp} alt="" />
-        </button>
-        <button className="Reject-appliction-btn">
-          {" "}
-          Reject <img src={Rejectimgapp} alt="" />
-        </button>
-      </div> */}
       <img src={editpen} alt="" className="edit-pen" />
       <button onClick={() => navigate(-1)} className="back-btn">
         Back
       </button>
+
+      <div className="Buttons-preescreening">
+        {app?.phase3?.status === "rejected" && (
+          <button
+            disabled={isLoading}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "0",
+              paddingRight: "10px",
+              alignItems: "center",
+              cursor: "pointer",
+              opacity: isLoading ? 0.55 : 1,
+              width: "8.5rem",
+              boxSizing: "border-box",
+            }}
+            onClick={() => buttonRef.current.click()}
+            className="Reject-appliction-btn"
+          >
+            <span style={{ wordBreak: "normal" }}>Re Request</span>
+            <VscGitPullRequestGoToChanges
+              style={{ color: "#fff", fontSize: "1.3rem" }}
+            />
+          </button>
+        )}
+      </div>
+
       <div className="phase-4-all-phase">
-        {app?.phaseSubmittedByClient >= 1 && (
+        {app?.phase >= 1 && (
           <NavLink
             to={`/admin/phase1/${applicationId}`}
             className={`link-hover-effect ${
@@ -157,7 +200,7 @@ const Prephase3 = () => {
             <span className="routes-all">Phase 1</span>
           </NavLink>
         )}
-        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+        {app?.phase1?.status === "approved" && (
           <NavLink
             to={`/admin/prephase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -169,7 +212,7 @@ const Prephase3 = () => {
             <span className="routes-all">Pre-Phase 2</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 2 && (
+        {app?.phase >= 2 && (
           <NavLink
             to={`/admin/phase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -183,7 +226,7 @@ const Prephase3 = () => {
             <span className="routes-all">Phase 2</span>
           </NavLink>
         )}
-        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+        {app?.phase2?.status === "approved" && (
           <NavLink
             to={`/admin/prephase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -197,7 +240,7 @@ const Prephase3 = () => {
             <span className="routes-all">Pre-Phase 3</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 3 && (
+        {app?.phase >= 3 && (
           <NavLink
             to={`/admin/phase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -279,9 +322,15 @@ const Prephase3 = () => {
                       name="phase3.companyHelpService"
                       id="phase3.companyHelpService"
                       required={isCompanyHelp}
+                      onChange={(e) => {
+                        setFieldValue(
+                          "phase3.companyHelpService",
+                          e.target.value
+                        );
+                        handleChangeSelect(e, setFieldValue);
+                      }}
                     >
                       <option value="">Service</option>
-                      <option value="Sponsor License">Sponsor License</option>
                       <option value="Certificate of Sponsorship">
                         Certificate of Sponsorship
                       </option>
@@ -356,6 +405,7 @@ const Prephase3 = () => {
                       name="phase3.cost"
                       id="phase3.cost"
                       type="number"
+                      min={0}
                       className="prephase-3-input"
                       placeholder="Type cost"
                     />
@@ -377,6 +427,7 @@ const Prephase3 = () => {
                   </>
                 )}
                 <button
+                  ref={buttonRef}
                   disabled={isLoading}
                   style={{
                     display: "flex",

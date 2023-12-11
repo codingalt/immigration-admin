@@ -53,6 +53,8 @@ import Phase2Group from './components/Phase2Group';
 import Prephase3Group from './components/Prephase3Group';
 import Phase3Group from './components/Phase3Group';
 import Phase4GroupPage from './pages/Phase4GroupPage';
+import ForgotPassword from './components/ForgotPassword';
+import Resetpassword from './components/ResetPassword';
 
 
 const NavRoutes = () => {
@@ -60,6 +62,11 @@ const NavRoutes = () => {
     <Routes>
       <Route path="/otp" element={<Ottp />} />
       <Route path="/" element={<Forgetpassword />} />
+      <Route path="/forgetpassword" element={<ForgotPassword />} />
+      <Route
+        path="/restpassword/:userId/:token"
+        element={<Protected Component={Resetpassword} />}
+      />
       <Route path="/invoice" element={<Invoice />} />
       <Route path="/prescreening" element={<Prescreening />} />
       <Route path="/rejectpopup" element={<Rejectpopup />} />

@@ -16,10 +16,15 @@ import { toastError, toastSuccess } from "./Toast";
 import Loader from "./Loader";
 import MainContext from "./Context/MainContext";
 import { useApproveGroupClientPhase2Mutation, useGetGroupClientAppByIdQuery } from "../services/api/companyClient";
+import RejectGroup from "./RejectGroup";
+import Rejectpopup from "./Rejectpopup";
 
 const Phase2Group = () => {
   const { applicationId } = useParams();
   const navigate = useNavigate();
+  const [isReject, setIsReject] = useState();
+  const [companyId, setCompanyId] = useState();
+  const [isPhase2Approved, setIsPhase2Approved] = useState(false);
   const {
     data,
     refetch,
@@ -70,6 +75,19 @@ const Phase2Group = () => {
     }
   }, [links]);
 
+  useEffect(() => {
+    if (data) {
+      if (
+        data?.application?.phase === 2 &&
+        data?.application?.phaseStatus === "approved"
+      ) {
+        setIsPhase2Approved(false);
+      } else {
+        setIsPhase2Approved(true);
+      }
+    }
+  }, [data]);
+
   const handleLinkClick = (linkName) => {
     setActiveLink(linkName);
   };
@@ -100,42 +118,69 @@ const Phase2Group = () => {
     }
   }, [approveSuccess]);
 
+  const handleDeclineRequest = () => {
+    if (app?.companyId) {
+      setCompanyId(true);
+    } else {
+      setCompanyId(false);
+    }
+    setIsReject(true);
+  };
+
   return (
     <div className="Phase-2-main-container">
+      {companyId
+        ? isReject && (
+            <RejectGroup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )
+        : isReject && (
+            <Rejectpopup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )}
       <SideNavbar />
       <h2 className="Pre-screening-text">Pre-Screening</h2>
       <div className="Buttons-preescreening">
         {/* <button className="Edit-appliction-btn">
           Edit <img src={Editimgapp} alt="" />
         </button> */}
-        {app?.requestedPhase < 3 && app?.applicationStatus != "rejected" && (
-          <>
-            <button
-              disabled={approveLoading}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-                opacity: approveLoading ? 0.55 : 1,
-              }}
-              onClick={handleApprove}
-              className="Approved-appliction-btn"
-            >
-              {approveLoading ? <Loader /> : "Approve"}{" "}
-              <img src={Approvedimgapp} alt="" />
-            </button>
-            <button
-              disabled={approveLoading}
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/admin/reject/${applicationId}`)}
-              className="Reject-appliction-btn"
-            >
-              {" "}
-              Reject <img src={Rejectimgapp} alt="" />
-            </button>
-          </>
-        )}
+        {isPhase2Approved &&
+          app?.requestedPhase < 3 &&
+          app?.applicationStatus != "rejected" &&
+          app?.phase2?.status != "approved" && (
+            <>
+              <button
+                disabled={approveLoading}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  opacity: approveLoading ? 0.55 : 1,
+                }}
+                onClick={handleApprove}
+                className="Approved-appliction-btn"
+              >
+                {approveLoading ? <Loader /> : "Approve"}{" "}
+                <img src={Approvedimgapp} alt="" />
+              </button>
+              <button
+                disabled={approveLoading}
+                style={{ cursor: "pointer" }}
+                onClick={handleDeclineRequest}
+                className="Reject-appliction-btn"
+              >
+                {" "}
+                Reject <img src={Rejectimgapp} alt="" />
+              </button>
+            </>
+          )}
       </div>
       <img src={editpen} alt="" className="edit-pen" />
 
@@ -148,7 +193,7 @@ const Phase2Group = () => {
       </button>
 
       <div className="phase-4-all-phase">
-        {app?.phaseSubmittedByClient >= 1 && (
+        {app?.phase >= 1 >= 1 && (
           <NavLink
             to={`/admin/group/phase1/${applicationId}`}
             className={`link-hover-effect ${
@@ -160,7 +205,7 @@ const Phase2Group = () => {
             <span className="routes-all">Phase 1</span>
           </NavLink>
         )}
-        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+        {app?.phase1?.status === "approved" && (
           <NavLink
             to={`/admin/group/prephase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -186,7 +231,7 @@ const Phase2Group = () => {
             <span className="routes-all">Phase 2</span>
           </NavLink>
         )}
-        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+        {app?.phase2?.status === "approved" && (
           <NavLink
             to={`/admin/group/prephase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -200,7 +245,7 @@ const Phase2Group = () => {
             <span className="routes-all">Pre-Phase 3</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 3 && (
+        {app?.phase >= 3 && (
           <NavLink
             to={`/admin/group/phase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -229,6 +274,7 @@ const Phase2Group = () => {
           </NavLink>
         )}
       </div>
+
       <div className="Phase-2">
         <div className="Phase-2-left">
           {app?.phase2?.passport && (
@@ -398,7 +444,7 @@ const Phase2Group = () => {
             </>
           )}
 
-          {app?.phase2?.other && (
+          {app?.phase2?.other && app?.phase2?.other?.length > 0 && (
             <>
               <p className="password-text">OTHER</p>
               <Link

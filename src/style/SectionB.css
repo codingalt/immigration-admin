@@ -25,11 +25,12 @@
     .sectionb-container{
   
   
-      width: 1027px;
+      width: 1039px;
       margin-top: 290px;
       /* left: 22.7%; */
       height: 558px;
-      right: 82.4rem;
+      margin-left: -3.5px;
+      /* right: 82.4rem; */
   }
   }
     
@@ -62,6 +63,6 @@
     .sectionb-container {
       width: 100%;
       left: 32%;
-        bottom: 500px; /* Adjust the value as needed for proper positioning on smaller screens */
+      bottom: 500px; /* Adjust the value as needed for proper positioning on smaller screens */
     }
   }

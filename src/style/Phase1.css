@@ -122,8 +122,6 @@
 }
 
 .back-btn {
-
-
   position: absolute;
   top: 90px;
   padding: 6px 24px;
@@ -132,9 +130,7 @@
   border: 1px solid #E2E2E4;
   border-radius: 5px;
   cursor: pointer;
-
 }
-
 
 .phase-1 {
   width: 64.4rem;
@@ -148,6 +144,7 @@
   overflow-x: hidden;
   padding: 1rem 1.5rem;
   padding-bottom: 4rem;
+  padding-top: 0;
 }
 
 .phase1 .right-side-forget-password-2{

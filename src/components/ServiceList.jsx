@@ -38,22 +38,265 @@ const ServiceList = () => {
         <h2 className="addcompany-profile-heading">Select Group</h2>
 
         <div className="AddingcompanyList-sub-container">
-          <div className="button-company-screen">
-            <button
-              type="button"
-              onClick={handleNext}
-              className="Next-btn-company-screen"
-            >
-              Next
-            </button>
-          </div>
           <div className="Main-title-heading">
             <p className="starts-new-client-heading">
               STARTS A NEW CLIENT PROFILE UNDER THE GROUP
             </p>
           </div>
 
-          <div className="company-box-1">
+          <div className="service-list-row">
+            <div className="button-company-screen">
+              <button
+                type="button"
+                onClick={handleNext}
+                className="Next-btn-company-screen"
+              >
+                Next
+              </button>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("Sponsor License")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "Sponsor License"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img src={sponserimg} alt="" className="company-imgss-1" />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">Sponsor License</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("Certificate of Sponsorship")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "Certificate of Sponsorship"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img
+                    src={certificateimg}
+                    alt=""
+                    className="company-imgss-1"
+                  />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">Certificate of Sponsorship</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() =>
+                setServiceType("Certificate of Acceptance of Studies")
+              }
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "Certificate of Acceptance of Studies"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img
+                    src={certificatestudes}
+                    alt=""
+                    className="company-imgss-1"
+                  />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">
+                    Certificate of Acceptance of Studies
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("Entry Clearance")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "Entry Clearance"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img src={clerance} alt="" className="company-imgss-1" />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">Entry Clearance</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("Leave to Remain")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "Leave to Remain"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img src={leaveremain} alt="" className="company-imgss-1" />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">Leave to Remain</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("ILR – Indefinite Leave to Remain")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "ILR – Indefinite Leave to Remain"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img src={indefinite} alt="" className="company-imgss-1" />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">Indefinite Leave to Remain</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("AN1 – Naturalisation")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "AN1 – Naturalisation"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img
+                    src={naturalisation}
+                    alt=""
+                    className="company-imgss-1"
+                  />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">Naturalisation</p>
+                </div>
+              </div>
+            </div>
+            <div
+              className="servicelist-item"
+              onClick={() => setServiceType("EEUS Settlement")}
+            >
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  style={
+                    serviceType === "EEUS Settlement"
+                      ? { border: "1.5px solid #5d982e" }
+                      : {}
+                  }
+                >
+                  <img src={eues} alt="" className="company-imgss-1" />
+                </div>
+
+                <div className="title-space">
+                  <p className="company-titles">EEUS Settlement</p>
+                </div>
+              </div>
+            </div>
+            <div className="servicelist-item">
+              <div className="profile-box-1">
+                <div
+                  className="sponser-li"
+                  onClick={() => toastError("Select other from dropdown below")}
+                >
+                  <img src={leaveremain} alt="" className="company-imgss-1" />
+                </div>
+
+                <select
+                  className="title-space-option"
+                  onChange={(e) => setServiceType(e.target.value)}
+                >
+                  <option value="">Others</option>
+                  <option value="AN1 – Naturalisation">
+                    AN1 – Naturalisation{" "}
+                  </option>
+                  <option value="MN1 – Registration">
+                    MN1 – Registration{" "}
+                  </option>
+                  <option value="ILR – Indefinite Leave to Remain">
+                    ILR – Indefinite Leave to Remain
+                  </option>
+                  <option value="FLR – Further Leave to Remain">
+                    FLR – Further Leave to Remain{" "}
+                  </option>
+                  <option value="FLR(FP)">FLR(FP)</option>
+                  <option value="FLR(M)">FLR(M) </option>
+                  <option value="SW – Skilled Worker">
+                    SW – Skilled Worker{" "}
+                  </option>
+                  <option value="SL- Sponsor Licence">
+                    SL- Sponsor Licence{" "}
+                  </option>
+                  <option value="Student">Student </option>
+                  <option value="Student Child">Student Child</option>
+                  <option value="Graduate Visa">Graduate Visa</option>
+                  <option value="ECS- Entry Clearance Spouse">
+                    ECS- Entry Clearance Spouse{" "}
+                  </option>
+                  <option value="ECV – Entry Clearance Visitor">
+                    ECV – Entry Clearance Visitor{" "}
+                  </option>
+                  <option value="ECD – Entry Clearance Dependant">
+                    ECD – Entry Clearance Dependant{" "}
+                  </option>
+                  <option value="PS – Pre Settled Status">
+                    PS – Pre Settled Status
+                  </option>
+                  <option value="SS – Settled Status">
+                    SS – Settled Status{" "}
+                  </option>
+                  <option value="Others">Others </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="company-box-1">
             <Link to={"#"} onClick={() => setServiceType("Sponsor License")}>
               <div className="profile-box-1">
                 <Link
@@ -171,18 +414,18 @@ const ServiceList = () => {
                 </div>
               </div>
             </Link>
-          </div>
+          </div> */}
 
-          <div className="company-box-2">
+          {/* <div className="company-box-2">
             <Link
               to={`#`}
-              onClick={() => setServiceType("Indefinite Leave to Remain")}
+              onClick={() => setServiceType("ILR – Indefinite Leave to Remain")}
             >
               <div className="profile-box-2">
                 <div
                   className="sponser-li-2"
                   style={
-                    serviceType === "Indefinite Leave to Remain"
+                    serviceType === "ILR – Indefinite Leave to Remain"
                       ? { border: "1.5px solid #5d982e" }
                       : {}
                   }
@@ -196,12 +439,15 @@ const ServiceList = () => {
               </div>
             </Link>
 
-            <Link to={`#`} onClick={() => setServiceType("Naturalisation")}>
+            <Link
+              to={`#`}
+              onClick={() => setServiceType("AN1 – Naturalisation")}
+            >
               <div className="profile-box-3">
                 <div
                   className="sponser-li-3"
                   style={
-                    serviceType === "Naturalisation"
+                    serviceType === "AN1 – Naturalisation"
                       ? { border: "1.5px solid #5d982e" }
                       : {}
                   }
@@ -292,12 +538,9 @@ const ServiceList = () => {
                   <option value="Others">Others </option>
                 </select>
 
-                {/* <div className="title-space">
-                  <p className="company-titles-5">Others</p>
-                </div> */}
               </div>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     );

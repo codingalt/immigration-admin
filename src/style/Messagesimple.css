@@ -12,8 +12,9 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     height: 561px;
     position: relative;
-    left: 77.11%;
+    left: 75.5%;
     width: 100%;
+    max-width: 25rem;
     top: 18rem;
     border-radius: 11px;
   }
@@ -475,7 +476,7 @@
     align-items: center;
     border-radius: 11px;
     position: relative;
-    width: 392px;
+    width: 400px;
     top: 8px;
   }
   

@@ -14,10 +14,16 @@ import MainContext from "./Context/MainContext";
 import { useNavigate } from "react-router-dom";
 import { setNotificationId } from "../services/redux/userSlice";
 import { useAcceptGroupClientRequestMutation } from "../services/api/companyClient";
+import Messageprofileimg from "../assests/billing-table-img.png";
+import RejectGroup from "./RejectGroup";
+import Rejectpopup from "./Rejectpopup";
 
 const Notification = ({ setGetData, getData }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isReject,setIsReject] = useState();
+  const [companyId, setCompanyId] = useState();
+  const [applicationId, setApplicationId] = useState();
   const {
     data,
     refetch,
@@ -120,6 +126,7 @@ const Notification = ({ setGetData, getData }) => {
         return;
       }
     }
+
     if (item.companyId) {
       const { data } = await acceptGroupClientRequest({
         applicationId: applicationId,
@@ -137,6 +144,16 @@ const Notification = ({ setGetData, getData }) => {
         refetch();
       }
     }
+  };
+
+  const handleDeclineRequest = (applicationId, item) => {
+    if (item.companyId) {
+      setCompanyId(true);
+    }else{
+      setCompanyId(false);
+    }
+    setIsReject(true);
+    setApplicationId(applicationId);
   };
 
   // useEffect(() => {
@@ -176,6 +193,21 @@ const Notification = ({ setGetData, getData }) => {
 
   return (
     <div className="Notification-main-container">
+      {companyId
+        ? isReject && (
+            <RejectGroup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )
+        : isReject && (
+            <Rejectpopup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )}
       <SideNavbar />
       <h1 className="Notification-heading">Notification</h1>
       <div className="Notification">
@@ -195,7 +227,6 @@ const Notification = ({ setGetData, getData }) => {
             alt=""
             className="Request-1"
           />
-          <img src={Greendot} alt="" className="Green-request-dot" />
           <h4 className="Request-1-text">Request</h4>
           <p className="Request-1-text-2">Approve or ignore requests</p>
           <p className="Request-1-text-3">
@@ -230,7 +261,11 @@ const Notification = ({ setGetData, getData }) => {
                           borderRadius: "50%",
                           height: "2.5rem",
                         }}
-                        src={item?.profilePic ? item?.profilePic : defaultImg}
+                        src={
+                          item?.profilePic
+                            ? item?.profilePic
+                            : Messageprofileimg
+                        }
                         alt=""
                         className="Request-2"
                       />
@@ -246,7 +281,7 @@ const Notification = ({ setGetData, getData }) => {
                             ? `${import.meta.env.VITE_IMG_URI}${
                                 item?.profilePic
                               }`
-                            : defaultImg
+                            : Messageprofileimg
                         }
                         alt=""
                         className="Request-2"
@@ -275,11 +310,7 @@ const Notification = ({ setGetData, getData }) => {
                     </button>
                     <button
                       onClick={() =>
-                        navigate(
-                          item.companyId
-                            ? `/admin/group/reject/${item.applicationId}`
-                            : `/admin/reject/${item.applicationId}`
-                        )
+                        handleDeclineRequest(item.applicationId, item)
                       }
                       className="Request-2-btn-2"
                     >
@@ -287,7 +318,13 @@ const Notification = ({ setGetData, getData }) => {
                     </button>
                     <button
                       onClick={() =>
-                        handleAcceptRequest(item.applicationId, item)
+                        item.companyId
+                          ? navigate(
+                              `/admin/group/prescreening/${item.applicationId}`
+                            )
+                          : navigate(
+                              `/admin/prescreening/${item.applicationId}`
+                            )
                       }
                       className="Request-2-btn-3"
                     >
@@ -315,7 +352,11 @@ const Notification = ({ setGetData, getData }) => {
                           borderRadius: "50%",
                           height: "2.5rem",
                         }}
-                        src={item?.profilePic ? item?.profilePic : defaultImg}
+                        src={
+                          item?.profilePic
+                            ? item?.profilePic
+                            : Messageprofileimg
+                        }
                         alt=""
                         className="Request-2"
                       />
@@ -331,7 +372,7 @@ const Notification = ({ setGetData, getData }) => {
                             ? `${import.meta.env.VITE_IMG_URI}${
                                 item?.profilePic
                               }`
-                            : defaultImg
+                            : Messageprofileimg
                         }
                         alt=""
                         className="Request-2"
@@ -360,11 +401,7 @@ const Notification = ({ setGetData, getData }) => {
                     </button>
                     <button
                       onClick={() =>
-                        navigate(
-                          item.companyId
-                            ? `/admin/group/reject/${item.applicationId}`
-                            : `/admin/reject/${item.applicationId}`
-                        )
+                        handleDeclineRequest(item.applicationId, item)
                       }
                       className="Request-2-btn-2"
                     >
@@ -372,7 +409,13 @@ const Notification = ({ setGetData, getData }) => {
                     </button>
                     <button
                       onClick={() =>
-                        handleAcceptRequest(item.applicationId, item)
+                        item.companyId
+                          ? navigate(
+                              `/admin/group/prescreening/${item.applicationId}`
+                            )
+                          : navigate(
+                              `/admin/prescreening/${item.applicationId}`
+                            )
                       }
                       className="Request-2-btn-3"
                     >
@@ -448,7 +491,7 @@ const Notification = ({ setGetData, getData }) => {
                       src={
                         latestNotification?.profilePic
                           ? latestNotification?.profilePic
-                          : defaultImg
+                          : Messageprofileimg
                       }
                       alt=""
                       className="Request-2"
@@ -465,7 +508,7 @@ const Notification = ({ setGetData, getData }) => {
                           ? `${import.meta.env.VITE_IMG_URI}${
                               latestNotification?.profilePic
                             }`
-                          : defaultImg
+                          : Messageprofileimg
                       }
                       alt=""
                       className="Request-2"
@@ -496,10 +539,9 @@ const Notification = ({ setGetData, getData }) => {
                   </button>
                   <button
                     onClick={() =>
-                      navigate(
-                        latestNotification.companyId
-                          ? `/admin/group/reject/${latestNotification.applicationId}`
-                          : `/admin/reject/${latestNotification.applicationId}`
+                      handleDeclineRequest(
+                        latestNotification.applicationId,
+                        latestNotification
                       )
                     }
                     className="Request-2-btn-2"

@@ -16,6 +16,7 @@ import { toastError, toastSuccess } from "./Toast";
 import Loader from "./Loader";
 import MainContext from "./Context/MainContext";
 import { useGetGroupClientAppByIdQuery, useRequestGroupPhaseMutation } from "../services/api/companyClient";
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 
 const Prephase2Group = () => {
   const navigate = useNavigate();
@@ -62,12 +63,24 @@ const Prephase2Group = () => {
 
   useMemo(() => {
     if (isSuccess) {
-      socket.emit("phase notification", {
-        userId: app?.userId,
-        applicationId: applicationId,
-        phase: 1,
-        phaseStatus: "approved",
-      });
+      if (app?.phase === 2 && app?.phaseStatus === "rejected") {
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "pending",
+          phaseSubmittedByClient: 2,
+          reSubmit: 2,
+        });
+      } else {
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 1,
+          phaseStatus: "approved",
+          phaseSubmittedByClient: app?.phaseSubmittedByClient,
+        });
+      }
       toastSuccess("Phase 2 Requested");
       navigate(`/admin/group/prescreening/${applicationId}`);
     }
@@ -130,39 +143,27 @@ const Prephase2Group = () => {
         app && app?.phase2?.isShareClientDetails
           ? app?.phase2?.isShareClientDetails
           : true,
-      passport: app && app?.phase2?.passport ? app?.phase2?.passport : "",
+      passport: "",
       dependantPassport:
-        app && app?.phase2?.dependantPassport
-          ? app?.phase2?.dependantPassport
-          : "",
+         "",
       utilityBill:
-        app && app?.phase2?.utilityBill ? app?.phase2?.utilityBill : "",
-      brp: app && app?.phase2?.brp ? app?.phase2?.brp : "",
+         "",
+      brp:  "",
       previousVisaVignettes:
-        app && app?.phase2?.previousVisaVignettes
-          ? app?.phase2?.previousVisaVignettes
-          : "",
+        "",
       refusalLetter:
-        app && app?.phase2?.refusalLetter ? app?.phase2?.refusalLetter : "",
+         "",
       educationCertificates:
-        app && app?.phase2?.educationCertificates
-          ? app?.phase2?.educationCertificates
-          : "",
+         "",
       englishLanguageCertificate:
-        app && app?.phase2?.englishLanguageCertificate
-          ? app?.phase2?.englishLanguageCertificate
-          : "",
+        "",
       marriageCertificate:
-        app && app?.phase2?.marriageCertificate
-          ? app?.phase2?.marriageCertificate
-          : "",
+         "",
       bankStatements:
-        app && app?.phase2?.bankStatements ? app?.phase2?.bankStatements : "",
+         "",
       other: [" "],
       otherDocumentNotes:
-        app && app?.phase2?.otherDocumentNotes
-          ? app?.phase2?.otherDocumentNotes
-          : "",
+        "",
     },
   };
 
@@ -180,29 +181,46 @@ const Prephase2Group = () => {
     }
   };
 
+  const buttonRef = useRef();
+
   return (
     <div className="Pre-phase-2-container">
       <SideNavbar />
       <h2 className="Pre-screening-text">Pre-Screening</h2>
       <img src={editpen} alt="" className="edit-pen" />
-      {/* <div className="Buttons-preescreening">
-        <button className="Edit-appliction-btn">
-          Edit <img src={Editimgapp} alt="" />
-        </button>
-        <button className="Approved-appliction-btn">
-          Approved <img src={Approvedimgapp} alt="" />
-        </button>
-        <button className="Reject-appliction-btn">
-          {" "}
-          Reject <img src={Rejectimgapp} alt="" />
-        </button>
-      </div> */}
+
       <button onClick={() => navigate(-1)} className="back-btn">
         Back
       </button>
 
+      <div className="Buttons-preescreening">
+        {app?.phase2?.status === "rejected" && (
+          <button
+            disabled={isLoading}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "0",
+              paddingRight: "10px",
+              alignItems: "center",
+              cursor: "pointer",
+              opacity: isLoading ? 0.55 : 1,
+              width: "8.5rem",
+              boxSizing: "border-box",
+            }}
+            onClick={() => buttonRef.current.click()}
+            className="Reject-appliction-btn"
+          >
+            <span style={{ wordBreak: "normal" }}>Re Request</span>
+            <VscGitPullRequestGoToChanges
+              style={{ color: "#fff", fontSize: "1.3rem" }}
+            />
+          </button>
+        )}
+      </div>
+
       <div className="phase-4-all-phase">
-        {app?.phaseSubmittedByClient >= 1 && (
+        {app?.phase >= 1 >= 1 && (
           <NavLink
             to={`/admin/group/phase1/${applicationId}`}
             className={`link-hover-effect ${
@@ -214,7 +232,7 @@ const Prephase2Group = () => {
             <span className="routes-all">Phase 1</span>
           </NavLink>
         )}
-        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+        {app?.phase1?.status === "approved" && (
           <NavLink
             to={`/admin/group/prephase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -240,7 +258,7 @@ const Prephase2Group = () => {
             <span className="routes-all">Phase 2</span>
           </NavLink>
         )}
-        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+        {app?.phase2?.status === "approved" && (
           <NavLink
             to={`/admin/group/prephase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -254,7 +272,7 @@ const Prephase2Group = () => {
             <span className="routes-all">Pre-Phase 3</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 3 && (
+        {app?.phase >= 3 && (
           <NavLink
             to={`/admin/group/phase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -564,6 +582,7 @@ const Prephase2Group = () => {
                     placeholder="Document"
                   />
                   <button
+                    ref={buttonRef}
                     disabled={isLoading}
                     type="submit"
                     className="req-btn"

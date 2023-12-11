@@ -7,6 +7,7 @@ const initialState = {
   searchParams: null,
   count: null,
   notificationId: null,
+  isRead: null,
 };
 
 export const userSlice = createSlice({
@@ -36,6 +37,9 @@ export const userSlice = createSlice({
     setNotificationId: (state, action) => {
       state.count = action.payload;
     },
+    setIsRead: (state, action) => {
+      state.isRead = action.payload;
+    },
   },
 });
 
@@ -46,5 +50,6 @@ export const {
   setSearchParams,
   setNotiCount,
   setNotificationId,
+  setIsRead,
 } = userSlice.actions;
 export default userSlice.reducer;

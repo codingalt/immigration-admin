@@ -96,3 +96,33 @@ export const formatTime = (time) => {
   }
 };
 
+export const applicationServiceTypes = {
+      "Sponsor License": "SL",
+      "Certificate of Sponsorship": "CS",
+      "Certificate of Acceptance of Studies": "CAS",
+      "Entry Clearance": "EC",
+      "Leave to Remain": "LR",
+      "EEUS Settlement": "ES",
+      "University Placement": "UP",
+      "Immigration Matter": "IM",
+      "MN1 – Registration": "MN1",
+      "FLR(FP)": "FLR",
+      "FLR(M)": "FLR(M)",
+      "SW – Skilled Worker": "SW",
+      Student: "STD",
+      "Student Child": "SC",
+      "Graduate Visa": "GC",
+      "ECS- Entry Clearance Spouse": "ESC",
+      "ECV – Entry Clearance Visitor": "ECV",
+      "ECD – Entry Clearance Dependant": "ECD",
+      "PS – Pre Settled Status": "PS",
+      "SS – Settled Status": "SS",
+      "Others": "Others",
+      "AN1 – Naturalisation": "AN1",
+      "MN1 – Registration": "MN1",
+      "ILR – Indefinite Leave to Remain": "ILR",
+      "FLR – Further Leave to Remain": "FLR",
+      "Indefinite Leave to Remain": "ILR",
+      "Naturalisation": "AN1",
+      "SL- Sponsor Licence": "SL"
+}

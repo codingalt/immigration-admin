@@ -284,6 +284,42 @@ export const applicationApi = createApi({
       invalidatesTags: ["Application"],
     }),
 
+    reRequestPhase1: builder.mutation({
+      query: (applicationId) => ({
+        url: `api/rerequest/phase1/${applicationId}`,
+        method: "POST",
+        body: applicationId,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    reRequestPhase4: builder.mutation({
+      query: (applicationId) => ({
+        url: `api/rerequest/phase4/${applicationId}`,
+        method: "POST",
+        body: applicationId,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    reRequestGroupPhase1: builder.mutation({
+      query: (applicationId) => ({
+        url: `api/rerequest/group/phase1/${applicationId}`,
+        method: "POST",
+        body: applicationId,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
+    reRequestGroupPhase4: builder.mutation({
+      query: (applicationId) => ({
+        url: `api/rerequest/group/phase4/${applicationId}`,
+        method: "POST",
+        body: applicationId,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
     getApplicationDataById: builder.query({
       query: (applicationId) => `api/application/${applicationId}`,
       providesTags: ["Application", "AdminApi"],
@@ -325,5 +361,9 @@ export const {
   useReadNotificationAdminMutation,
   useGetAllApplicationNotesQuery,
   useGetNotificationCountCaseWorkerQuery,
-  useReadNotificationCaseWorkerMutation
+  useReadNotificationCaseWorkerMutation,
+  useReRequestPhase1Mutation,
+  useReRequestPhase4Mutation,
+  useReRequestGroupPhase1Mutation,
+  useReRequestGroupPhase4Mutation,
 } = applicationApi;

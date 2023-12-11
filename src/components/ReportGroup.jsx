@@ -41,31 +41,33 @@ const ReportGroup = () => {
             style={{
               display: "flex",
               width: "100%",
-              height: "5.1rem",
+              flexDirection: "column",
               position: "relative",
             }}
           >
-            <div className="left-report-side">
-              <img src={reportprofile} alt="" />
-              <p className="phases-report-heading">
-                Phase {item.phase}
-                <span className="Date-time-report-text">
-                  {moment(item?.dateTime).format("dddd, MMMM D, hh:mm a")}
-                </span>
-              </p>
-            </div>
+            <div className="inner-report">
+              <div className="left-report-side">
+                <img src={reportprofile} alt="" />
+                <p className="phases-report-heading">
+                  Phase {item.phase}
+                  <span className="Date-time-report-text">
+                    {moment(item?.dateTime).format("dddd, MMMM D, hh:mm a")}
+                  </span>
+                </p>
+              </div>
 
-            <div className="right-report-side">
-              <button
-                type="button"
-                className={
-                  item.status === "approved"
-                    ? "aproved-report-btn"
-                    : "Reject-report-btn"
-                }
-              >
-                {item.status === "approved" ? "Approved" : "Rejected"}
-              </button>
+              <div className="right-report-side">
+                <button
+                  type="button"
+                  className={
+                    item.status === "approved"
+                      ? "aproved-report-btn"
+                      : "Reject-report-btn"
+                  }
+                >
+                  {item.status === "approved" ? "Approved" : "Rejected"}
+                </button>
+              </div>
             </div>
 
             {item.status === "rejected" &&

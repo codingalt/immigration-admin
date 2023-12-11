@@ -11,7 +11,7 @@ import emailedit from "../assests/email-edit.png"
 import { useChatNotificationsMutation, useGetAllChatsQuery, useGetChatMessagesCountQuery, useGetUserChatsQuery, useGetUserMessagesQuery, useReadMessagesByChatMutation, useSendMessageMutation } from '../services/api/chatApi';
 import { format } from "timeago.js";
 import io from "socket.io-client";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment";
 import pdfimg from "../assests/pdf-img.png";
 import downloadicon from "../assests/downloadicon.svg";
@@ -20,10 +20,12 @@ import userDefault from "../assests/user-default.png";
 import ScrollableFeed from 'react-scrollable-feed';
 import { useMemo } from 'react';
 import { toastError } from './Toast';
+import { setIsRead } from '../services/redux/userSlice';
 
 var socket;
 
 const Message = () => {
+  const dispatch = useDispatch();
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState();
   const [messages, setMessages] = useState([]);
@@ -50,12 +52,13 @@ const Message = () => {
     data: messageData,
     isLoading: loading,
     refetch,
-  } = useGetUserMessagesQuery(selectedChat?._id, { skip: selectedChat === undefined });
+  } = useGetUserMessagesQuery(selectedChat?._id, { skip: selectedChat === undefined, refetchOnMountOrArgChange: true });
 
     const [readMessagesByChat, res] = useReadMessagesByChatMutation();
     const { refetch: refetchReadMsgs, isSuccess: isSuccessMsgRead } = res;
 
   // console.log("Messages", messages);
+  console.log("Selected Chat",selectedChat);
 
   useEffect(() => {
     setMessages(messageData?.result);
@@ -82,6 +85,7 @@ const Message = () => {
   },[selectedChat])
 
   const handleChatClick = (chat) => {
+    dispatch(setIsRead(chat?._id));
     setSelectedChat(chat);
     readMessagesByChat(chat?._id);
   };
@@ -103,13 +107,11 @@ const Message = () => {
        formData.append("chatId", selectedChat._id);
        formData.append("content", newMessage);
       formData.append("applicationId", selectedChat?.applicationId);
-       console.log("selected files", files);
        for (let i = 0; i < files.length; i++) {
          formData.append("chatFile", files[i]);
        }
        const { data } = await sendMessage(formData);
        console.log(data?.result);
-      //  console.log("send msg",data?.result);
        setMessages([...messages, data?.result?.result]);
        socket.emit("new message", data?.result);
        setFiles([]);
@@ -119,7 +121,6 @@ const Message = () => {
 
    const openFile = (e) => {
      const files = e.target.files;
-     console.log(files);
      const filePaths = [];
      for (let i = 0; i < files.length; i++) {
        const file = files[i];
@@ -166,7 +167,7 @@ const Message = () => {
         setReceiveMessage(newMessageReceived.result);
        } else {
         // Otherwise get notification count 
-    
+        chatNotifications(newMessageReceived?.result?.chatId);
        }
      });
      
@@ -179,7 +180,6 @@ const Message = () => {
    };
    const [searchInput, setSearchInput] = useState("");
    const handleSearch = () => {
-    console.log(searchInput);
     if(searchInput === ""){
       setChats(data?.chats);
     }else{
@@ -226,12 +226,12 @@ const Message = () => {
               marginRight: "0",
             }}
           >
-            <section className="discussions">
-              <div className="discussion search">
+            <section className="discussions" style={{height:"100%"}}>
+              <div className="discussion search" style={{top:"0",paddingTop:"18px",height:"98px"}}>
                 <h2 className="Inbox-heading">Inbox</h2>
                 {/* <img src={Messagesvg} alt="" className="Message-svg-img" /> */}
                 {/* <img src={Threedot} alt="" className="Threedot-svg-img" /> */}
-                <div className="searchbar">
+                <div className="searchbar" style={{marginTop:"-12px"}}>
                   <i className="fa fa-search" aria-hidden="true" />
                   <input
                     onKeyDown={handleKeyDownSearch}
@@ -360,10 +360,7 @@ const Message = () => {
                         {selectedChat?.users[0]?.email}
                       </p>
                     </div>
-                    <i
-                      className="icon clickable fa fa-ellipsis-h right"
-                      aria-hidden="true"
-                    />
+                   
                   </div>
                 </>
               ) : null}
@@ -381,7 +378,7 @@ const Message = () => {
                 {/* <ScrollableFeed> */}
                 {selectedChat ? (
                   messages?.map((item, index) => {
-                    const isUserMessage = item?.sender?.toString() == user?._id;
+                    const isUserMessage = item?.sender?.toString() != selectedChat?.clientId; 
                     return (
                       !loading && (
                         <div
@@ -457,7 +454,7 @@ const Message = () => {
                             <p
                               className="Second-profile-message"
                               style={
-                                item?.content?.includes("Apologies")
+                                item?.isPhaseMessage
                                   ? { color: "red" }
                                   : item?.isPhaseApprovedMessage
                                   ? {

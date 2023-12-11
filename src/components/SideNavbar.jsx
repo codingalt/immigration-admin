@@ -3,13 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'; // Import Link from react-
 import "../style/Sidenavbar.css";
 import Logo from "../assests/normal-removebg-preview 1.png"
 import Dp from "../assests/dp-img.png"
-import NotificationIcon from "../assests/notification-icon.svg"
-import Message from "../assests/message-icon.svg"
-import Calender from "../assests/Celender-icon.svg"
-import Billing from "../assests/Billing-icon.svg"
-import caseworker from "../assests/Case Worker Profile.png"
-import setting from "../assests/setting-icon.png"
-import Home from "../assests/Home-icon.png"
 import logoutImg from "../assests/Log-out-icon.png"
 import { useLogoutMutation } from '../services/api/userApi';
 import { useMemo } from 'react';
@@ -19,6 +12,14 @@ import { useGetNotificationCountAdminQuery } from '../services/api/applicationAp
 import MainContext from "./Context/MainContext";
 import { useChatNotificationsMutation, useGetAllChatsQuery } from '../services/api/chatApi';
 import { useState } from 'react';
+import { IoNotificationsOutline } from "react-icons/io5";
+import { TbMessage } from "react-icons/tb";
+import { MdOutlineHome } from "react-icons/md";
+import { FiCalendar } from "react-icons/fi";
+import { LuUserCog2 } from "react-icons/lu";
+import { HiOutlineClipboardList } from "react-icons/hi";
+import { IoSettingsOutline } from "react-icons/io5";
+import { MdOutlineSettings } from "react-icons/md";
 
 const SideNavbar = () => {
   const { socket } = useContext(MainContext);
@@ -27,7 +28,7 @@ const SideNavbar = () => {
   const [logout, result] = useLogoutMutation();
   const { error, isSuccess } = result;
   const navigate = useNavigate();
-  const { user,count } = useSelector((state) => state.user);
+  const { user,count,isRead } = useSelector((state) => state.user);
   const [unread,setUnread] = useState();
   const [receiveNoti, setReceiveNoti] = useState();
   const [getCount, setGetCount] = useState();
@@ -40,11 +41,18 @@ const SideNavbar = () => {
 
   useEffect(() => {
     if (data) {
+      let countVal = 0;
       data?.chats?.map((item) => {
         if (item.unseen > 0) {
-          setUnread(true);
+          countVal = countVal + 1;
         }
       });
+
+      if(countVal > 0) {
+        setUnread(true);
+      }else{
+        setUnread(false);
+      }
     }
   }, [data]);
 
@@ -52,7 +60,7 @@ const SideNavbar = () => {
     if (receiveNoti) {
       refetchChats();
     }
-  }, [receiveNoti]);
+  }, [receiveNoti,isRead]);
 
   const { isCaseWorker, profilePic } = user ? user : "";
 
@@ -70,6 +78,7 @@ const SideNavbar = () => {
 
   const handleLogout = async () => {
     await logout();
+    window.location.reload(false);
   };
 
   useEffect(()=>{
@@ -105,11 +114,13 @@ const SideNavbar = () => {
 
       <div className="icons-sidebar">
         <Link to="/admin/dashboard">
-          <img src={Home} alt="" className="Home-icon" />
+          <MdOutlineHome style={{ fontSize: "1.9rem", color: "#000" }} />
         </Link>
 
         <Link to="/admin/notification">
-          <img src={NotificationIcon} alt="" className="Notification-icon" />
+          <IoNotificationsOutline
+            style={{ fontSize: "1.9rem", color: "#000" }}
+          />
           {count > 0 ? (
             <div className="icon-badge">
               <span>{count}</span>
@@ -118,7 +129,7 @@ const SideNavbar = () => {
         </Link>
 
         <Link to="/admin/message">
-          <img src={Message} alt="" className="Message-icon" />
+          <TbMessage style={{ fontSize: "1.9rem", color: "#000" }} />
           {unread ? (
             <div className="icon-badge-message">
               <span></span>
@@ -127,21 +138,23 @@ const SideNavbar = () => {
         </Link>
 
         <Link to="/calender">
-          <img src={Calender} alt="" className="Calender-icon" />
+          <FiCalendar style={{ fontSize: "1.9rem", color: "#000" }} />
         </Link>
 
         {!isCaseWorker && (
           <Link to="/admin/caseworker">
-            <img src={caseworker} alt="" className="Caseworker-icon" />
+            <LuUserCog2 style={{ fontSize: "1.9rem", color: "#000" }} />
           </Link>
         )}
 
         <Link to="/admin/billing">
-          <img src={Billing} alt="" className="billing-icon" />
+          <HiOutlineClipboardList
+            style={{ fontSize: "1.9rem", color: "#000" }}
+          />
         </Link>
 
         <Link to="/admin/profile">
-          <img src={setting} alt="" className="Setting-icon" />
+          <MdOutlineSettings style={{ fontSize: "1.9rem", color: "#000" }} />
         </Link>
 
         <Link to="#" onClick={handleLogout}>

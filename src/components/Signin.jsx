@@ -198,18 +198,7 @@ function onChange(value) {
               Forgot Password?{" "}
             </NavLink>
 
-            <p className="Or-gap">Or</p>
-            <div
-              className="sign-in-with-google"
-              onClick={handleSigninWithGoogle}
-              style={{ cursor: "pointer" }}
-            >
-              <img
-                src={googlepic}
-                style={{ position: "relative", left: "26px" }}
-              />
-              <p className="sign-in-with-goolge-text">SIGN IN WITH GOOGLE</p>
-            </div>
+           
           </div>
         </div>
 

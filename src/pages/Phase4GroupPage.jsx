@@ -3,6 +3,7 @@ import {
   useApprovePhase4Mutation,
   useGetApplicationByUserIdQuery,
   useGetApplicationDataByIdQuery,
+  useReRequestGroupPhase4Mutation,
 } from "../services/api/applicationApi";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import Logo2 from "../assests/Ukimmigration-logo.png";
@@ -32,7 +33,7 @@ import { useContext } from "react";
 import Approvedimgapp from "../assests/Approved-img.svg";
 import Rejectimgapp from "../assests/Delete-File-img.svg";
 import Loader from "../components/Loader";
-import { useGetGroupClientAppByIdQuery } from "../services/api/companyClient";
+import { useApproveGroupClientPhase4Mutation, useGetGroupClientAppByIdQuery } from "../services/api/companyClient";
 import GeneralFormGroup from "../components/Phase4GroupForms/GeneralFormGroup";
 import AccomodationFormGroup from "../components/Phase4GroupForms/AccomodationFormGroup";
 import FamilyFormGroup from "../components/Phase4GroupForms/FamilyFormGroup";
@@ -42,10 +43,15 @@ import EmploymentFormGroup from "../components/Phase4GroupForms/EmploymentFormGr
 import MaintenanceFormGroup from "../components/Phase4GroupForms/MaintenanceFormGroup";
 import TravelFormGroup from "../components/Phase4GroupForms/TravelFormGroup";
 import CharacterFormGroup from "../components/Phase4GroupForms/CharacterFormGroup";
+import RejectGroup from "../components/RejectGroup";
+import Rejectpopup from "../components/Rejectpopup";
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 
 const Phase4GroupPage = () => {
   const { applicationId } = useParams();
-  const { data, refetch } = useGetGroupClientAppByIdQuery(applicationId);
+  const [isReject, setIsReject] = useState();
+  const [companyId, setCompanyId] = useState();
+  const { data, refetch } = useGetGroupClientAppByIdQuery(applicationId,{refetchOnMountOrArgChange:true});
   const [isAllowed, setIsAllowed] = useState(false);
   const [childDetailsArr, setChildDetailsArr] = useState([]);
   const [lastVisitsToUk, setLastVisitsToUk] = useState([]);
@@ -1565,19 +1571,33 @@ const Phase4GroupPage = () => {
   };
 
   const [approvePhase4, result] = useApprovePhase4Mutation();
+  const [approveGroupClientPhase4, resp] =
+    useApproveGroupClientPhase4Mutation();
+
   const {
     isLoading: approveLoading,
     isSuccess: approveSuccess,
     error: approveErr,
   } = result;
 
+  const {
+    isLoading: approveCompanyLoading,
+    isSuccess: approveCompanySuccess,
+    error: approveCompanyErr,
+  } = resp;
+
   const handleApprove = async () => {
-    await approvePhase4({ applicationId: applicationId });
+    if (data?.application?.phase1.fullNameAsPassport) {
+      await approveGroupClientPhase4({ applicationId: applicationId });
+    } else {
+      await approvePhase4({ applicationId: applicationId });
+    }
     socket.emit("phase notification", {
       userId: data?.application?.userId,
       applicationId: applicationId,
       phase: 4,
       phaseStatus: "approved",
+      phaseSubmittedByClient: data?.application?.phaseSubmittedByClient,
     });
   };
 
@@ -1594,11 +1614,82 @@ const Phase4GroupPage = () => {
     }
   }, [approveSuccess]);
 
+  useMemo(() => {
+    if (approveCompanyErr) {
+      toastError(approveErr?.data?.message);
+    }
+  }, [approveCompanyErr]);
+
+  useMemo(() => {
+    if (approveCompanySuccess) {
+      toastSuccess("Phase 4 Approved");
+      navigate(`/admin/group/prescreening/${applicationId}`);
+    }
+  }, [approveCompanySuccess]);
+
+  const handleDeclineRequest = (applicationId, item) => {
+    if (data?.application?.phase1.fullNameAsPassport) {
+      setCompanyId(true);
+    } else {
+      setCompanyId(false);
+    }
+    setIsReject(true);
+  };
+
+  // Re Request Phase 4
+  const [reRequestGroupPhase4, response] = useReRequestGroupPhase4Mutation();
+  const {
+    isLoading: isLoadingReRequest,
+    isSuccess: isSuccessReRequest,
+    error: reRequestErr,
+  } = response;
+
+  useMemo(() => {
+    if (isSuccessReRequest) {
+      toastSuccess("Phase 4 Requested.");
+    }
+  }, [isSuccessReRequest]);
+
+  useMemo(() => {
+    if (reRequestErr) {
+      toastSuccess(reRequestErr?.data?.message);
+    }
+  }, [reRequestErr]);
+
+  const handleReRequest = async () => {
+    const { data: resp } = await reRequestGroupPhase4(applicationId);
+    if (resp.success) {
+      socket.emit("phase notification", {
+        userId: data?.application?.userId,
+        applicationId: applicationId,
+        phase: 3,
+        phaseStatus: "pending",
+        phaseSubmittedByClient: 4,
+        reSubmit: 4,
+      });
+    }
+  };
+
   return (
     <>
       {isAllowed && (
         <>
           <div className="Phase-2-main-container">
+            {companyId
+              ? isReject && (
+                  <RejectGroup
+                    applicationId={applicationId}
+                    show={isReject}
+                    setShow={setIsReject}
+                  />
+                )
+              : isReject && (
+                  <Rejectpopup
+                    applicationId={applicationId}
+                    show={isReject}
+                    setShow={setIsReject}
+                  />
+                )}
             <SideNavbar />
             <h2 className="Pre-screening-text-2">Pre-Screening</h2>
             <div className="Buttons-preescreening">
@@ -1666,8 +1757,9 @@ const Phase4GroupPage = () => {
               )}
 
               {!data?.application?.isManual &&
-                data?.application?.phase < 4 &&
-                data?.application?.applicationStatus != "rejected" && (
+                data?.application?.phase <= 4 &&
+                data?.application?.applicationStatus != "rejected" &&
+                data?.application?.phase4?.status != "rejected" && (
                   <>
                     <button
                       style={{
@@ -1684,7 +1776,7 @@ const Phase4GroupPage = () => {
                     </button>
                     <button
                       style={{ cursor: "pointer" }}
-                      onClick={() => navigate(`/admin/reject/${applicationId}`)}
+                      onClick={handleDeclineRequest}
                       className="Reject-appliction-btn"
                     >
                       {" "}
@@ -1692,9 +1784,36 @@ const Phase4GroupPage = () => {
                     </button>
                   </>
                 )}
+
+              {data?.application?.phase === 4 &&
+                data?.application?.phaseStatus === "rejected" && (
+                  <button
+                    disabled={isLoadingReRequest}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "0",
+                      paddingRight: "10px",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      opacity: isLoadingReRequest ? 0.55 : 1,
+                      width: "8.5rem",
+                      boxSizing: "border-box",
+                    }}
+                    onClick={handleReRequest}
+                    className="Reject-appliction-btn"
+                  >
+                    <span style={{ wordBreak: "normal" }}>Re Request</span>
+                    <VscGitPullRequestGoToChanges
+                      style={{ color: "#fff", fontSize: "1.3rem" }}
+                    />
+                  </button>
+                )}
             </div>
             <button
-              onClick={() => navigate(`/admin/group/prescreening/${applicationId}`)}
+              onClick={() =>
+                navigate(`/admin/group/prescreening/${applicationId}`)
+              }
               className="back-btn"
             >
               Back

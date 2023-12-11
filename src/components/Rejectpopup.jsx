@@ -12,10 +12,9 @@ import { toastError, toastSuccess } from './Toast';
 import { useContext } from 'react';
 import MainContext from './Context/MainContext';
 
-const Rejectpopup = () => {
+const Rejectpopup = ({show,setShow,applicationId}) => {
     const navigate = useNavigate(); 
     const [rejectPhaseReason, setRejectPhaseReason] = useState("");
-    const {applicationId} = useParams();
     const [rejectApplication, res] = useRejectApplicationMutation();
     const {isLoading, error,isSuccess} = res;
     const { socket } = useContext(MainContext);
@@ -40,7 +39,7 @@ const Rejectpopup = () => {
         toastSuccess("Application Rejected.");
         setTimeout(() => {
             setRejectPhaseReason("");
-            navigate(-1);
+            setShow(false);
         }, 1000);
       }
     }, [isSuccess]);
@@ -59,6 +58,7 @@ const Rejectpopup = () => {
           applicationId: applicationId,
           phase: app?.phase,
           phaseStatus: "rejected",
+          phaseSubmittedByClient: app?.phaseSubmittedByClient,
         });
     };
 
@@ -69,7 +69,7 @@ const Rejectpopup = () => {
         buttonRef.current &&
         !buttonRef.current.contains(event.target)
       ) {
-        navigate(-1)
+        setShow(false);
       }
     };
 
@@ -79,13 +79,18 @@ const Rejectpopup = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
     return (
       <div>
-        <Prescreening />
-
-        <div className="overlay" style={{zIndex:"99"}}>
+        <div className="overlay" style={{ zIndex: "99" }}>
           <div className="Rejectpopoup-2" ref={buttonRef}>
-            <img src={crossicon} alt="" className="cross-img" />
+            <img
+              src={crossicon}
+              onClick={() => setShow(false)}
+              style={{ cursor: "pointer" }}
+              alt=""
+              className="cross-img"
+            />
             <p className="Confermation-text-4">
               Are you sure you want to reject this application?
             </p>

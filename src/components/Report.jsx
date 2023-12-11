@@ -19,7 +19,14 @@ const Report = () => {
           Back
         </button>
 
-        <div className="Report-1" style={{ flexDirection: "column" }}>
+        <div
+          className="Report-1"
+          style={{
+            flexDirection: "column",
+            overflowY: "auto",
+            paddingBottom: "2rem",
+          }}
+        >
           {data?.application?.report.length === 0 && !isLoading && (
             <p
               style={{
@@ -40,40 +47,44 @@ const Report = () => {
               style={{
                 display: "flex",
                 width: "100%",
-                height: "5.1rem",
+                flexDirection: "column",
                 position: "relative",
               }}
             >
-              <div className="left-report-side">
-                <img src={reportprofile} alt="" />
-                <p className="phases-report-heading">
-                  Phase {item.phase}
-                  <span className="Date-time-report-text">
-                    {moment(item?.dateTime).format("dddd, MMMM D, hh:mm a")}
-                  </span>
-                </p>
-              </div>
-
-              <div className="right-report-side">
-                <button
-                  type="button"
-                  className={
-                    item.status === "approved"
-                      ? "aproved-report-btn"
-                      : "Reject-report-btn"
-                  }
-                >
-                  {item.status === "approved" ? "Approved" : "Rejected"}
-                </button>
-              </div>
-
-              {item.status === "rejected" && data?.application?.rejectPhaseReason && (
-                <div className="report-reason">
-                  <p className="reason-text">
-                    {data?.application?.rejectPhaseReason}
+              <div className="inner-report">
+                <div className="left-report-side">
+                  <img src={reportprofile} alt="" />
+                  <p className="phases-report-heading">
+                    Phase {item.phase}
+                    <span className="Date-time-report-text">
+                      {moment(item?.dateTime).format("dddd, MMMM D, hh:mm a")}
+                    </span>
                   </p>
                 </div>
-              )}
+
+                <div className="right-report-side">
+                  <button
+                    type="button"
+                    className={
+                      item.status === "approved"
+                        ? "aproved-report-btn"
+                        : "Reject-report-btn"
+                    }
+                  >
+                    {item.status === "approved" ? "Approved" : "Rejected"}
+                  </button>
+                </div>
+                
+              </div>
+
+              {item.status === "rejected" &&
+                data?.application?.rejectPhaseReason && (
+                  <div className="report-reason">
+                    <p className="reason-text">
+                      {data?.application?.rejectPhaseReason}
+                    </p>
+                  </div>
+                )}
             </div>
           ))}
         </div>

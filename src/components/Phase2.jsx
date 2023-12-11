@@ -12,10 +12,14 @@ import { useApprovePhase2Mutation, useGetApplicationDataByIdQuery } from "../ser
 import { toastError, toastSuccess } from "./Toast";
 import Loader from "./Loader";
 import MainContext from "./Context/MainContext";
+import RejectGroup from "./RejectGroup";
+import Rejectpopup from "./Rejectpopup";
 
 const Phase2 = () => {
   const { applicationId } = useParams();
   const navigate = useNavigate();
+  const [isReject, setIsReject] = useState();
+  const [companyId, setCompanyId] = useState();
   const {
     data,
     refetch,
@@ -97,42 +101,75 @@ const Phase2 = () => {
     }
   }, [approveSuccess]);
 
+  const handleDeclineRequest = () => {
+    if (app?.companyId) {
+      setCompanyId(true);
+    } else {
+      setCompanyId(false);
+    }
+    setIsReject(true);
+  };
+
+  const [isPhase2Rejected, setIsPhase2Rejected] = useState(false);
+
+  useEffect(() => {
+    if (app?.phase === 1 && app?.phaseStatus === "rejected") {
+      setIsPhase2Rejected(true);
+    }
+  }, [app]);
+
+  console.log("isPhase2Rejected", isPhase2Rejected);
+
   return (
     <div className="Phase-2-main-container">
+      {companyId
+        ? isReject && (
+            <RejectGroup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )
+        : isReject && (
+            <Rejectpopup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )}
       <SideNavbar />
       <h2 className="Pre-screening-text">Pre-Screening</h2>
       <div className="Buttons-preescreening">
-        {/* <button className="Edit-appliction-btn">
-          Edit <img src={Editimgapp} alt="" />
-        </button> */}
-        {app?.requestedPhase < 3 && app?.applicationStatus != "rejected" && (
-          <>
-            <button
-              disabled={approveLoading}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-                opacity: approveLoading ? 0.55 : 1,
-              }}
-              onClick={handleApprove}
-              className="Approved-appliction-btn"
-            >
-              {approveLoading ? <Loader /> : "Approve"}{" "}
-              <img src={Approvedimgapp} alt="" />
-            </button>
-            <button
-              disabled={approveLoading}
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/admin/reject/${applicationId}`)}
-              className="Reject-appliction-btn"
-            >
-              {" "}
-              Reject <img src={Rejectimgapp} alt="" />
-            </button>
-          </>
-        )}
+        {app?.requestedPhase < 3 &&
+          app?.applicationStatus != "rejected" &&
+          app?.phase2?.status != "approved" && (
+            <>
+              <button
+                disabled={approveLoading}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  opacity: approveLoading ? 0.55 : 1,
+                }}
+                onClick={handleApprove}
+                className="Approved-appliction-btn"
+              >
+                {approveLoading ? <Loader /> : "Approve"}{" "}
+                <img src={Approvedimgapp} alt="" />
+              </button>
+              <button
+                disabled={approveLoading}
+                style={{ cursor: "pointer" }}
+                onClick={handleDeclineRequest}
+                className="Reject-appliction-btn"
+              >
+                {" "}
+                Reject <img src={Rejectimgapp} alt="" />
+              </button>
+            </>
+          )}
       </div>
       <img src={editpen} alt="" className="edit-pen" />
 
@@ -145,7 +182,7 @@ const Phase2 = () => {
       </button>
 
       <div className="phase-4-all-phase">
-        {app?.phaseSubmittedByClient >= 1 && (
+        {app?.phase >= 1 && (
           <NavLink
             to={`/admin/phase1/${applicationId}`}
             className={`link-hover-effect ${
@@ -157,7 +194,7 @@ const Phase2 = () => {
             <span className="routes-all">Phase 1</span>
           </NavLink>
         )}
-        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+        {app?.phase1?.status === "approved" && (
           <NavLink
             to={`/admin/prephase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -183,7 +220,7 @@ const Phase2 = () => {
             <span className="routes-all">Phase 2</span>
           </NavLink>
         )}
-        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+        {app?.phase2?.status === "approved" && (
           <NavLink
             to={`/admin/prephase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -197,7 +234,7 @@ const Phase2 = () => {
             <span className="routes-all">Pre-Phase 3</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 3 && (
+        {app?.phase >= 3 && (
           <NavLink
             to={`/admin/phase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -395,7 +432,7 @@ const Phase2 = () => {
             </>
           )}
 
-          {app?.phase2?.other && (
+          {app?.phase2?.other && app?.phase2?.other?.length > 0 && (
             <>
               <p className="password-text">OTHER</p>
               <Link

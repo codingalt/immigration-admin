@@ -408,7 +408,7 @@ const Billing = () => {
             <td>Invoice Create</td>
             <td>Cost</td>
             <td>Status</td>
-            <td>Action</td>
+            <td>Receipt</td>
           </tr>
 
           {isLoading && (
@@ -470,11 +470,31 @@ const Billing = () => {
                 <td>{item.phase3.cost}</td>
                 <td>{item.phase3.isPaid ? "Paid" : "Pending"}</td>
                 <td>
-                  <i
-                    className="fa fa-download clickable green-icon"
-                    style={{ fontSize: "15pt" }}
-                    aria-hidden="true"
-                  ></i>
+                  {item?.phase3?.isOnlinePayment ? (
+                    <Link
+                      to={item?.phase3?.onlinePaymentEvidence}
+                      target="_blank"
+                    >
+                      <i
+                        className="fa fa-download clickable green-icon"
+                        style={{ fontSize: "15pt" }}
+                        aria-hidden="true"
+                      ></i>
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`${import.meta.env.VITE_IMG_URI}${
+                        item?.phase3?.paymentEvidence
+                      }`}
+                      target="_blank"
+                    >
+                      <i
+                        className="fa fa-download clickable green-icon"
+                        style={{ fontSize: "15pt" }}
+                        aria-hidden="true"
+                      ></i>
+                    </Link>
+                  )}
                 </td>
               </tr>
             ))}

@@ -8,7 +8,7 @@ import Messagesvg from "../assests/message-svg.png"
 import Threedot from "../assests/threedot-svg.png"
 import Adminprofile from "../assests/admin-profile-img.png"
 import emailedit from "../assests/email-edit.png"
-import { useGetChatByApplicationIdQuery, useGetUserChatsQuery, useGetUserMessagesQuery, useSendMessageMutation } from '../services/api/chatApi';
+import { useGetChatByApplicationIdQuery, useGetUserChatsQuery, useGetUserMessagesQuery, useReadMessagesByChatMutation, useSendMessageMutation } from '../services/api/chatApi';
 import userDefault from "../assests/user-default.png"
 import InputEmoji from "react-input-emoji";
 import { useSelector } from 'react-redux';
@@ -33,6 +33,7 @@ const Message = ({applicationId}) => {
   const [messages, setMessages] = useState([]);
   const [files, setFiles] = useState([]);
   const fileRef = useRef();
+  const [readMessagesByChat] = useReadMessagesByChatMutation();
 
   useEffect(() => {
     socket = io(import.meta.env.VITE_URI);
@@ -50,7 +51,10 @@ const Message = ({applicationId}) => {
     data: messageData,
     isLoading: loading,
     refetch,
-  } = useGetUserMessagesQuery(chatId, { skip: chatId === undefined});
+  } = useGetUserMessagesQuery(chatId, {
+    skip: chatId === undefined,
+    refetchOnMountOrArgChange: true,
+  });
 
   const [sendMessage, sendMsgRes] = useSendMessageMutation();
   const { isLoading: isLoadingSend, error: isSendMsgErr } = sendMsgRes;
@@ -116,6 +120,7 @@ const Message = ({applicationId}) => {
    useEffect(() => {
      socket.on("message received", async (newMessageReceived) => {
     setMessages([...messages, newMessageReceived.result]);
+    // readMessagesByChat(newMessageReceived?.result?.chatId);
      });
      
    });
@@ -132,7 +137,7 @@ const Message = ({applicationId}) => {
         <div className="container-message-box-2">
           <div className="row" style={{ height: "90%" }}>
             <section className="chat-2" style={{ height: "94%" }}>
-              <div className="header-chat-2" style={{ zIndex: "50" }}>
+              <div className="header-chat-2" style={{ zIndex: "10" }}>
                 {chat?.result[0]?.users[0]?.googleId ? (
                   <img
                     style={{
@@ -160,7 +165,7 @@ const Message = ({applicationId}) => {
                         ? `${import.meta.env.VITE_IMG_URI}${
                             chat?.result[0]?.users[0]?.profilePic
                           }`
-                        : userDefault
+                        : Messageprofileimg
                     }
                     alt=""
                     className="Message-profile-img-2"
@@ -177,7 +182,7 @@ const Message = ({applicationId}) => {
               </div>
               <div className="messages-chat-2" ref={chatContainerRef}>
                 {messages?.map((item) => {
-                  const isUserMessage = item?.sender === user?._id;
+                  const isUserMessage = item?.sender?.toString() != chat?.result[0]?.clientId;
                   return (
                     !loading && (
                       <div
@@ -203,7 +208,7 @@ const Message = ({applicationId}) => {
                                   : !isUserMessage &&
                                     chat?.result[0]?.users[0]?.profilePic
                                   ? chat?.result[0]?.users[0]?.profilePic
-                                  : userDefault
+                                  : Messageprofileimg
                               }
                               alt=""
                               className="Second-profile-img-2"
@@ -226,7 +231,7 @@ const Message = ({applicationId}) => {
                                   ? `${import.meta.env.VITE_IMG_URI}${
                                       chat?.result[0]?.users[0]?.profilePic
                                     }`
-                                  : userDefault
+                                  : Messageprofileimg
                               }
                               alt=""
                               className="Second-profile-img-2"
@@ -249,7 +254,7 @@ const Message = ({applicationId}) => {
                           <p
                             className="Second-profile-message message-content"
                             style={
-                              item?.content?.includes("Apologies")
+                              item?.isPhaseMessage
                                 ? { color: "red" }
                                 : item?.isPhaseApprovedMessage
                                 ? {

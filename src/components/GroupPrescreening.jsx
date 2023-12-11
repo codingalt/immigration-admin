@@ -26,10 +26,12 @@ import MainContext from "./Context/MainContext";
 import Loader from "./Loader";
 import { useUpdateServiceMutation } from "../services/api/adminApi";
 import { useAddNotesGroupMutation, useAssignGroupApplicationToCaseWorkerMutation, useGetAllGroupApplicationsQuery, useGetGroupClientAppByIdQuery, useUpdateGroupServiceMutation } from "../services/api/companyClient";
+import RejectGroup from "./RejectGroup";
 
 const GroupPrescreening = () => {
   const { socket } = useContext(MainContext);
   const navigate = useNavigate();
+  const [isReject, setIsReject] = useState(false);
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const [selectedCaseWorker, setSelectedCaseWorker] = useState({
@@ -206,6 +208,13 @@ const GroupPrescreening = () => {
 
   return (
     <div className="prescreening-container">
+      {isReject && (
+        <RejectGroup
+          applicationId={applicationId}
+          show={isReject}
+          setShow={setIsReject}
+        />
+      )}
       <div className="topnavbar-prescreen">
         <TopNavbar />
       </div>
@@ -442,28 +451,6 @@ const GroupPrescreening = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                <tr className="Table-heading-2">
-                  <td>{data?.application?.phase1?.applicationType}</td>
-                  <td>
-                    {data
-                      ? format(
-                          new Date(data?.application?.createdAt),
-                          "yyyy-MM-dd"
-                        )
-                      : ""}
-                  </td>
-                  <td>
-                    {data?.application?.caseWorkerName
-                      ? data?.application?.caseWorkerName
-                      : "Admin"}
-                  </td>
-                  <td style={{ textTransform: "capitalize" }}>
-                    {data?.application?.applicationStatus}
-                  </td>
-                </tr>
-              }
-
               {data?.application?.service?.map((service) => (
                 <tr key={service._id} className="Table-heading-2">
                   <td>{service.serviceType}</td>

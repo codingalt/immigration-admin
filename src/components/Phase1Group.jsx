@@ -10,6 +10,7 @@ import {
   useApprovePhase1Mutation,
   useGetApplicationDataByIdQuery,
   usePostPhase1Mutation,
+  useReRequestGroupPhase1Mutation,
   useUpdatePhaseByAdminMutation,
 } from "../services/api/applicationApi";
 import MainContext from "./Context/MainContext";
@@ -26,11 +27,17 @@ import { toastError, toastSuccess } from "./Toast";
 import tick from "../assests/tick.png";
 import cross from "../assests/cross.png";
 import { useApproveGroupClientPhase1Mutation, useGetGroupClientAppByIdQuery, useUpdateGroupPhaseByAdminMutation } from "../services/api/companyClient";
+import Rejectpopup from "./Rejectpopup";
+import RejectGroup from "./RejectGroup";
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 
 const Phase1Group = () => {
   const { socket } = useContext(MainContext);
   const { applicationId } = useParams();
   const navigate = useNavigate();
+  const [isReject, setIsReject] = useState();
+  const [companyId, setCompanyId] = useState();
+  const [isPhase1Approved, setIsPhase1Approved] = useState(false);
 
   const [approveGroupClientPhase1, result] =
     useApproveGroupClientPhase1Mutation();
@@ -44,7 +51,7 @@ const Phase1Group = () => {
     refetchOnMountOrArgChange: true,
   });
   const app = data?.application;
-//   console.log("Application data", app);
+  //   console.log("Application data", app);
 
   const [received, setReceived] = useState();
 
@@ -62,6 +69,26 @@ const Phase1Group = () => {
       refetch();
     }
   }, [received]);
+
+  // Re Request Phase 1
+  const [reRequestGroupPhase1, resp] = useReRequestGroupPhase1Mutation();
+  const {
+    isLoading: isLoadingReRequest,
+    isSuccess: isSuccessReRequest,
+    error: reRequestErr,
+  } = resp;
+
+  useMemo(() => {
+    if (isSuccessReRequest) {
+      toastSuccess("Phase 1 Requested.");
+    }
+  }, [isSuccessReRequest]);
+
+  useMemo(() => {
+    if (reRequestErr) {
+      toastSuccess(reRequestErr?.data?.message);
+    }
+  }, [reRequestErr]);
 
   const [contact, setContact] = useState(app?.phase1?.contact);
   const [activeLink, setActiveLink] = useState("/phase1");
@@ -92,6 +119,14 @@ const Phase1Group = () => {
     isSuccess: approveSuccess,
     error: approveErr,
   } = result;
+
+  useEffect(() => {
+    setContact(app?.phase1?.contact);
+    setPermissionInCountryErr(app?.phase1?.permissionInCountry);
+    setSpeakEnglishErr(app?.phase1?.speakEnglish);
+    setRefusedVisaErr(app?.phase1?.isRefusedVisaEntry);
+    setLanguagesArr(app?.phase1?.otherLanguagesSpeak);
+  }, [data]);
 
   const handleLinkClick = (linkName) => {
     setActiveLink(linkName);
@@ -124,6 +159,19 @@ const Phase1Group = () => {
     }
   }, [approveSuccess]);
 
+  useEffect(() => {
+    if (data) {
+      if (
+        data?.application?.phase === 1 &&
+        data?.application?.phaseStatus === "approved"
+      ) {
+        setIsPhase1Approved(false);
+      } else {
+        setIsPhase1Approved(true);
+      }
+    }
+  }, [data]);
+
   const initialValues = app && {
     phase1: {
       fullNameAsPassport: app && app?.phase1.fullNameAsPassport,
@@ -146,7 +194,7 @@ const Phase1Group = () => {
   }, [isSuccess]);
 
   const handleSubmit = async (values) => {
-    console.log(values);
+    console.log("values", values);
     const { data } = await updateGroupPhaseByAdmin({
       data: values?.phase1,
       applicationId: applicationId,
@@ -170,6 +218,15 @@ const Phase1Group = () => {
     });
   };
 
+  const handleDeclineRequest = () => {
+    if (app?.companyId) {
+      setCompanyId(true);
+    } else {
+      setCompanyId(false);
+    }
+    setIsReject(true);
+  };
+
   const links = [
     { to: "/phase1", label: "Phase 1" },
     { to: "/prephase2", label: "Pre-Phase 2" },
@@ -182,7 +239,6 @@ const Phase1Group = () => {
   useEffect(() => {
     // Get the current path from window.location.pathname
     const currentPath = window.location.pathname;
-    console.log(currentPath);
 
     // Find the matching label from the links array based on the current path
     const matchedLink = links.find((link) => link.to === currentPath);
@@ -192,10 +248,39 @@ const Phase1Group = () => {
     }
   }, [links]);
 
+  const handleReRequest = async () => {
+    const { data: resp } = await reRequestGroupPhase1(applicationId);
+    if (resp.success) {
+      socket.emit("phase notification", {
+        userId: app?.userId,
+        applicationId: applicationId,
+        phase: 1,
+        phaseStatus: "pending",
+        phaseSubmittedByClient: 1,
+        reSubmit: 1,
+      });
+    }
+  };
+
   const buttonRef = useRef();
 
   return (
     <div className="Phase-1-main-container">
+      {companyId
+        ? isReject && (
+            <RejectGroup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )
+        : isReject && (
+            <Rejectpopup
+              applicationId={applicationId}
+              show={isReject}
+              setShow={setIsReject}
+            />
+          )}
       <SideNavbar />
       <h2 className="Pre-screening-text-2">Pre-Screening</h2>
       <div className="Buttons-preescreening">
@@ -255,7 +340,7 @@ const Phase1Group = () => {
                 gap: "4px",
               }}
               className="Approved-appliction-btn"
-              onClick={handleSubmit}
+              onClick={() => buttonRef.current.click()}
             >
               {" "}
               {isLoadingUpdate ? (
@@ -268,34 +353,65 @@ const Phase1Group = () => {
           </div>
         )}
 
-        {app?.requestedPhase < 2 && app?.applicationStatus != "rejected" && (
-          <>
+        {isPhase1Approved &&
+          app?.requestedPhase < 2 &&
+          app?.applicationStatus != "rejected" && (
+            <>
+              <button
+                disabled={approveLoading}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: approveLoading ? "no-drop" : "pointer",
+                  opacity: approveLoading ? 0.55 : 1,
+                }}
+                onClick={handleApprove}
+                className="Approved-appliction-btn"
+              >
+                {approveLoading ? <Loader /> : "Approve"}{" "}
+                <img src={Approvedimgapp} alt="" />
+              </button>
+              <button
+                disabled={approveLoading}
+                style={{
+                  cursor: "pointer",
+                  opacity: approveLoading ? 0.55 : 1,
+                }}
+                onClick={handleDeclineRequest}
+                className="Reject-appliction-btn"
+              >
+                {" "}
+                Reject <img src={Rejectimgapp} alt="" />
+              </button>
+            </>
+          )}
+
+        {app?.phase === 1 &&
+          app?.phaseStatus === "rejected" &&
+          app?.requestedPhase < 2 && (
             <button
-              disabled={approveLoading}
+              disabled={isLoadingReRequest}
               style={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "space-between",
+                gap: "0",
+                paddingRight: "10px",
                 alignItems: "center",
-                cursor: approveLoading ? "no-drop" : "pointer",
-                opacity: approveLoading ? 0.55 : 1,
+                cursor: "pointer",
+                opacity: isLoadingReRequest ? 0.55 : 1,
+                width: "8.5rem",
+                boxSizing: "border-box",
               }}
-              onClick={handleApprove}
-              className="Approved-appliction-btn"
-            >
-              {approveLoading ? <Loader /> : "Approve"}{" "}
-              <img src={Approvedimgapp} alt="" />
-            </button>
-            <button
-              disabled={approveLoading}
-              style={{ cursor: "pointer", opacity: approveLoading ? 0.55 : 1 }}
-              onClick={() => navigate(`/admin/reject/${applicationId}`)}
+              onClick={handleReRequest}
               className="Reject-appliction-btn"
             >
-              {" "}
-              Reject <img src={Rejectimgapp} alt="" />
+              <span style={{ wordBreak: "normal" }}>Re Request</span>
+              <VscGitPullRequestGoToChanges
+                style={{ color: "#fff", fontSize: "1.3rem" }}
+              />
             </button>
-          </>
-        )}
+          )}
       </div>
       <button
         onClick={() => navigate(`/admin/group/prescreening/${applicationId}`)}
@@ -306,7 +422,7 @@ const Phase1Group = () => {
       </button>
 
       <div className="phase-4-all-phase">
-        {app?.phaseSubmittedByClient >= 1 && (
+        {app?.phase >= 1 >= 1 && (
           <NavLink
             to={`/admin/group/phase1/${applicationId}`}
             className={`link-hover-effect ${
@@ -318,7 +434,7 @@ const Phase1Group = () => {
             <span className="routes-all">Phase 1</span>
           </NavLink>
         )}
-        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+        {app?.phase1?.status === "approved" && (
           <NavLink
             to={`/admin/group/prephase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -344,7 +460,7 @@ const Phase1Group = () => {
             <span className="routes-all">Phase 2</span>
           </NavLink>
         )}
-        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+        {app?.phase2?.status === "approved" && (
           <NavLink
             to={`/admin/group/prephase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -358,7 +474,7 @@ const Phase1Group = () => {
             <span className="routes-all">Pre-Phase 3</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 3 && (
+        {app?.phase >= 3 && (
           <NavLink
             to={`/admin/group/phase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -390,11 +506,7 @@ const Phase1Group = () => {
 
       {app && (
         <div className="phase-1">
-          <Formik
-            validationSchema={phase1Schema}
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-          >
+          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {({ setFieldValue, errors, resetForm }) => (
               <Form style={{ display: "flex", justifyContent: "center" }}>
                 <div className="left-side-forget-password-2">
@@ -423,10 +535,9 @@ const Phase1Group = () => {
                       <p className="phase-1-text-left-side">Postal Address</p>
                       <Field
                         disabled={isEditting}
-                        type="email"
+                        type="text"
                         id="phase1.postalAddress"
                         name="phase1.postalAddress"
-                        placeholder="email@email.com"
                         className="phase-1-input-left-side"
                       />
                       <ErrorMessage
@@ -487,6 +598,15 @@ const Phase1Group = () => {
                         marginLeft: "7px",
                       }}
                     />
+
+                    <button
+                      ref={buttonRef}
+                      type="submit"
+                      style={{ opacity: 0 }}
+                      className="submit-email-btn-2"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </Form>

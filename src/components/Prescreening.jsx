@@ -18,10 +18,13 @@ import { useContext } from 'react';
 import MainContext from './Context/MainContext';
 import Loader from './Loader';
 import { useUpdateServiceMutation } from '../services/api/adminApi';
+import Rejectpopup from './Rejectpopup';
+import { useReadMessagesByChatMutation } from '../services/api/chatApi';
 
 const Prescreening = () => {
     const { socket } = useContext(MainContext);
     const navigate = useNavigate();
+    const [isReject,setIsReject] = useState(false);
   const [name, setName] = useState('');
   const [notes, setNotes] = useState("");
   const [selectedCaseWorker, setSelectedCaseWorker] = useState({
@@ -180,12 +183,23 @@ const Prescreening = () => {
   }, [getData]);
 
   const handleUpdateService = async()=>{
-    await updateService({applicationId: applicationId, applicationType: selectedApplicationType})
-  }
+    const {data: response} = await updateService({applicationId: applicationId, applicationType: selectedApplicationType})
 
+    if(response.success){
+      refetch();
+    }
+
+  }
 
   return (
     <div className="prescreening-container">
+      {isReject && (
+        <Rejectpopup
+          applicationId={applicationId}
+          show={isReject}
+          setShow={setIsReject}
+        />
+      )}
       <div className="topnavbar-prescreen">
         <TopNavbar />
       </div>
@@ -260,10 +274,7 @@ const Prescreening = () => {
 
       <div className="preescreen-form-main">
         <div className="preescreen-form">
-          <button
-            onClick={() => navigate(`/admin/reject/${data?.application?._id}`)}
-            className="reject-btn"
-          >
+          <button onClick={() => setIsReject(true)} className="reject-btn">
             Reject Application
           </button>
           <form>
@@ -416,27 +427,6 @@ const Prescreening = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                <tr className="Table-heading-2">
-                  <td>{data?.application?.phase1?.applicationType}</td>
-                  <td>
-                    {data
-                      ? format(
-                          new Date(data?.application?.createdAt),
-                          "yyyy-MM-dd"
-                        )
-                      : ""}
-                  </td>
-                  <td>
-                    {data?.application?.caseWorkerName
-                      ? data?.application?.caseWorkerName
-                      : "Admin"}
-                  </td>
-                  <td style={{ textTransform: "capitalize" }}>
-                    {data?.application?.applicationStatus}
-                  </td>
-                </tr>
-              }
 
               {data?.application?.service?.map((service) => (
                 <tr key={service._id} className="Table-heading-2">
@@ -462,36 +452,33 @@ const Prescreening = () => {
 
         {/* Diplay all the notes section  */}
         <div className="display-notes">
-          {
-            data?.application?.notes.length > 0 &&
-              data?.application?.notes?.map((note) => (
-                <div key={note._id} className="notes-section-display">
-                  <form>
-                    <div className="borderline-notes-2"></div>
-                    <div className="Name-notes">
-                      <p className="Name-notes">Name</p>
-                      <input
-                        disabled={true}
-                        className="Name-4"
-                        type="text"
-                        value={note.name}
-                      />
-                    </div>
-                    <div className="Borderline-notes"></div>
-                    <div className="Notes-1">
-                      <p className="Notes-text">Notes</p>
-                      <input
-                        disabled={true}
-                        className="Notes-input"
-                        type="text"
-                        value={note.content}
-                      />
-                    </div>
-                  </form>
-                </div>
-              ))
-          }
-      
+          {data?.application?.notes.length > 0 &&
+            data?.application?.notes?.map((note) => (
+              <div key={note._id} className="notes-section-display">
+                <form>
+                  <div className="borderline-notes-2"></div>
+                  <div className="Name-notes">
+                    <p className="Name-notes">Name</p>
+                    <input
+                      disabled={true}
+                      className="Name-4"
+                      type="text"
+                      value={note.name}
+                    />
+                  </div>
+                  <div className="Borderline-notes"></div>
+                  <div className="Notes-1">
+                    <p className="Notes-text">Notes</p>
+                    <input
+                      disabled={true}
+                      className="Notes-input"
+                      type="text"
+                      value={note.content}
+                    />
+                  </div>
+                </form>
+              </div>
+            ))}
         </div>
         <div className="preescreen-form-third">
           <p className="Notes-heading">Notes</p>

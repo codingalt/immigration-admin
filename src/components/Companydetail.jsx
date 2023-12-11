@@ -59,7 +59,6 @@ const Companydetail = () => {
               </tr>
               {!isLoading &&
                 data?.applications?.map((item, index) => (
-                  item.phaseSubmittedByClient >= 1 &&
                   <tr key={item._id}>
                     <td>{item.caseId}</td>
                     <td>{item.phase1.fullNameAsPassport}</td>
@@ -74,7 +73,7 @@ const Companydetail = () => {
                     </td>
                     <td>{item.phase1.nationality}</td>
                     <td>
-                      <Link to={`/admin/prescreening/${item._id}`}>
+                      <Link to={`/admin/group/prescreening/${item._id}`}>
                         <button className="View-btn-tablelist">View</button>
                       </Link>
                     </td>

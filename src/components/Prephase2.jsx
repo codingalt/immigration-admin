@@ -7,11 +7,12 @@ import "../style/prephase2.css";
 import Editimgapp from "../assests/Edit-file-img.svg";
 import Approvedimgapp from "../assests/Approved-img.svg";
 import Rejectimgapp from "../assests/Delete-File-img.svg";
-import { useGetApplicationDataByIdQuery, useRequestAPhaseMutation } from "../services/api/applicationApi";
+import { useGetApplicationDataByIdQuery, useReRequestPhase1Mutation, useRequestAPhaseMutation } from "../services/api/applicationApi";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toastError, toastSuccess } from "./Toast";
 import Loader from "./Loader";
 import MainContext from "./Context/MainContext";
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 
 const Prephase2 = () => {
   const navigate = useNavigate();
@@ -26,27 +27,47 @@ const Prephase2 = () => {
   const app = data?.application;
   // console.log("Application data", app?.phase2);
   const [activeLink, setActiveLink] = useState("/prephase2");
-    const { socket } = useContext(MainContext);
+  const { socket } = useContext(MainContext);
 
-   const [received, setReceived] = useState();
+  const [received, setReceived] = useState();
 
-   useEffect(() => {
-     socket.on("phase data received", (phaseData) => {
-       if (phaseData) {
-         setReceived(phaseData);
-         console.log("phase data received", phaseData);
-       }
-     });
-   }, [received]);
+  useEffect(() => {
+    socket.on("phase data received", (phaseData) => {
+      if (phaseData) {
+        setReceived(phaseData);
+        console.log("phase data received", phaseData);
+      }
+    });
+  }, [received]);
 
-   useEffect(() => {
-     if (received) {
-       refetch();
-     }
-   }, [received]);
+  useEffect(() => {
+    if (received) {
+      refetch();
+    }
+  }, [received]);
+
+  // Re Request Phase 1
+  const [reRequestPhase1, resp] = useReRequestPhase1Mutation();
+  const {
+    isLoading: isLoadingReRequest,
+    isSuccess: isSuccessReRequest,
+    error: reRequestErr,
+  } = resp;
+
+  useMemo(() => {
+    if (isSuccessReRequest) {
+      toastSuccess("Phase 1 Requested.");
+    }
+  }, [isSuccessReRequest]);
+
+  useMemo(() => {
+    if (reRequestErr) {
+      toastSuccess(reRequestErr?.data?.message);
+    }
+  }, [reRequestErr]);
 
   const [requestAPhase, res] = useRequestAPhaseMutation();
-  const {isLoading, isSuccess,error} = res;
+  const { isLoading, isSuccess, error } = res;
 
   useMemo(() => {
     if (error) {
@@ -56,12 +77,25 @@ const Prephase2 = () => {
 
   useMemo(() => {
     if (isSuccess) {
-      socket.emit("phase notification", {
-        userId: app?.userId,
-        applicationId: applicationId,
-        phase: 1,
-        phaseStatus: "approved",
-      });
+      if(app?.phase === 2 && app?.phaseStatus === "rejected"){
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "pending",
+          phaseSubmittedByClient: 2,
+          reSubmit: 2,
+        });
+      }else{
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 1,
+          phaseStatus: "approved",
+          phaseSubmittedByClient: app?.phaseSubmittedByClient,
+        });
+      }
+      
       toastSuccess("Phase 2 Requested");
       navigate(`/admin/prescreening/${applicationId}`);
     }
@@ -92,59 +126,71 @@ const Prephase2 = () => {
     setActiveLink(linkName);
   };
 
-
   const initialValues = {
     phase2: {
-      passport: app && app?.phase2?.passport ? app?.phase2?.passport : "",
+      passport: "",
       dependantPassport:
-        app && app?.phase2?.dependantPassport
-          ? app?.phase2?.dependantPassport
-          : "",
+         "",
       utilityBill:
-        app && app?.phase2?.utilityBill ? app?.phase2?.utilityBill : "",
-      brp: app && app?.phase2?.brp ? app?.phase2?.brp : "",
+         "",
+      brp: "",
       previousVisaVignettes:
-        app && app?.phase2?.previousVisaVignettes
-          ? app?.phase2?.previousVisaVignettes
-          : "",
+        "",
       refusalLetter:
-        app && app?.phase2?.refusalLetter ? app?.phase2?.refusalLetter : "",
+         "",
       educationCertificates:
-        app && app?.phase2?.educationCertificates
-          ? app?.phase2?.educationCertificates
-          : "",
+        "",
       englishLanguageCertificate:
-        app && app?.phase2?.englishLanguageCertificate
-          ? app?.phase2?.englishLanguageCertificate
-          : "",
+         "",
       marriageCertificate:
-        app && app?.phase2?.marriageCertificate
-          ? app?.phase2?.marriageCertificate
-          : "",
+        "",
       bankStatements:
-        app && app?.phase2?.bankStatements ? app?.phase2?.bankStatements : "",
+      "",
       other: [" "],
       otherDocumentNotes:
-        app && app?.phase2?.otherDocumentNotes
-          ? app?.phase2?.otherDocumentNotes
-          : "",
+        "",
     },
   };
 
   const handleSubmit = async (values, { resetForm }) => {
-    console.log("submitted ---",values);
+    console.log("submitted ---", values);
     const { otherDocumentNotes, ...phase2Values } = values.phase2;
 
     if (Object.values(phase2Values).some((value) => value !== "notreq")) {
-      await requestAPhase({data: values, applicationId: applicationId});
+      await requestAPhase({ data: values, applicationId: applicationId });
       resetForm({
         values: initialValues,
       });
     } else {
-      toastError("Please Select atleast one of the following.")
+      toastError("Please Select atleast one of the following.");
     }
-     
   };
+
+  const [isPhase2Rejected, setIsPhase2Rejected] = useState(false);
+
+  useEffect(()=>{
+    if(app?.phase === 1 && app?.phaseStatus === "rejected") {
+      setIsPhase2Rejected(true);
+    }
+  },[app]);
+
+
+  const handleReRequest = async () => {
+    const { data: resp } = await reRequestPhase1(applicationId);
+    if (resp.success) {
+      socket.emit("phase notification", {
+        userId: app?.userId,
+        applicationId: applicationId,
+        phase: 1,
+        phaseStatus: "pending",
+        phaseSubmittedByClient: 1,
+        reSubmit: 1,
+      });
+    }
+  };
+
+  const buttonRef = useRef();
+
   return (
     <div className="Pre-phase-2-container">
       <SideNavbar />
@@ -166,8 +212,34 @@ const Prephase2 = () => {
         Back
       </button>
 
+      <div className="Buttons-preescreening">
+        {app?.phase2?.status === "rejected" && (
+          <button
+            disabled={isLoading}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "0",
+              paddingRight: "10px",
+              alignItems: "center",
+              cursor: "pointer",
+              opacity: isLoading ? 0.55 : 1,
+              width: "8.5rem",
+              boxSizing: "border-box",
+            }}
+            onClick={() => buttonRef.current.click()}
+            className="Reject-appliction-btn"
+          >
+            <span style={{ wordBreak: "normal" }}>Re Request</span>
+            <VscGitPullRequestGoToChanges
+              style={{ color: "#fff", fontSize: "1.3rem" }}
+            />
+          </button>
+        )}
+      </div>
+
       <div className="phase-4-all-phase">
-        {app?.phaseSubmittedByClient >= 1 && (
+        {app?.phase >= 1 && (
           <NavLink
             to={`/admin/phase1/${applicationId}`}
             className={`link-hover-effect ${
@@ -179,7 +251,7 @@ const Prephase2 = () => {
             <span className="routes-all">Phase 1</span>
           </NavLink>
         )}
-        {app?.phase >= 1 && app?.phaseStatus === "approved" && (
+        {app?.phase1?.status === "approved" && (
           <NavLink
             to={`/admin/prephase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -205,7 +277,7 @@ const Prephase2 = () => {
             <span className="routes-all">Phase 2</span>
           </NavLink>
         )}
-        {app?.phase >= 2 && app?.phaseStatus === "approved" && (
+        {app?.phase2?.status === "approved" && (
           <NavLink
             to={`/admin/prephase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -219,7 +291,7 @@ const Prephase2 = () => {
             <span className="routes-all">Pre-Phase 3</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 3 && (
+        {app?.phase >= 3 && (
           <NavLink
             to={`/admin/phase3/${applicationId}`}
             className={`link-hover-effect ${
@@ -457,6 +529,7 @@ const Prephase2 = () => {
                   placeholder="Document"
                 />
                 <button
+                  ref={buttonRef}
                   disabled={isLoading}
                   type="submit"
                   className="req-btn"
