@@ -7,18 +7,25 @@ import SideNavbar from './SideNavbar';
 import { useAddEventsMutation, useGetEventsDataQuery } from "../services/api/adminApi";
 import { useMemo } from 'react';
 import { toastError, toastSuccess } from './Toast';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import moment from 'moment';
 
 const Calendar = () => {
   const months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
   ];
+  const [eventTimeFrom,setEventTimeFrom] = useState();
+  const [eventTimeTo,setEventTimeTo] = useState();
 
   const [addEvents, res] = useAddEventsMutation();
   const {isLoading,error,isSuccess} = res;
 
   const {data} = useGetEventsDataQuery();
-  console.log("Event from db", data?.events);
 
   useMemo(()=>{
     if(error){
@@ -169,11 +176,11 @@ const Calendar = () => {
   }, [eventsArr]);
 
   const handleDocumentClick = (e) => {
-    const addEventBtn = document.querySelector(".add-event");
-    const addEventWrapper = document.querySelector(".add-event-wrapper");
-    if (e.target !== addEventBtn && !addEventWrapper.contains(e.target)) {
-      addEventWrapper.classList.remove("active");
-    }
+    // const addEventBtn = document.querySelector(".add-event");
+    // const addEventWrapper = document.querySelector(".add-event-wrapper");
+    // if (e.target !== addEventBtn && !addEventWrapper.contains(e.target)) {
+    //   addEventWrapper.classList.remove("active");
+    // }
   };
 
   const getActiveDay = (date) => {
@@ -205,11 +212,15 @@ const Calendar = () => {
               <div class="time-wrapper">
               <div class="event-time">
               <span class="from-span">From:</span>
-                <span class="event-time">${event?.events[0]?.time}</span>
+                <span class="event-time">${moment(
+                  new Date(event?.events[0]?.time)
+                ).format("hh:mm a")}</span>
               </div>
               <div class="event-time">
               <span class="from-span">To:</span>
-                <span class="event-time">${event?.events[1]?.time}</span>
+                <span class="event-time">${moment(
+                  event?.events[1]?.time
+                ).format("hh:mm a")}</span>
               </div>
               </div>
           </div>`;
@@ -273,17 +284,20 @@ const Calendar = () => {
 
   const addEventSubmit = async() => {
     const eventNameInput = document.querySelector(".event-name");
-    const eventTimeFromInput = document.querySelector(".event-time-from");
-    const eventTimeToInput = document.querySelector(".event-time-to");
+    // const eventTimeFromInput = document.querySelector(".event-time-from");
+    // const eventTimeToInput = document.querySelector(".event-time-to");
   
     const eventName = eventNameInput.value;
-    const eventTimeFrom = eventTimeFromInput.value;
-    const eventTimeTo = eventTimeToInput.value;
+    // const eventTimeFrom = eventTimeFromInput.value;
+    // const eventTimeTo = eventTimeToInput.value;
   
-    if (eventName.trim() === "" || eventTimeFrom.trim() === "" || eventTimeTo.trim() === "") {
+    console.log("from", eventTimeFrom);
+    console.log("to", eventTimeTo);
+    if (eventName.trim() === "" || eventTimeFrom === "" || eventTimeTo === "") {
       alert("Please fill in all event details.");
       return;
     }
+
   
     const eventObj = {
       day: activeDay,
@@ -299,8 +313,6 @@ const Calendar = () => {
 
   
     eventNameInput.value = "";
-    eventTimeFromInput.value = "";
-    eventTimeToInput.value = "";
   
     addEvent();
   };
@@ -318,14 +330,16 @@ const Calendar = () => {
 
 
   return (
-    <div className='Main-container-calender'>
+    <div className="Main-container-calender">
       <SideNavbar />
       <div className="container-calender">
         <div className="left">
           <div className="calendar">
             <div className="month">
               <i className="fas fa-angle-left prev" onClick={prevMonth}></i>
-              <div className="date">{months[month]} {year}</div>
+              <div className="date">
+                {months[month]} {year}
+              </div>
               <i className="fas fa-angle-right next" onClick={nextMonth}></i>
             </div>
             <div className="weekdays">
@@ -346,13 +360,17 @@ const Calendar = () => {
                   className="date-input"
                   onChange={handleDateInputChange}
                 />
-                <button className="goto-btn" onClick={gotoDate}>Go</button>
+                <button className="goto-btn" onClick={gotoDate}>
+                  Go
+                </button>
               </div>
-              <button className="today-btn" onClick={goToToday}>Today</button>
+              <button className="today-btn" onClick={goToToday}>
+                Today
+              </button>
             </div>
           </div>
         </div>
-        <div className='Border-line'>
+        <div className="Border-line">
           <div className="right">
             <div className="today-date">
               <div className="event-day"></div>
@@ -377,17 +395,59 @@ const Calendar = () => {
           </div>
           <div className="add-event-body">
             <div className="add-event-input">
-              <input type="text" placeholder="Event Name" className="event-name" />
+              <input
+                type="text"
+                placeholder="Event Name"
+                className="event-name"
+              />
             </div>
             <div className="add-event-input">
-              <input type="text" placeholder="Event Time From" className="event-time-from" />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={[
+                    "TimePicker",
+                    "MobileTimePicker",
+                    "DesktopTimePicker",
+                  ]}
+                >
+                  <DemoItem label="Event Time From">
+                    <MobileTimePicker
+                      className=""
+                      onChange={(e) => setEventTimeFrom(e.$d)}
+                      defaultValue={dayjs("2023-04-17T15:30")}
+                      style={{ width: "100%", border: "none" }}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+             
             </div>
             <div className="add-event-input">
-              <input type="text" placeholder="Event Time To" className="event-time-to" />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={[
+                    "TimePicker",
+                    "MobileTimePicker",
+                    "DesktopTimePicker",
+                  ]}
+                >
+                  <DemoItem label="Event Time To">
+                    <MobileTimePicker
+                      className=""
+                      onChange={(e) => setEventTimeTo(e.$d)}
+                      defaultValue={dayjs("2023-04-17T16:00")}
+                      style={{ width: "100%", border: "none" }}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+              
             </div>
           </div>
           <div className="add-event-footer">
-            <button className="add-event-btn" onClick={addEventSubmit}>Add Event</button>
+            <button className="add-event-btn" onClick={addEventSubmit}>
+              Add Event
+            </button>
           </div>
         </div>
       </div>

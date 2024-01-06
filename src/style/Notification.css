@@ -1,90 +1,337 @@
-.Notification{
-    width: 46rem;
-    height: 48.4rem;
-    border-radius: 20px;
-    background-color: #fcfcfc;
-    border: 1px solid #e2e2e4;
-    margin-top: 74px;
-    margin-left: 40px;
+.Notification {
+  width: 48rem;
+  height: 48.4rem;
+  border-radius: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #e2e2e4;
+  margin-top: 74px;
+  margin-left: 40px;
 }
 
-.Notification-main-container{
+.ongoing-item {
+  display: flex;
+  gap: 12px;
+}
+
+.ongoing-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ongoing-right .r-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.r-name span:nth-child(1) {
+  font-family: Poppins;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+}
+
+.r-name span:nth-child(2) {
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #777777;
+}
+
+.ongoing-right > span {
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #777777;
+}
+
+.ongoing-buttons{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Notification-main-container {
+  display: flex;
+  max-width: 1990px;
+  margin: 0 auto;
+  height: 100vh;
+}
+.Notification-heading {
+  position: relative;
+  left: 186px;
+  margin-top: 8px;
+}
+
+.New-Application-Request {
+  height: 35%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* border: 1px solid black; */
+  scrollbar-color: #5d982e white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.Ongoing-Application-Request {
+  height: 40%;
+  overflow-x: hidden;
+  scrollbar-color: #5d982e white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  margin-top: 2rem;
+  padding: 0 1.5rem;
+  /* border: 1px solid black; */
+}
+
+.Request-1 {
+  position: relative;
+  left: 33px;
+  top: 24px;
+}
+
+.Green-request-dot {
+  position: relative;
+  left: 26px;
+  top: 5px;
+}
+
+.Request-1-text {
+  position: relative;
+  left: 84px;
+  bottom: 21px;
+  font-family: Poppins;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.Request-1-text-2 {
+  position: relative;
+  left: 83px;
+  bottom: 24px;
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #777777;
+}
+
+.Request-1-text-3 {
+  position: relative;
+  left: 143px;
+  bottom: 54px;
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #777777;
+}
+
+.Requests-heading {
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  position: relative;
+  left: 37px;
+}
+
+.Request-2 {
+  position: relative;
+  left: 39px;
+  top: 22px;
+}
+
+.Request-2-text {
+  position: relative;
+  left: 84px;
+  bottom: 21px;
+  font-family: Poppins;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.Request-2-text-2 {
+  position: relative;
+  left: 83px;
+  bottom: 24px;
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #777777;
+}
+
+.Request-2-text-3 {
+  position: relative;
+  left: 185px;
+  bottom: 62px;
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #777777;
+}
+
+.Request-2-btn-1 {
+  padding: 6px 20px 6px 20px;
+  border-radius: 5px;
+  background-color: #5d982e;
+  gap: 8px;
+  border: 1px solid #5d982e;
+  color: white;
+  cursor: pointer;
+}
+
+.Request-2-btn-2 {
+  padding: 6px 20px 6px 20px;
+  border-radius: 5px;
+  background-color: white;
+  gap: 8px;
+  border: 1px solid #e2e2e4;
+  color: black;
+  cursor: pointer;
+}
+
+.Request-2-btn-3 {
+  padding: 6px 20px 6px 20px;
+  border-radius: 5px;
+  background-color: white;
+  gap: 8px;
+  border: 1px solid #e2e2e4;
+  color: black;
+  cursor: pointer;
+}
+
+.Client-Request-3 {
+  position: relative;
+  bottom: 74px;
+  overflow: hidden;
+}
+
+.Client-Request-4 {
+  position: relative;
+  bottom: 148px;
+}
+
+.Client-Request-5 {
+  position: relative;
+  bottom: 224px;
+}
+.Client-Request-6 {
+  position: relative;
+  bottom: 298px;
+}
+
+.Client-Request-7 {
+  position: relative;
+  bottom: 374px;
+}
+
+.Request-2-text-4 {
+  position: relative;
+  left: 83px;
+  bottom: 24px;
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #5d982e;
+}
+
+.Request-2-btn-4 {
+  left: 438px;
+  padding: 6px 20px 6px 81px;
+  border-radius: 5px;
+  position: relative;
+  bottom: 68px;
+  background-color: white;
+  gap: 8px;
+  border: 1px solid #e2e2e4;
+  color: black;
+  cursor: pointer;
+}
+
+.reveiw-btn {
+  position: relative;
+  right: 31px;
+}
+
+@media (max-width: 1920px) {
+  .Notification-main-container {
     display: flex;
     max-width: 1990px;
     margin: 0 auto;
     height: 100vh;
+    margin-left: 127px;
+  }
 }
-.Notification-heading{
+
+@media (max-width: 1680px) {
+}
+
+@media (max-width: 1440px) {
+  .Notification-main-container {
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    height: 100vh;
+
+    margin-left: -12px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .Notification-main-container {
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    height: 100vh;
+    margin-left: 150px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .Notification-main-container {
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    height: 100vh;
+    margin-left: 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .Request-2-text-3 {
     position: relative;
-    left: 186px;
-    margin-top: 8px;
-}
-
-.New-Application-Request{
-    height: 35%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* border: 1px solid black; */
-    scrollbar-color: #5d982e white;
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
-  
-}
-
-.Ongoing-Application-Request{
-    height: 40%;
-    overflow-x: hidden;
-    scrollbar-color: #5d982e white;
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
-  
-    /* border: 1px solid black; */
-}
-
-.Request-1{
-    position: relative;
-    left: 33px;
-    top: 24px;
-}
-
-.Green-request-dot{
-    position: relative;
-    left: 26px;
-    top: 5px;
-}
-
-.Request-1-text{
-    position: relative;
-    left: 84px;
-    bottom: 21px;
-    font-family: Poppins;
-font-size: 13px;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: 0em;
-text-align: left;
-
-}
-
-.Request-1-text-2{
-    position: relative;
-    left: 83px;
-    bottom: 24px;
-    font-family: Poppins;
-font-size: 10px;
-font-weight: 400;
-line-height: 15px;
-letter-spacing: 0em;
-text-align: left;
-color:  #777777;
-;
-
-}
-
-.Request-1-text-3{
-    position: relative;
-    left: 143px;
-    bottom: 54px;
+    left: 139px;
+    bottom: 69px;
     font-family: Poppins;
     font-size: 10px;
     font-weight: 400;
@@ -92,242 +339,5 @@ color:  #777777;
     letter-spacing: 0em;
     text-align: left;
     color: #777777;
-}
-
-.Requests-heading{
-    font-family: Poppins;
-font-size: 14px;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: 0em;
-text-align: left;
-position: relative;
-left: 37px;
-
-}
-
-.Request-2{
-    position: relative;
-    left: 39px;
-    top: 22px;
-}
-
-.Request-2-text{
-
-    position: relative;
-    left: 84px;
-    bottom: 21px;
-    font-family: Poppins;
-font-size: 13px;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: 0em;
-text-align: left;
-}
-
-.Request-2-text-2{
-    position: relative;
-    left: 83px;
-    bottom: 24px;
-    font-family: Poppins;
-font-size: 10px;
-font-weight: 400;
-line-height: 22px;
-letter-spacing: 0em;
-text-align: left;
-color:  #777777;
-}
-
-.Request-2-text-3{
-    position: relative;
-    left: 185px;
-    bottom: 62px;
-    font-family: Poppins;
-font-size: 10px;
-font-weight: 400;
-line-height: 15px;
-letter-spacing: 0em;
-text-align: left;
-color:  #777777;
-}
-
-.Request-2-btn-1{ 
-left: 380px;
-padding: 6px 20px 6px 20px;
-border-radius: 5px;
-position: relative;
-bottom: 68px;
-background-color: #5D982E;
-gap: 8px;
-border: 1px solid #5D982E;
-color: white;
-cursor: pointer;
-}
-
-.Request-2-btn-2{
-   
-    left: 397px;
-padding: 6px 20px 6px 20px;
-border-radius: 5px;
-position: relative;
-bottom: 68px;
-background-color: white;
-gap: 8px;
-border: 1px solid #E2E2E4;
-color: black;
-cursor: pointer; 
-}
-
-.Request-2-btn-3{
-    left: 420px;
-    padding: 6px 20px 6px 20px;
-    border-radius: 5px;
-    position: relative;
-    bottom: 68px;
-    background-color: white;
-    gap: 8px;
-    border: 1px solid #E2E2E4;
-    color: black;
-    cursor: pointer; 
-}
-
-.Client-Request-3{
-    position: relative;
-    bottom: 74px;  
-    overflow: hidden;
-}
-
-.Client-Request-4{
-    position: relative;
-    bottom: 148px; 
-}
-
-.Client-Request-5{
-  
-    position: relative;
-    bottom: 224px;
-}
-.Client-Request-6{
-    position: relative;
-    bottom: 298px;
-}
-
-.Client-Request-7{
-    position: relative;
-    bottom: 374px;
-    
-}
-
-.Request-2-text-4{
-    position: relative;
-    left: 83px;
-    bottom: 24px;
-    font-family: Poppins;
-font-size: 10px;
-font-weight: 400;
-line-height: 15px;
-letter-spacing: 0em;
-text-align: left;
-color: #5D982E;
-;
-}
-
-.Request-2-btn-4{
-    left: 438px;
-    padding: 6px 20px 6px 81px;
-    border-radius: 5px;
-    position: relative;
-    bottom: 68px;
-    background-color: white;
-    gap: 8px;
-    border: 1px solid #E2E2E4;
-    color: black;
-    cursor: pointer; 
-}
-
-.reveiw-btn{
-    position: relative;
-    right: 31px;
-}
-
-@media (max-width: 1920px) {
-    .Notification-main-container {
-        display: flex;
-        max-width: 1990px;
-        margin: 0 auto;
-        height: 100vh;
-        margin-left: 127px;
-    }
-    
   }
-
-  
-@media (max-width: 1680px) {
-  
-  }
-
-
-
-
-
-
-@media (max-width: 1440px) {
-    .Notification-main-container {
-        display: flex;
-        max-width: 1990px;
-        margin: 0 auto;
-        height: 100vh;
-    
-        margin-left: -12px;
-
-    }
-
-
-  }
-
-  @media (max-width: 1366px) {
-    .Notification-main-container {
-        display: flex;
-        max-width: 1990px;
-        margin: 0 auto;
-        height: 100vh;
-        margin-left: 150px;
-    }
-
-   
-  }
-
-  
-  @media (max-width: 1280px) {
-    .Notification-main-container {
-        display: flex;
-        max-width: 1990px;
-        margin: 0 auto;
-        height: 100vh;
-        margin-left: 40px;
-    }
-    
-  }
-
-
-  @media (max-width: 1024px){
-    
-
-
-
-    .Request-2-text-3 {
-        position: relative;
-        left: 139px;
-        bottom: 69px;
-        font-family: Poppins;
-        font-size: 10px;
-        font-weight: 400;
-        line-height: 15px;
-        letter-spacing: 0em;
-        text-align: left;
-        color: #777777;
-    }
-  }
-
-
-
+}

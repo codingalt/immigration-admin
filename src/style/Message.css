@@ -180,9 +180,9 @@
 }
 
 .Message-svg-img {
-  position: relative;
-  bottom: 31px;
-  right: 20%;
+  position: absolute;
+  top: 11px;
+  right: 76px;
 }
 
 .Message-profile-img-2 {
@@ -630,10 +630,6 @@
   left: 270px;
 }
 
-.Message-svg-img {
-
-  left: 246px;
-}
 
 .chat .messages-chat .message {
 

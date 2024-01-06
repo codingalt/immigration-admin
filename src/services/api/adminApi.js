@@ -5,6 +5,8 @@ export const adminApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_URI,
     prepareHeaders: async (headers, query) => {
+      const authToken = localStorage.getItem("ukimmigration_token");
+      headers.set("authorization", `Bearer ${authToken}`);
       return headers;
     },
     credentials: "include",

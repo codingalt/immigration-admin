@@ -30,6 +30,17 @@
     background-color: #e2e1dc;
   } */
 
+  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14) !important;
+    width: 100% !important;
+    padding-bottom: 10px !important;
+  }
+
+  .css-bkzwk2-MuiStack-root {
+    width: 100% !important;
+  }
+
   .Main-container-calender{
     display: flex;
     margin-left: 127px;

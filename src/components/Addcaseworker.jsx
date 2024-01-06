@@ -13,10 +13,10 @@ import { toastError, toastSuccess } from './Toast';
 import LanguageList from './LanguageList';
 import Loader from './Loader';
 
-
 const Addcaseworker = () => {
   const navigate = useNavigate();
     const [languagesArr, setLanguagesArr] = useState([]);
+
   const handleRemove = (value) => {
     if (languagesArr.includes(value)) {
       const tempArr = [...languagesArr];
@@ -24,11 +24,13 @@ const Addcaseworker = () => {
       setLanguagesArr(filteredArray);
     }
   };
+
   const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
     contact: "",
+    workerId: "",
     country: "",
     state: "",
     birthDate: "",
@@ -42,7 +44,7 @@ const Addcaseworker = () => {
 
   useMemo(() => {
     if (error) {
-      toastError(error?.data?.message);
+      toastError(error?.data?.message ? error?.data?.message : "Something went wrong");
     }
   }, [error]);
 
@@ -130,6 +132,19 @@ const Addcaseworker = () => {
                     style={
                       errors.contact &&
                       touched.contact && { border: "1px solid red" }
+                    }
+                  />
+
+                  <p className="add-case-lable">Agent ID:</p>
+                  <Field
+                    className="basic-inputs-add-case"
+                    type="text"
+                    placeholder="Agent ID"
+                    name="workerId"
+                    id="workerId"
+                    style={
+                      errors.workerId &&
+                      touched.workerId && { border: "1px solid red" }
                     }
                   />
 

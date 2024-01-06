@@ -9,13 +9,13 @@ import {
 } from "../services/api/applicationApi";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
+import moment from "moment";
 
 const Notes = () => {
   const [selectedNote, setSelectedNote] = useState();
   const [showAddNewNote1, setShowAddNewNote1] = useState();
 
   const { user } = useSelector((state) => state.user);
-  console.log("User", user);
 
   const { data, isLoading } = useGetAllApplicationNotesQuery();
   console.log(data);
@@ -85,9 +85,16 @@ const Notes = () => {
                 </div>
                 <div className="all-textarea">
                   {item.notes?.map((note) => (
-                    <div key={note._id} className="dummy-data">
+                    <div
+                      key={note._id}
+                      className="dummy-data"
+                      style={{ position: "relative",paddingTop:"18px" }}
+                    >
                       <p>{note.name}</p>
                       <p>{note.content}</p>
+                      <p style={{position:"absolute",top:"7px",right:"20px",color:"#222",fontWeight:"500"}}>
+                        {moment(note?.dateTime).format("dddd, MMMM D, hh:mm a")}
+                      </p>
                     </div>
                   ))}
 

@@ -245,7 +245,7 @@ const Billing = () => {
 
       <SideNavbar />
 
-      <h2 className="Billing-profile-heading-2">Billings</h2>
+      <h2 className="Billing-profile-heading-2">Billing</h2>
 
       <div className="table-list-sub-container">
         <table style={{ maxHeight: "4rem" }}>

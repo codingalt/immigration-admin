@@ -29,7 +29,7 @@ function LanguageList({ name, className, onChange, defaultValue, prevValue, setF
     <select
       disabled={disabled}
       value={defaultValue}
-      required
+      // required
       as="select"
       name={name}
       id={name}

@@ -121,7 +121,7 @@ const Changepassowrd = () => {
 
         <SideNavbar />
 
-        <h2 className="changepassword-profile-heading">Setting</h2>
+        <h2 className="changepassword-profile-heading">Settings</h2>
 
         <div className="chnagepassowrd-sub-container">
           <div className="left-chnagepassowrd-side">

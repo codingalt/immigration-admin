@@ -5,6 +5,8 @@ export const chatApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_URI,
     prepareHeaders: async (headers, query) => {
+      const authToken = localStorage.getItem("ukimmigration_token");
+      headers.set("authorization", `Bearer ${authToken}`);
       return headers;
     },
     credentials: "include",
@@ -14,6 +16,15 @@ export const chatApi = createApi({
     getUserMessages: builder.query({
       query: (chatId) => `api/message/${chatId}`,
       // providesTags: ["Chat"],
+    }),
+
+    createChat: builder.mutation({
+      query: (data) => ({
+        url: `api/create/chat/caseworker`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Chat"],
     }),
 
     getChatMessagesCount: builder.query({
@@ -73,5 +84,6 @@ export const {
   useGetAllChatsQuery,
   useGetChatMessagesCountQuery,
   useReadMessagesByChatMutation,
-  useChatNotificationsMutation
+  useChatNotificationsMutation,
+  useCreateChatMutation
 } = chatApi;

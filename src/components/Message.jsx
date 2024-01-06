@@ -21,6 +21,9 @@ import ScrollableFeed from 'react-scrollable-feed';
 import { useMemo } from 'react';
 import { toastError } from './Toast';
 import { setIsRead } from '../services/redux/userSlice';
+import { FaPlus } from "react-icons/fa6";
+import { useGetCaseWorkerQuery } from '../services/api/caseworkerApi';
+import CreateNewChatModel from './CreateNewChatModel';
 
 var socket;
 
@@ -209,11 +212,21 @@ const Message = () => {
     }
    },[searchInput]);
 
+   const [newChatModel, setNewChatModel] = useState(false);
+   const {data: caseworkers, isLoading: isLoadingCaseWorkers} = useGetCaseWorkerQuery();
+   console.log("caseworkers", caseworkers);
 
   return (
     <div className="Main-message-container">
       <SideNavbar />
-
+      {newChatModel && (
+        <CreateNewChatModel
+          setNewChatModel={setNewChatModel}
+          newChatModel={newChatModel}
+          caseworkers={caseworkers}
+          handleChatClick={handleChatClick}
+        />
+      )}
       <h2 className="Message-heading">Message</h2>
       <div className="Main-Message">
         <div className="container-message-box">
@@ -226,12 +239,20 @@ const Message = () => {
               marginRight: "0",
             }}
           >
-            <section className="discussions" style={{height:"100%"}}>
-              <div className="discussion search" style={{top:"0",paddingTop:"18px",height:"98px"}}>
+            <section className="discussions" style={{ height: "100%" }}>
+              <div
+                className="discussion search"
+                style={{ top: "0", paddingTop: "18px", height: "98px" }}
+              >
                 <h2 className="Inbox-heading">Inbox</h2>
+                <FaPlus
+                  onClick={() => setNewChatModel(true)}
+                  style={{ color: "#000", fontSize: "1.28rem" }}
+                  className="Message-svg-img"
+                />
                 {/* <img src={Messagesvg} alt="" className="Message-svg-img" /> */}
                 {/* <img src={Threedot} alt="" className="Threedot-svg-img" /> */}
-                <div className="searchbar" style={{marginTop:"-12px"}}>
+                <div className="searchbar" style={{ marginTop: "-10px" }}>
                   <i className="fa fa-search" aria-hidden="true" />
                   <input
                     onKeyDown={handleKeyDownSearch}
@@ -313,7 +334,12 @@ const Message = () => {
                       {item?.latestMessage?.slice(0, 48)}
                     </p>
                   </div>
-                  <div className="timer">{format(item.updatedAt)}</div>
+                  <div className="timer">
+                    {format(item.updatedAt)}
+                    {/* {last &&
+                      item?._id === messages[last]?.chatId &&
+                      format(messages[last]?.createdAt)} */}
+                  </div>
                 </div>
               ))}
             </section>
@@ -360,7 +386,6 @@ const Message = () => {
                         {selectedChat?.users[0]?.email}
                       </p>
                     </div>
-                   
                   </div>
                 </>
               ) : null}
@@ -378,7 +403,8 @@ const Message = () => {
                 {/* <ScrollableFeed> */}
                 {selectedChat ? (
                   messages?.map((item, index) => {
-                    const isUserMessage = item?.sender?.toString() != selectedChat?.clientId; 
+                    const isUserMessage =
+                      item?.sender?.toString() != selectedChat?.clientId;
                     return (
                       !loading && (
                         <div

@@ -18,6 +18,7 @@ export const createCaseWorkerSchema = Yup.object({
     .email("Please Enter a valid email address")
     .required("Email is Required"),
   contact: Yup.string().required("Contact is Required"),
+  workerId: Yup.string().required("Agent ID is Required"),
   country: Yup.string().required("Country is Required"),
   birthDate: Yup.string().required("Birth Date is Required"),
   state: Yup.string().required("State is Required"),

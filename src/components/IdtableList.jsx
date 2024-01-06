@@ -29,7 +29,12 @@ const IdtableList = () => {
 
   const handleView = (item)=>{
     dispatch(setSearchParams(item));
-    navigate("/admin/dashboard")
+
+    if(item.phase1.fullNameAsPassport){
+      navigate(`/admin/group/prescreening/${item._id}`);
+    }else{
+      navigate(`/admin/prescreening/${item._id}`);
+    }
   }
 
   if (data?.result.length === 0){

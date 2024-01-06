@@ -427,7 +427,6 @@ const Prescreening = () => {
               </tr>
             </thead>
             <tbody>
-
               {data?.application?.service?.map((service) => (
                 <tr key={service._id} className="Table-heading-2">
                   <td>{service.serviceType}</td>
@@ -455,28 +454,30 @@ const Prescreening = () => {
           {data?.application?.notes.length > 0 &&
             data?.application?.notes?.map((note) => (
               <div key={note._id} className="notes-section-display">
-                <form>
-                  <div className="borderline-notes-2"></div>
-                  <div className="Name-notes">
-                    <p className="Name-notes">Name</p>
-                    <input
-                      disabled={true}
-                      className="Name-4"
-                      type="text"
-                      value={note.name}
-                    />
+                <div className="notes-item">
+                  <div className="notes-item-inner">
+                    <div className="left-note">
+                      <span>Name</span>
+                      <span>{note.name}</span>
+                    </div>
                   </div>
-                  <div className="Borderline-notes"></div>
-                  <div className="Notes-1">
-                    <p className="Notes-text">Notes</p>
-                    <input
-                      disabled={true}
-                      className="Notes-input"
-                      type="text"
-                      value={note.content}
-                    />
+                  <div className="notes-item-inner">
+                    <div className="left-note">
+                      <span>Notes</span>
+                      <span>{note.content}</span>
+                    </div>
                   </div>
-                </form>
+                  <div className="notes-item-inner">
+                    <div className="left-note">
+                      <span>Created at</span>
+                      <span>
+                        {moment(note.dateTime).format("dddd, MMMM D, hh:mm a")}
+                        {/* {format(new Date(note.dateTime), "yyyy-MM-dd")} */}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+               
               </div>
             ))}
         </div>

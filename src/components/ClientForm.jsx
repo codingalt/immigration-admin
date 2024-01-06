@@ -7,39 +7,9 @@ import moment from 'moment';
 import { format } from 'date-fns';
 
 const ClientForm = () => {
-  const [client, setClient] = useState('');
-  const [email, setEmail] = useState('');
-  const [contact, setContact] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [address, setAddress] = useState('');
-  const [nationality, setNationality] = useState('');
-
-    const { searchParams } = useSelector((state) => state.user);
+    const { searchParams,user } = useSelector((state) => state.user);
     console.log("Search Params",searchParams);
-
-  const handleClientChange = (e) => {
-    setClient(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleContactChange = (e) => {
-    setContact(e.target.value);
-  };
-
-  const handleDateOfBirthChange = (e) => {
-    setDateOfBirth(e.target.value);
-  };
-
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
-  };
-
-  const handleNationalityChange = (e) => {
-    setNationality(e.target.value);
-  };
+    console.log("user",user);
 
   return (
     <div className="from-container">
@@ -51,12 +21,8 @@ const ClientForm = () => {
               disabled
               className="jhon-input"
               type="text"
-              placeholder="John Leo"
-              value={
-                searchParams?.phase1?.name
-                  ? searchParams?.phase1?.name
-                  : searchParams?.phase1?.fullNameAsPassport
-              }
+              placeholder={user?.name}
+              value={user?.name}
             />
           </div>
           <div className="email-input">
@@ -65,14 +31,8 @@ const ClientForm = () => {
               disabled
               className="email-2"
               type="email"
-              placeholder="email@email.com"
-              value={
-                searchParams?.phase1?.email
-                  ? searchParams?.phase1?.email
-                  : searchParams?.phase1?.companyContact
-                  ? searchParams?.phase1?.companyContact
-                  : searchParams?.phase1?.clientContact
-              }
+              placeholder={user?.email}
+              value={user?.email}
             />
           </div>
           <div className="Phone-number">
@@ -81,15 +41,11 @@ const ClientForm = () => {
               disabled
               className="contact"
               type="tel"
-              placeholder="(485)-845-8542658"
-              value={
-                searchParams?.phase1?.contact
-                  ? searchParams?.phase1?.contact
-                  : "..."
-              }
+              placeholder={user?.contact}
+              value={user?.contact}
             />
           </div>
-          <div className="Date-input">
+          {/* <div className="Date-input">
             <p className="dob-label">Date of Birth</p>
             <input
               disabled
@@ -115,14 +71,14 @@ const ClientForm = () => {
               placeholder="Type Address"
               value={searchParams?.caseId}
             />
-          </div>
+          </div> */}
           <div className="nationalty-input">
             <p className="nationality-label">Country</p>
             <input
               disabled
               className="nationalty-2"
               type="text"
-              placeholder="Search Country"
+              placeholder="Country"
               value={
                 searchParams?.phase1?.country
                   ? searchParams?.phase1?.country

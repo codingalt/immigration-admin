@@ -249,12 +249,7 @@
     letter-spacing: 0em;
     text-align: left;
   }
-  
-  .Message-svg-img {
-    position: relative;
-    bottom: 25px;
-    left: 230px;
-  }
+
   
   .Message-profile-img-2 {
     width: 34px;
@@ -713,12 +708,6 @@
     position: relative;
     bottom: 24px;
     left: 268px;
-}
-
-.Message-svg-img {
-  position: relative;
-  bottom: 24px;
-  left: 252px;
 }
 
 

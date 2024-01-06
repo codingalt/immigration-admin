@@ -51,8 +51,6 @@ const GroupPrescreening = () => {
 
   const { data: caseworkers } = useGetCaseWorkerQuery();
 
-  console.log("Case Workers",caseworkers);
-
   const [assignGroupApplicationToCaseWorker, res] =
     useAssignGroupApplicationToCaseWorkerMutation();
   const { error, isSuccess, isLoading: assignCaseWorkerLoading } = res;
@@ -71,8 +69,7 @@ const GroupPrescreening = () => {
   );
   const [showSave, setShowSave] = useState(false);
 
-  const { data: notesData } = useGetAllGroupApplicationsQuery();
-  console.log(notesData);
+  // const { data: notesData } = useGetAllGroupApplicationsQuery();
 
   useEffect(() => {
     if (data?.application?.caseWorkerName) {
@@ -475,10 +472,33 @@ const GroupPrescreening = () => {
 
         {/* Diplay all the notes section  */}
         <div className="display-notes">
-          {notesData?.applications?.map((item) =>
-            item.notes?.map((note) => (
+          {data?.application?.notes.length > 0 &&
+            data?.application?.notes?.map((note) => (
               <div key={note._id} className="notes-section-display">
-                <form>
+                <div className="notes-item">
+                  <div className="notes-item-inner">
+                    <div className="left-note">
+                      <span>Name</span>
+                      <span>{note.name}</span>
+                    </div>
+                  </div>
+                  <div className="notes-item-inner">
+                    <div className="left-note">
+                      <span>Notes</span>
+                      <span>{note.content}</span>
+                    </div>
+                  </div>
+                  <div className="notes-item-inner">
+                    <div className="left-note">
+                      <span>Created at</span>
+                      <span>
+                        {moment(note.dateTime).format("dddd, MMMM D, hh:mm a")}
+                        {/* {format(new Date(note.dateTime), "yyyy-MM-dd")} */}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {/* <form>
                   <div className="borderline-notes-2"></div>
                   <div className="Name-notes">
                     <p className="Name-notes">Name</p>
@@ -499,10 +519,9 @@ const GroupPrescreening = () => {
                       value={note.content}
                     />
                   </div>
-                </form>
+                </form> */}
               </div>
-            ))
-          )}
+            ))}
         </div>
         <div className="preescreen-form-third">
           <p className="Notes-heading">Notes</p>

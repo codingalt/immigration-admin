@@ -211,11 +211,19 @@
     margin-bottom: 19px;
     border: 1px solid #D9D9D9;
     padding: 10px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.dummy-data::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    
 }
 
 .dummy-data p:nth-child(1){
     font-weight: 500;
-    font-size: 1.03rem;
+    font-size: .98rem;
 }
 
 .text-area-input-23{

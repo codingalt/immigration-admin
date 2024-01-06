@@ -79,7 +79,9 @@ const handleSend = async () => {
   const {data} = await loginUser({ email: email, password: password });
   console.log(data);
   dispatch(setUserData(data?.user));
+  localStorage.setItem("ukimmigration_token",data?.token);
   navigate(data.redirect);
+
 
 };
 

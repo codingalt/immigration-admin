@@ -78,6 +78,7 @@ const SideNavbar = () => {
 
   const handleLogout = async () => {
     await logout();
+    localStorage.removeItem("ukimmigration_token");
     window.location.reload(false);
   };
 

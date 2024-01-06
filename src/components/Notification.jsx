@@ -156,17 +156,6 @@ const Notification = ({ setGetData, getData }) => {
     setApplicationId(applicationId);
   };
 
-  // useEffect(() => {
-  //   if (!isLoadingPhaseNoti) {
-  //     socket.on("phase data received", (phaseData) => {
-  //       if (phaseData) {
-  //         refetch();
-  //         console.log("phase data received", phaseData);
-  //       }
-  //     });
-  //   }
-  // }, [isLoadingPhaseNoti, refetch, socket]);
-
   useEffect(() => {
     socket?.on("phase data received", async (request) => {
 
@@ -236,7 +225,7 @@ const Notification = ({ setGetData, getData }) => {
               )}
           </p>
         </div>
-        <h2 className="Requests-heading"> New Application Request </h2>
+        <h2 className="Requests-heading" style={{marginBottom:"13px"}}> New Application Request </h2>
 
         <div className="New-Application-Request">
           {notification && !isLoadingPhaseNoti && user?.isCaseWorker
@@ -252,43 +241,112 @@ const Notification = ({ setGetData, getData }) => {
                   <div
                     className="Client-Request-1"
                     key={item?._id}
-                    style={{ height: "4rem" }}
+                    style={{
+                      height: "4rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "95%"
+                    }}
                   >
-                    {item?.googleId ? (
-                      <img
-                        style={{
-                          width: "2.5rem",
-                          borderRadius: "50%",
-                          height: "2.5rem",
-                        }}
-                        src={
-                          item?.profilePic
-                            ? item?.profilePic
-                            : Messageprofileimg
-                        }
-                        alt=""
-                        className="Request-2"
-                      />
-                    ) : (
-                      <img
-                        style={{
-                          width: "2.5rem",
-                          borderRadius: "50%",
-                          height: "2.5rem",
-                        }}
-                        src={
-                          item?.profilePic
-                            ? `${import.meta.env.VITE_IMG_URI}${
-                                item?.profilePic
-                              }`
-                            : Messageprofileimg
-                        }
-                        alt=""
-                        className="Request-2"
-                      />
-                    )}
+                    <div
+                      className="ongoing-item"
+                      style={{ alignItems: "center", marginLeft: "25px" }}
+                    >
+                      <div className="ongoing-left">
+                        {item?.googleId ? (
+                          <img
+                            style={{
+                              width: "2.5rem",
+                              borderRadius: "50%",
+                              height: "2.5rem",
+                            }}
+                            src={
+                              item?.profilePic
+                                ? item?.profilePic
+                                : Messageprofileimg
+                            }
+                            alt=""
+                            className=""
+                          />
+                        ) : (
+                          <img
+                            style={{
+                              width: "2.5rem",
+                              borderRadius: "50%",
+                              height: "2.5rem",
+                            }}
+                            src={
+                              item?.profilePic
+                                ? `${import.meta.env.VITE_IMG_URI}${
+                                    item?.profilePic
+                                  }`
+                                : Messageprofileimg
+                            }
+                            alt=""
+                            className=""
+                          />
+                        )}
+                      </div>
 
-                    <h4 className="Request-2-text">{item.name}</h4>
+                      <div className="ongoing-right">
+                        <div className="r-name">
+                          <span>{item.name}</span>
+                          <span>
+                            {moment(item.createdAt).format("MM D, YY, h:mm A")}
+                          </span>
+                        </div>
+                        <span
+                          style={
+                            item.phaseStatus === "rejected"
+                              ? { color: "red" }
+                              : {}
+                          }
+                        >
+                          {item.phaseStatus === "rejected"
+                            ? "Application Rejected"
+                            : `Request for visa approval phase ${item.phase}`}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ongoing-buttons">
+                      <button
+                        onClick={() =>
+                          handleAcceptRequest(item.applicationId, item)
+                        }
+                        className="Request-2-btn-1"
+                      >
+                        {isLoading
+                          ? "Accept.."
+                          : item.isInitialRequestAccepted
+                          ? "View"
+                          : "Accept"}
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleDeclineRequest(item.applicationId, item)
+                        }
+                        className="Request-2-btn-2"
+                      >
+                        Decline
+                      </button>
+                      <button
+                        onClick={() =>
+                          item.companyId
+                            ? navigate(
+                                `/admin/group/prescreening/${item.applicationId}`
+                              )
+                            : navigate(
+                                `/admin/prescreening/${item.applicationId}`
+                              )
+                        }
+                        className="Request-2-btn-3"
+                      >
+                        Review
+                      </button>
+                    </div>
+
+                    {/* <h4 className="Request-2-text">{item.name}</h4>
                     <p className="Request-2-text-2">
                       Request for visa approval phase{" "}
                       {item.phaseSubmittedByClient}
@@ -329,7 +387,7 @@ const Notification = ({ setGetData, getData }) => {
                       className="Request-2-btn-3"
                     >
                       Review
-                    </button>
+                    </button> */}
                   </div>
                 ))
             : notification
@@ -343,9 +401,111 @@ const Notification = ({ setGetData, getData }) => {
                   <div
                     className="Client-Request-1"
                     key={item?._id}
-                    style={{ height: "4rem" }}
+                    style={{
+                      height: "4rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "95%",
+                    }}
                   >
-                    {item?.googleId ? (
+                    <div
+                      className="ongoing-item"
+                      style={{ alignItems: "center", marginLeft: "25px" }}
+                    >
+                      <div className="ongoing-left">
+                        {item?.googleId ? (
+                          <img
+                            style={{
+                              width: "2.5rem",
+                              borderRadius: "50%",
+                              height: "2.5rem",
+                            }}
+                            src={
+                              item?.profilePic
+                                ? item?.profilePic
+                                : Messageprofileimg
+                            }
+                            alt=""
+                            className=""
+                          />
+                        ) : (
+                          <img
+                            style={{
+                              width: "2.5rem",
+                              borderRadius: "50%",
+                              height: "2.5rem",
+                            }}
+                            src={
+                              item?.profilePic
+                                ? `${import.meta.env.VITE_IMG_URI}${
+                                    item?.profilePic
+                                  }`
+                                : Messageprofileimg
+                            }
+                            alt=""
+                            className=""
+                          />
+                        )}
+                      </div>
+
+                      <div className="ongoing-right">
+                        <div className="r-name">
+                          <span>{item.name}</span>
+                          <span>
+                            {moment(item.createdAt).format("MM D, YY, h:mm A")}
+                          </span>
+                        </div>
+                        <span
+                          style={
+                            item.phaseStatus === "rejected"
+                              ? { color: "red" }
+                              : {}
+                          }
+                        >
+                          {item.phaseStatus === "rejected"
+                            ? "Application Rejected"
+                            : `Request for visa approval phase ${item.phase}`}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ongoing-buttons">
+                      <button
+                        onClick={() =>
+                          handleAcceptRequest(item.applicationId, item)
+                        }
+                        className="Request-2-btn-1"
+                      >
+                        {isLoading
+                          ? "Accept.."
+                          : item.isInitialRequestAccepted
+                          ? "View"
+                          : "Accept"}
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleDeclineRequest(item.applicationId, item)
+                        }
+                        className="Request-2-btn-2"
+                      >
+                        Decline
+                      </button>
+                      <button
+                        onClick={() =>
+                          item.companyId
+                            ? navigate(
+                                `/admin/group/prescreening/${item.applicationId}`
+                              )
+                            : navigate(
+                                `/admin/prescreening/${item.applicationId}`
+                              )
+                        }
+                        className="Request-2-btn-3"
+                      >
+                        Review
+                      </button>
+                    </div>
+                    {/* {item?.googleId ? (
                       <img
                         style={{
                           width: "2.5rem",
@@ -420,7 +580,7 @@ const Notification = ({ setGetData, getData }) => {
                       className="Request-2-btn-3"
                     >
                       Review
-                    </button>
+                    </button> */}
                   </div>
                 ))}
           {isLoadingPhaseNoti && (
@@ -479,9 +639,14 @@ const Notification = ({ setGetData, getData }) => {
                 <div
                   className="Client-Request-1"
                   key={latestNotification?._id}
-                  style={{ height: "4rem" }}
+                  style={{
+                    height: "4rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  {latestNotification?.googleId ? (
+                  {/* {latestNotification?.googleId ? (
                     <img
                       style={{
                         width: "2.5rem",
@@ -513,52 +678,102 @@ const Notification = ({ setGetData, getData }) => {
                       alt=""
                       className="Request-2"
                     />
-                  )}
+                  )} */}
 
-                  <h4 className="Request-2-text">{latestNotification.name}</h4>
-                  <p className="Request-2-text-2">
-                    Request for visa approval phase {latestNotification.phase}
-                  </p>
-                  <p className="Request-2-text-3">
-                    {moment(latestNotification.createdAt).format(
-                      "MM D, YY, h:mm A"
-                    )}
-                  </p>
-                  <button
-                    onClick={() =>
-                      handleAcceptRequest(
-                        latestNotification.applicationId,
-                        latestNotification
-                      )
-                    }
-                    className="Request-2-btn-1"
-                  >
-                    {latestNotification.isInitialRequestAccepted
-                      ? "View"
-                      : "Accept"}
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleDeclineRequest(
-                        latestNotification.applicationId,
-                        latestNotification
-                      )
-                    }
-                    className="Request-2-btn-2"
-                  >
-                    Decline
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleAcceptRequest(
-                        latestNotification.applicationId,
-                        latestNotification
-                      )
-                    }
-                    className="Request-2-btn-3"
-                  >
-                    Review
-                  </button>
+                  <div className="ongoing-item">
+                    <div className="ongoing-left">
+                      {latestNotification?.googleId ? (
+                        <img
+                          style={{
+                            width: "2.5rem",
+                            borderRadius: "50%",
+                            height: "2.5rem",
+                          }}
+                          src={
+                            latestNotification?.profilePic
+                              ? latestNotification?.profilePic
+                              : Messageprofileimg
+                          }
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          style={{
+                            width: "2.5rem",
+                            borderRadius: "50%",
+                            height: "2.5rem",
+                          }}
+                          src={
+                            latestNotification?.profilePic
+                              ? `${import.meta.env.VITE_IMG_URI}${
+                                  latestNotification?.profilePic
+                                }`
+                              : Messageprofileimg
+                          }
+                          alt=""
+                        />
+                      )}
+                    </div>
+                    <div className="ongoing-right">
+                      <div className="r-name">
+                        <span>{latestNotification.name}</span>
+                        <span>
+                          {moment(latestNotification.createdAt).format(
+                            "MM D, YY, h:mm A"
+                          )}
+                        </span>
+                      </div>
+                      <span
+                        style={
+                          latestNotification.phaseStatus === "rejected"
+                            ? { color: "red" }
+                            : {}
+                        }
+                      >
+                        {latestNotification.phaseStatus === "rejected"
+                          ? "Application Rejected"
+                          : `Request for visa approval phase ${latestNotification.phase}`}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="ongoing-buttons">
+                    <button
+                      onClick={() =>
+                        handleAcceptRequest(
+                          latestNotification.applicationId,
+                          latestNotification
+                        )
+                      }
+                      className="Request-2-btn-1"
+                    >
+                      {latestNotification.isInitialRequestAccepted
+                        ? "View"
+                        : "Accept"}
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleDeclineRequest(
+                          latestNotification.applicationId,
+                          latestNotification
+                        )
+                      }
+                      className="Request-2-btn-2"
+                    >
+                      Decline
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleAcceptRequest(
+                          latestNotification.applicationId,
+                          latestNotification
+                        )
+                      }
+                      className="Request-2-btn-3"
+                    >
+                      Review
+                    </button>
+                  </div>
                 </div>
               );
             })}

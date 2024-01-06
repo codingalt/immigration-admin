@@ -157,10 +157,7 @@ const AddPhase1 = () => {
       <SideNavbar />
       <h2 className="Pre-screening-text-2">Pre-Screening</h2>
       <div className="Buttons-preescreening"></div>
-      <button
-        onClick={() => navigate(`/admin/dashboard`)}
-        className="back-btn"
-      >
+      <button onClick={() => navigate(`/admin/dashboard`)} className="back-btn">
         Back
       </button>
 
@@ -217,7 +214,7 @@ const AddPhase1 = () => {
 
       <div className="phase-1">
         <Formik
-            validationSchema={phase1Schema}
+          validationSchema={phase1Schema}
           initialValues={initialValues}
           onSubmit={handleSubmit}
         >
@@ -255,6 +252,9 @@ const AddPhase1 = () => {
                     </option>
                     <option value="SL- Sponsor Licence">
                       SL- Sponsor Licence{" "}
+                    </option>
+                    <option value="University Placement">
+                      University Placement
                     </option>
                     <option value="Student">Student </option>
                     <option value="Student Child">Student Child</option>
