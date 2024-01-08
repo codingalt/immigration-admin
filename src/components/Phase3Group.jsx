@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useContext } from "react";
 import SideNavbar from "./SideNavbar";
 import editpen from "../assests/edit-pen.png";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
-import "../style/phase3.css";
+import "../style/Phase3.css";
 import pdfimg from "../assests/pdf-img.png";
 import Editimgapp from "../assests/Edit-file-img.svg";
 import Approvedimgapp from "../assests/Approved-img.svg";
