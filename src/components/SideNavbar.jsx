@@ -1,17 +1,20 @@
-import React, { useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import "../style/Sidenavbar.css";
-import Logo from "../assests/normal-removebg-preview 1.png"
-import Dp from "../assests/dp-img.png"
-import logoutImg from "../assests/Log-out-icon.png"
-import { useLogoutMutation } from '../services/api/userApi';
-import { useMemo } from 'react';
-import { toastError } from './Toast';
-import { useSelector } from 'react-redux';
-import { useGetNotificationCountAdminQuery } from '../services/api/applicationApi';
+import Logo from "../assests/normal-removebg-preview 1.png";
+import Dp from "../assests/dp-img.png";
+import logoutImg from "../assests/Log-out-icon.png";
+import { useLogoutMutation } from "../services/api/userApi";
+import { useMemo } from "react";
+import { toastError } from "./Toast";
+import { useSelector } from "react-redux";
+import { useGetNotificationCountAdminQuery } from "../services/api/applicationApi";
 import MainContext from "./Context/MainContext";
-import { useChatNotificationsMutation, useGetAllChatsQuery } from '../services/api/chatApi';
-import { useState } from 'react';
+import {
+  useChatNotificationsMutation,
+  useGetAllChatsQuery,
+} from "../services/api/chatApi";
+import { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { TbMessage } from "react-icons/tb";
 import { MdOutlineHome } from "react-icons/md";
@@ -24,12 +27,12 @@ import { MdOutlineSettings } from "react-icons/md";
 const SideNavbar = () => {
   const { socket } = useContext(MainContext);
   const [chatNotifications, resp] = useChatNotificationsMutation();
-  const {data: respCount} = resp;
+  const { data: respCount } = resp;
   const [logout, result] = useLogoutMutation();
   const { error, isSuccess } = result;
   const navigate = useNavigate();
-  const { user,count,isRead } = useSelector((state) => state.user);
-  const [unread,setUnread] = useState();
+  const { user, count, isRead } = useSelector((state) => state.user);
+  const [unread, setUnread] = useState();
   const [receiveNoti, setReceiveNoti] = useState();
   const [getCount, setGetCount] = useState();
 
@@ -37,7 +40,7 @@ const SideNavbar = () => {
     data,
     refetch: refetchChats,
     isLoading: isLoadingChats,
-  } = useGetAllChatsQuery(null,{refetchOnMountOrArgChange: true});
+  } = useGetAllChatsQuery(null, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     if (data) {
@@ -48,9 +51,9 @@ const SideNavbar = () => {
         }
       });
 
-      if(countVal > 0) {
+      if (countVal > 0) {
         setUnread(true);
-      }else{
+      } else {
         setUnread(false);
       }
     }
@@ -60,7 +63,7 @@ const SideNavbar = () => {
     if (receiveNoti) {
       refetchChats();
     }
-  }, [receiveNoti,isRead]);
+  }, [receiveNoti, isRead]);
 
   const { isCaseWorker, profilePic } = user ? user : "";
 
@@ -82,16 +85,16 @@ const SideNavbar = () => {
     window.location.reload(false);
   };
 
-  useEffect(()=>{
-    if(getCount){
+  useEffect(() => {
+    if (getCount) {
       chatNotifications(getCount?.chatId);
     }
-  },[getCount]);
+  }, [getCount]);
 
   useEffect(() => {
     socket?.on("message received", async (newMessageReceived) => {
-        setReceiveNoti(newMessageReceived.result);
-        setGetCount(newMessageReceived.result);
+      setReceiveNoti(newMessageReceived.result);
+      setGetCount(newMessageReceived.result);
     });
   });
 
@@ -114,51 +117,57 @@ const SideNavbar = () => {
       </div>
 
       <div className="icons-sidebar">
-        <Link to="/admin/dashboard">
-          <MdOutlineHome style={{ fontSize: "1.9rem", color: "#000" }} />
-        </Link>
-
-        <Link to="/admin/notification">
-          <IoNotificationsOutline
-            style={{ fontSize: "1.9rem", color: "#000" }}
-          />
-          {count > 0 ? (
-            <div className="icon-badge">
-              <span>{count}</span>
-            </div>
-          ) : null}
-        </Link>
-
-        <Link to="/admin/message">
-          <TbMessage style={{ fontSize: "1.9rem", color: "#000" }} />
-          {unread ? (
-            <div className="icon-badge-message">
-              <span></span>
-            </div>
-          ) : null}
-        </Link>
-
-        <Link to="/calender">
-          <FiCalendar style={{ fontSize: "1.9rem", color: "#000" }} />
-        </Link>
-
-        {!isCaseWorker && (
-          <Link to="/admin/caseworker">
-            <LuUserCog2 style={{ fontSize: "1.9rem", color: "#000" }} />
+        <div className="icons-sidebar-sec-a">
+          <Link to="/admin/dashboard">
+            <MdOutlineHome style={{ fontSize: "1.9rem", color: "#000" }} />
           </Link>
-        )}
 
-        <Link to="/admin/billing">
-          <HiOutlineClipboardList
-            style={{ fontSize: "1.9rem", color: "#000" }}
-          />
-        </Link>
+          <Link to="/admin/notification">
+            <IoNotificationsOutline
+              style={{ fontSize: "1.9rem", color: "#000" }}
+            />
+            {count > 0 ? (
+              <div className="icon-badge">
+                <span>{count}</span>
+              </div>
+            ) : null}
+          </Link>
 
-        <Link to="/admin/profile">
-          <MdOutlineSettings style={{ fontSize: "1.9rem", color: "#000" }} />
-        </Link>
+          <Link to="/admin/message">
+            <TbMessage style={{ fontSize: "1.9rem", color: "#000" }} />
+            {unread ? (
+              <div className="icon-badge-message">
+                <span></span>
+              </div>
+            ) : null}
+          </Link>
 
-        <Link style={{ marginTop: 30, marginBottom: 10 }}  to="#" onClick={handleLogout}>
+          <Link to="/calender">
+            <FiCalendar style={{ fontSize: "1.9rem", color: "#000" }} />
+          </Link>
+
+          {!isCaseWorker && (
+            <Link to="/admin/caseworker">
+              <LuUserCog2 style={{ fontSize: "1.9rem", color: "#000" }} />
+            </Link>
+          )}
+
+          <Link to="/admin/billing">
+            <HiOutlineClipboardList
+              style={{ fontSize: "1.9rem", color: "#000" }}
+            />
+          </Link>
+
+          <Link to="/admin/profile">
+            <MdOutlineSettings style={{ fontSize: "1.9rem", color: "#000" }} />
+          </Link>
+        </div>
+
+        <Link
+          style={{ marginTop: 30, marginBottom: 10 }}
+          to="#"
+          onClick={handleLogout}
+        >
           <img src={logoutImg} alt="" className="Logout-icon" />
         </Link>
       </div>
@@ -167,8 +176,3 @@ const SideNavbar = () => {
 };
 
 export default SideNavbar;
-
-
-
-
-
