@@ -118,7 +118,7 @@ const SideNavbar = () => {
           <MdOutlineHome style={{ fontSize: "1.9rem", color: "#000" }} />
         </Link>
 
-        <Link style={{ marginTop: 30, marginBottom: 10 }} to="/admin/notification">
+        <Link to="/admin/notification">
           <IoNotificationsOutline
             style={{ fontSize: "1.9rem", color: "#000" }}
           />
@@ -158,7 +158,7 @@ const SideNavbar = () => {
           <MdOutlineSettings style={{ fontSize: "1.9rem", color: "#000" }} />
         </Link>
 
-        <Link to="#" onClick={handleLogout}>
+        <Link style={{ marginTop: 30, marginBottom: 10 }}  to="#" onClick={handleLogout}>
           <img src={logoutImg} alt="" className="Logout-icon" />
         </Link>
       </div>
