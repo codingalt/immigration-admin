@@ -118,7 +118,7 @@ const SideNavbar = () => {
           <MdOutlineHome style={{ fontSize: "1.9rem", color: "#000" }} />
         </Link>
 
-        <Link to="/admin/notification">
+        <Link style={{ marginTop: 30, marginBottom: 10 }} to="/admin/notification">
           <IoNotificationsOutline
             style={{ fontSize: "1.9rem", color: "#000" }}
           />

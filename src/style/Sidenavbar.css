@@ -6,7 +6,7 @@
   border: 1px solid #e2e2e4;
   box-sizing: border-box;
   /* width: 7%; */
-  height: 52rem;
+  height: fit-content;
   left: 144px;
   top: 16px;
   width: 7.2rem;
@@ -101,7 +101,6 @@
 }
 
 .Logout-icon{
-  position: absolute;
   left: 2.6rem;
   width: 1.5rem;
   bottom: 13.6rem;
