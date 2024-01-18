@@ -43,7 +43,6 @@ const Message = () => {
   const { isLoading: isLoadingSend, error: isSendMsgErr } = sendMsgRes;
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [getChats, setGetChats] = useState(null);
-
   useMemo(() => {
     if (isSendMsgErr) {
       toastError(isSendMsgErr?.data?.message);
@@ -60,8 +59,9 @@ const Message = () => {
     const [readMessagesByChat, res] = useReadMessagesByChatMutation();
     const { refetch: refetchReadMsgs, isSuccess: isSuccessMsgRead } = res;
 
-  // console.log("Messages", messages);
-  console.log("Selected Chat",selectedChat);
+  console.log("Messages", messages);
+  // console.log("Selected Chat",selectedChat);
+  console.log("user",user);
 
   useEffect(() => {
     setMessages(messageData?.result);
@@ -114,7 +114,7 @@ const Message = () => {
          formData.append("chatFile", files[i]);
        }
        const { data } = await sendMessage(formData);
-       console.log(data?.result);
+
        setMessages([...messages, data?.result?.result]);
        socket.emit("new message", data?.result);
        setFiles([]);
@@ -214,7 +214,6 @@ const Message = () => {
 
    const [newChatModel, setNewChatModel] = useState(false);
    const {data: caseworkers, isLoading: isLoadingCaseWorkers} = useGetCaseWorkerQuery();
-   console.log("caseworkers", caseworkers);
 
   return (
     <div className="Main-message-container">
@@ -225,6 +224,7 @@ const Message = () => {
           newChatModel={newChatModel}
           caseworkers={caseworkers}
           handleChatClick={handleChatClick}
+          refetch={refetch}
         />
       )}
       <h2 className="Message-heading">Message</h2>
@@ -347,7 +347,7 @@ const Message = () => {
               {selectedChat ? (
                 <>
                   <div className="header-chat">
-                    {selectedChat?.users[0]?.googleId ? (
+                    {selectedChat && selectedChat?.users[0]?.googleId ? (
                       <img
                         src={
                           selectedChat && selectedChat?.users[0]?.profilePic
@@ -403,18 +403,73 @@ const Message = () => {
                 {/* <ScrollableFeed> */}
                 {selectedChat ? (
                   messages?.map((item, index) => {
-                    const isUserMessage =
-                      item?.sender?.toString() != selectedChat?.clientId;
+                    let isUserMessage;
+                     selectedChat.caseWorkerChat ? (
+                      isUserMessage = item?.sender?._id?.toString() === user?._id
+                     ) : (
+                      isUserMessage = item?.sender?._id?.toString() != selectedChat?.clientId
+                     ) 
+                      console.log(isUserMessage);
                     return (
                       !loading && (
                         <div
                           className={
                             isUserMessage ? `admin-msg message` : `message`
                           }
-                          key={item._id + index}
+                          key={item?._id + index}
                         >
                           <div className="photo-2">
-                            {selectedChat?.users[0]?.googleId ? (
+                            {selectedChat.caseWorkerChat ? (
+                              selectedChat?.users[0]?.googleId ? (
+                                <img
+                                  style={{
+                                    borderRadius: "50%",
+                                    width: "2rem",
+                                    height: "2rem",
+                                  }}
+                                  src={
+                                    !loading &&
+                                    !isUserMessage &&
+                                    selectedChat?.users[0]?.profilePic
+                                      ? `${selectedChat?.users[0]?.profilePic}`
+                                      : !isUserMessage &&
+                                        !selectedChat?.users[0]?.profilePic
+                                      ? `${Messageprofileimg}`
+                                      : user?.profilePic
+                                      ? import.meta.env.VITE_IMG_URI +
+                                        user.profilePic
+                                      : Adminprofile
+                                  }
+                                  alt=""
+                                  className="Second-profile-img-2"
+                                />
+                              ) : (
+                                <img
+                                  style={{
+                                    borderRadius: "50%",
+                                    width: "2rem",
+                                    height: "2rem",
+                                  }}
+                                  src={
+                                    !loading &&
+                                    !isUserMessage &&
+                                    selectedChat?.users[0]?.profilePic
+                                      ? `${import.meta.env.VITE_IMG_URI}${
+                                          selectedChat?.users[0]?.profilePic
+                                        }`
+                                      : !isUserMessage &&
+                                        !selectedChat?.users[0]?.profilePic
+                                      ? `${Messageprofileimg}`
+                                      : user?.profilePic
+                                      ? import.meta.env.VITE_IMG_URI +
+                                        user.profilePic
+                                      : Adminprofile
+                                  }
+                                  alt=""
+                                  className="Second-profile-img-2"
+                                />
+                              )
+                            ) : selectedChat?.users[0]?.googleId ? (
                               <img
                                 style={{
                                   borderRadius: "50%",
@@ -463,12 +518,20 @@ const Message = () => {
                                 className="Second-profile-img-2"
                               />
                             )}
-
-                            <p className="Second-profile-name">
-                              {!loading && isUserMessage
-                                ? "Admin"
-                                : selectedChat?.users[0]?.name}
-                            </p>
+                  
+                            {selectedChat.caseWorkerChat ? (
+                              <p className="Second-profile-name">
+                                {!loading && item.sender._id === user?._id
+                                  ? "You"
+                                  : item.sender.name}
+                              </p>
+                            ) : (
+                              <p className="Second-profile-name">
+                                {!loading && isUserMessage
+                                  ? "You"
+                                  : selectedChat?.users[0]?.name}
+                              </p>
+                            )}
                             <p
                               className="Message-date-time-second"
                               style={

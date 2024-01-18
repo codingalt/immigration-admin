@@ -115,7 +115,7 @@ export const companyClientApi = createApi({
         method: "POST",
         body: { name: name, content: content },
       }),
-      invalidatesTags: ["Application"],
+      invalidatesTags: ["Application", "AdminApi"],
     }),
 
     getAllGroupApplications: builder.query({

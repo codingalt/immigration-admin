@@ -5,17 +5,20 @@
    */
 .Main-message-container {
   display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
   margin-left: 127px;
-  
 }
+
 .container-message-box {
   padding: 0;
   background-color: #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   height: 47rem;
   position: relative;
+  top: 40px;
   left: 74px;
-  top: 94px;
   border-radius: 11px;
   width: 1000px;
 }
@@ -37,6 +40,7 @@
   position: relative;
   left: 161px;
   top: 22px;
+  visibility: hidden;
 }
 
 .Second-profile-name {
@@ -94,7 +98,6 @@
   letter-spacing: 0em;
   text-align: left;
   color: #777777;
-
 }
 
 .Message-date-time {
@@ -331,16 +334,16 @@
 .Email {
   width: 60px;
   height: 60px;
-  background: linear-gradient(0deg, #5D982E, #5D982E), linear-gradient(0deg, #E2E2E4, #E2E2E4);
+  background: linear-gradient(0deg, #5d982e, #5d982e),
+    linear-gradient(0deg, #e2e2e4, #e2e2e4);
   position: absolute;
   left: 29%;
   top: 15px;
-  border: 1px solid #5D982E;
+  border: 1px solid #5d982e;
   border-radius: 32px;
 }
 
-
-.email-edit-pencile{
+.email-edit-pencile {
   position: absolute;
   left: 16px;
   top: 9px;
@@ -413,7 +416,7 @@
   width: 100%;
   margin-left: -1rem;
   margin-top: 0rem;
-  z-index: 99;
+  /* z-index: 1; */
 }
 
 .chat .header-chat .icon {
@@ -520,14 +523,14 @@
 
 .footer-chat {
   width: calc(114% - 128px);
-    height: 66px;
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border-top: 2px solid #eee;
-    position: absolute;
-    top: 90%;
-    background-color: #fff;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border-top: 2px solid #eee;
+  position: absolute;
+  top: 90%;
+  background-color: #fff;
 }
 
 .chat .footer-chat .icon {
@@ -547,7 +550,7 @@
   font-size: 12pt;
 }
 
-.react-emoji{
+.react-emoji {
   width: 88% !important;
 }
 
@@ -595,85 +598,67 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 768px) {
+  .container-message-box {
+    top: 40px;
+    left: 74px;
+  }
+}
 
 @media (max-width: 1440px) {
   .Main-message-container {
     display: flex;
     margin-left: -11px;
-    
   }
 
-
   .container-message-box {
- 
     width: 1139px;
-
+    top: 40px;
   }
 
   .Date-time-text {
-  
     left: 191px;
+  }
+
+  .header-chat {
+    width: 46.3rem;
+  }
+
+  .footer-chat {
+    width: 43rem;
+  }
+  .Threedot-svg-img {
+    left: 270px;
+  }
+
+  .chat .messages-chat .message {
+    width: 92%;
+  }
+
+  .Message-date-time {
+    bottom: 131px;
+  }
+
+  .chat-box-text {
+    bottom: 83px;
+  }
+
+  .chat .messages-chat {
+    /* padding: 25px 35px; */
+    /* margin-top: 64px; */
+  }
 }
-
-
-
-.header-chat {
-  width: 46.3rem;
-}
-
-
-.footer-chat {
-  width: 43rem;
-}
-.Threedot-svg-img {
-
-  left: 270px;
-}
-
-
-.chat .messages-chat .message {
-
-  width: 92%;
-}
-
-.Message-date-time {
- 
-
-  bottom: 131px;
- 
-}
-
-.chat-box-text {
-
-  bottom: 83px;
- 
-}
-
-.chat .messages-chat {
-  /* padding: 25px 35px; */
-  /* margin-top: 64px; */
-
-}
-} 
-
 
 @media (max-width: 1366px) {
-
-
-
- 
-
-} 
-
+  .container-message-box {
+    width: 1139px;
+    top: 40px;
+  }
+  .Main-message-container {
+    display: flex;
+    margin-left: 127px;
+  }
+}
 
 @media (max-width: 1024px) {
-
-
-
-
-
-} 
-
-
-
-
+}

@@ -58,7 +58,6 @@ const Notification = ({ setGetData, getData }) => {
   // } = useGetAllApplicationsQuery();
   const { socket } = useContext(MainContext);
 
-  console.log(data);
 
   const [acceptInitialRequest, result] = useAcceptInitialRequestMutation();
   const { isLoading, error, isSuccess } = result;
@@ -180,6 +179,21 @@ const Notification = ({ setGetData, getData }) => {
     }
   },[getData]);
 
+   const latestNotificationsMap = {};
+
+   // Iterate through the notifications to find the latest for each user
+   notification?.filter((item) => item.isInitialRequestAccepted)
+     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+     .forEach((item) => {
+       if (
+         !latestNotificationsMap[item.userId] ||
+         new Date(item.createdAt) >
+           new Date(latestNotificationsMap[item.userId].createdAt)
+       ) {
+         latestNotificationsMap[item.userId] = item;
+       }
+     });
+
   return (
     <div className="Notification-main-container">
       {companyId
@@ -225,7 +239,10 @@ const Notification = ({ setGetData, getData }) => {
               )}
           </p>
         </div>
-        <h2 className="Requests-heading" style={{marginBottom:"13px"}}> New Application Request </h2>
+        <h2 className="Requests-heading" style={{ marginBottom: "13px" }}>
+          {" "}
+          New Application Request{" "}
+        </h2>
 
         <div className="New-Application-Request">
           {notification && !isLoadingPhaseNoti && user?.isCaseWorker
@@ -246,7 +263,7 @@ const Notification = ({ setGetData, getData }) => {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      width: "95%"
+                      width: "95%",
                     }}
                   >
                     <div
@@ -345,49 +362,6 @@ const Notification = ({ setGetData, getData }) => {
                         Review
                       </button>
                     </div>
-
-                    {/* <h4 className="Request-2-text">{item.name}</h4>
-                    <p className="Request-2-text-2">
-                      Request for visa approval phase{" "}
-                      {item.phaseSubmittedByClient}
-                    </p>
-                    <p className="Request-2-text-3">
-                      {moment(item.createdAt).format("dd, MM Do")}
-                    </p>
-                    <button
-                      onClick={() =>
-                        handleAcceptRequest(item.applicationId, item)
-                      }
-                      className="Request-2-btn-1"
-                    >
-                      {isLoading
-                        ? "Accept.."
-                        : item.isInitialRequestAccepted
-                        ? "View"
-                        : "Accept"}
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleDeclineRequest(item.applicationId, item)
-                      }
-                      className="Request-2-btn-2"
-                    >
-                      Decline
-                    </button>
-                    <button
-                      onClick={() =>
-                        item.companyId
-                          ? navigate(
-                              `/admin/group/prescreening/${item.applicationId}`
-                            )
-                          : navigate(
-                              `/admin/prescreening/${item.applicationId}`
-                            )
-                      }
-                      className="Request-2-btn-3"
-                    >
-                      Review
-                    </button> */}
                   </div>
                 ))
             : notification
@@ -505,82 +479,6 @@ const Notification = ({ setGetData, getData }) => {
                         Review
                       </button>
                     </div>
-                    {/* {item?.googleId ? (
-                      <img
-                        style={{
-                          width: "2.5rem",
-                          borderRadius: "50%",
-                          height: "2.5rem",
-                        }}
-                        src={
-                          item?.profilePic
-                            ? item?.profilePic
-                            : Messageprofileimg
-                        }
-                        alt=""
-                        className="Request-2"
-                      />
-                    ) : (
-                      <img
-                        style={{
-                          width: "2.5rem",
-                          borderRadius: "50%",
-                          height: "2.5rem",
-                        }}
-                        src={
-                          item?.profilePic
-                            ? `${import.meta.env.VITE_IMG_URI}${
-                                item?.profilePic
-                              }`
-                            : Messageprofileimg
-                        }
-                        alt=""
-                        className="Request-2"
-                      />
-                    )}
-
-                    <h4 className="Request-2-text">{item.name}</h4>
-                    <p className="Request-2-text-2">
-                      Request for visa approval phase{" "}
-                      {item.phaseSubmittedByClient}
-                    </p>
-                    <p className="Request-2-text-3">
-                      {moment(item.createdAt).format("dd, MM Do")}
-                    </p>
-                    <button
-                      onClick={() =>
-                        handleAcceptRequest(item.applicationId, item)
-                      }
-                      className="Request-2-btn-1"
-                    >
-                      {isLoading
-                        ? "Accept.."
-                        : item.isInitialRequestAccepted
-                        ? "View"
-                        : "Accept"}
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleDeclineRequest(item.applicationId, item)
-                      }
-                      className="Request-2-btn-2"
-                    >
-                      Decline
-                    </button>
-                    <button
-                      onClick={() =>
-                        item.companyId
-                          ? navigate(
-                              `/admin/group/prescreening/${item.applicationId}`
-                            )
-                          : navigate(
-                              `/admin/prescreening/${item.applicationId}`
-                            )
-                      }
-                      className="Request-2-btn-3"
-                    >
-                      Review
-                    </button> */}
                   </div>
                 ))}
           {isLoadingPhaseNoti && (
@@ -618,165 +516,114 @@ const Notification = ({ setGetData, getData }) => {
 
         <h2 className="Requests-heading"> Ongoing Application Request </h2>
         <div className="Ongoing-Application-Request">
-          {notification &&
-            !isLoadingPhaseNoti &&
-            Object.values(
-              notification
-                .filter((item) => item.isInitialRequestAccepted)
-                .reduce((acc, item) => {
-                  // Group notifications by userId
-                  acc[item.userId] = acc[item.userId] || [];
-                  acc[item.userId].push(item);
-                  return acc;
-                }, {})
-            ).map((userNotifications) => {
-              // For each user, select the latest notification
-              const latestNotification = userNotifications.sort(
-                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-              )[0];
-
-              return (
-                <div
-                  className="Client-Request-1"
-                  key={latestNotification?._id}
-                  style={{
-                    height: "4rem",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  {/* {latestNotification?.googleId ? (
-                    <img
-                      style={{
-                        width: "2.5rem",
-                        borderRadius: "50%",
-                        height: "2.5rem",
-                      }}
-                      src={
-                        latestNotification?.profilePic
-                          ? latestNotification?.profilePic
-                          : Messageprofileimg
-                      }
-                      alt=""
-                      className="Request-2"
-                    />
-                  ) : (
-                    <img
-                      style={{
-                        width: "2.5rem",
-                        borderRadius: "50%",
-                        height: "2.5rem",
-                      }}
-                      src={
-                        latestNotification?.profilePic
-                          ? `${import.meta.env.VITE_IMG_URI}${
-                              latestNotification?.profilePic
-                            }`
-                          : Messageprofileimg
-                      }
-                      alt=""
-                      className="Request-2"
-                    />
-                  )} */}
-
-                  <div className="ongoing-item">
-                    <div className="ongoing-left">
-                      {latestNotification?.googleId ? (
-                        <img
-                          style={{
-                            width: "2.5rem",
-                            borderRadius: "50%",
-                            height: "2.5rem",
-                          }}
-                          src={
-                            latestNotification?.profilePic
-                              ? latestNotification?.profilePic
-                              : Messageprofileimg
-                          }
-                          alt=""
-                        />
-                      ) : (
-                        <img
-                          style={{
-                            width: "2.5rem",
-                            borderRadius: "50%",
-                            height: "2.5rem",
-                          }}
-                          src={
-                            latestNotification?.profilePic
-                              ? `${import.meta.env.VITE_IMG_URI}${
-                                  latestNotification?.profilePic
-                                }`
-                              : Messageprofileimg
-                          }
-                          alt=""
-                        />
-                      )}
-                    </div>
-                    <div className="ongoing-right">
-                      <div className="r-name">
-                        <span>{latestNotification.name}</span>
-                        <span>
-                          {moment(latestNotification.createdAt).format(
-                            "MM D, YY, h:mm A"
-                          )}
-                        </span>
-                      </div>
-                      <span
-                        style={
-                          latestNotification.phaseStatus === "rejected"
-                            ? { color: "red" }
-                            : {}
+          {!isLoadingPhaseNoti &&
+            Object.values(latestNotificationsMap).map((latestNotification) => (
+              <div
+                className="Client-Request-1"
+                key={latestNotification?._id}
+                style={{
+                  height: "4rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div className="ongoing-item">
+                  <div className="ongoing-left">
+                    {latestNotification?.googleId ? (
+                      <img
+                        style={{
+                          width: "2.5rem",
+                          borderRadius: "50%",
+                          height: "2.5rem",
+                        }}
+                        src={
+                          latestNotification?.profilePic
+                            ? latestNotification?.profilePic
+                            : Messageprofileimg
                         }
-                      >
-                        {latestNotification.phaseStatus === "rejected"
-                          ? "Application Rejected"
-                          : `Request for visa approval phase ${latestNotification.phase}`}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        style={{
+                          width: "2.5rem",
+                          borderRadius: "50%",
+                          height: "2.5rem",
+                        }}
+                        src={
+                          latestNotification?.profilePic
+                            ? `${import.meta.env.VITE_IMG_URI}${
+                                latestNotification?.profilePic
+                              }`
+                            : Messageprofileimg
+                        }
+                        alt=""
+                      />
+                    )}
+                  </div>
+                  <div className="ongoing-right">
+                    <div className="r-name">
+                      <span>{latestNotification.name}</span>
+                      <span>
+                        {moment(latestNotification.createdAt).format(
+                          "MM D, YY, h:mm A"
+                        )}
                       </span>
                     </div>
-                  </div>
-
-                  <div className="ongoing-buttons">
-                    <button
-                      onClick={() =>
-                        handleAcceptRequest(
-                          latestNotification.applicationId,
-                          latestNotification
-                        )
+                    <span
+                      style={
+                        latestNotification.phaseStatus === "rejected"
+                          ? { color: "red" }
+                          : {}
                       }
-                      className="Request-2-btn-1"
                     >
-                      {latestNotification.isInitialRequestAccepted
-                        ? "View"
-                        : "Accept"}
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleDeclineRequest(
-                          latestNotification.applicationId,
-                          latestNotification
-                        )
-                      }
-                      className="Request-2-btn-2"
-                    >
-                      Decline
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleAcceptRequest(
-                          latestNotification.applicationId,
-                          latestNotification
-                        )
-                      }
-                      className="Request-2-btn-3"
-                    >
-                      Review
-                    </button>
+                      {latestNotification.phaseStatus === "rejected"
+                        ? "Application Rejected"
+                        : `Request for visa approval phase ${latestNotification.phase}`}
+                    </span>
                   </div>
                 </div>
-              );
-            })}
+
+                <div className="ongoing-buttons">
+                  <button
+                    onClick={() =>
+                      handleAcceptRequest(
+                        latestNotification.applicationId,
+                        latestNotification
+                      )
+                    }
+                    className="Request-2-btn-1"
+                  >
+                    {latestNotification.isInitialRequestAccepted
+                      ? "View"
+                      : "Accept"}
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDeclineRequest(
+                        latestNotification.applicationId,
+                        latestNotification
+                      )
+                    }
+                    className="Request-2-btn-2"
+                  >
+                    Decline
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleAcceptRequest(
+                        latestNotification.applicationId,
+                        latestNotification
+                      )
+                    }
+                    className="Request-2-btn-3"
+                  >
+                    Review
+                  </button>
+                </div>
+              </div>
+            ))}
           {isLoadingPhaseNoti && (
             <div
               style={{

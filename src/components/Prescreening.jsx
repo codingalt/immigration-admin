@@ -452,34 +452,37 @@ const Prescreening = () => {
         {/* Diplay all the notes section  */}
         <div className="display-notes">
           {data?.application?.notes.length > 0 &&
-            data?.application?.notes?.map((note) => (
-              <div key={note._id} className="notes-section-display">
-                <div className="notes-item">
-                  <div className="notes-item-inner">
-                    <div className="left-note">
-                      <span>Name</span>
-                      <span>{note.name}</span>
+            data?.application?.notes
+              ?.slice()
+              .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+              .map((note) => (
+                <div key={note._id} className="notes-section-display">
+                  <div className="notes-item">
+                    <div className="notes-item-inner">
+                      <div className="left-note">
+                        <span>Name</span>
+                        <span>{note.name}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="notes-item-inner">
-                    <div className="left-note">
-                      <span>Notes</span>
-                      <span>{note.content}</span>
+                    <div className="notes-item-inner">
+                      <div className="left-note">
+                        <span>Notes</span>
+                        <span>{note.content}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="notes-item-inner">
-                    <div className="left-note">
-                      <span>Created at</span>
-                      <span>
-                        {moment(note.dateTime).format("dddd, MMMM D, hh:mm a")}
-                        {/* {format(new Date(note.dateTime), "yyyy-MM-dd")} */}
-                      </span>
+                    <div className="notes-item-inner">
+                      <div className="left-note">
+                        <span>Created at</span>
+                        <span>
+                          {moment(note.dateTime).format(
+                            "dddd, MMMM D, hh:mm a"
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-               
-              </div>
-            ))}
+              ))}
         </div>
         <div className="preescreen-form-third">
           <p className="Notes-heading">Notes</p>

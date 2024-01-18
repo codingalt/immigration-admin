@@ -286,12 +286,7 @@ const GroupPrescreening = () => {
 
       <div className="preescreen-form-main">
         <div className="preescreen-form">
-          <button
-            onClick={() =>
-              navigate(`/admin/group/reject/${data?.application?._id}`)
-            }
-            className="reject-btn"
-          >
+          <button onClick={() => setIsReject(true)} className="reject-btn">
             Reject Application
           </button>
           <form>
@@ -473,55 +468,37 @@ const GroupPrescreening = () => {
         {/* Diplay all the notes section  */}
         <div className="display-notes">
           {data?.application?.notes.length > 0 &&
-            data?.application?.notes?.map((note) => (
-              <div key={note._id} className="notes-section-display">
-                <div className="notes-item">
-                  <div className="notes-item-inner">
-                    <div className="left-note">
-                      <span>Name</span>
-                      <span>{note.name}</span>
+            data?.application?.notes
+              ?.slice()
+              .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+              .map((note) => (
+                <div key={note._id} className="notes-section-display">
+                  <div className="notes-item">
+                    <div className="notes-item-inner">
+                      <div className="left-note">
+                        <span>Name</span>
+                        <span>{note.name}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="notes-item-inner">
-                    <div className="left-note">
-                      <span>Notes</span>
-                      <span>{note.content}</span>
+                    <div className="notes-item-inner">
+                      <div className="left-note">
+                        <span>Notes</span>
+                        <span>{note.content}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="notes-item-inner">
-                    <div className="left-note">
-                      <span>Created at</span>
-                      <span>
-                        {moment(note.dateTime).format("dddd, MMMM D, hh:mm a")}
-                        {/* {format(new Date(note.dateTime), "yyyy-MM-dd")} */}
-                      </span>
+                    <div className="notes-item-inner">
+                      <div className="left-note">
+                        <span>Created at</span>
+                        <span>
+                          {moment(note.dateTime).format(
+                            "dddd, MMMM D, hh:mm a"
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                {/* <form>
-                  <div className="borderline-notes-2"></div>
-                  <div className="Name-notes">
-                    <p className="Name-notes">Name</p>
-                    <input
-                      disabled={true}
-                      className="Name-4"
-                      type="text"
-                      value={note.name}
-                    />
-                  </div>
-                  <div className="Borderline-notes"></div>
-                  <div className="Notes-1">
-                    <p className="Notes-text">Notes</p>
-                    <input
-                      disabled={true}
-                      className="Notes-input"
-                      type="text"
-                      value={note.content}
-                    />
-                  </div>
-                </form> */}
-              </div>
-            ))}
+              ))}
         </div>
         <div className="preescreen-form-third">
           <p className="Notes-heading">Notes</p>

@@ -49,7 +49,7 @@
   border-radius: 20px;
   padding-left: 20px;
   display: flex;
-  width: 25.7rem;
+  width: 29.7rem;
   align-items: center;
   column-gap: 0.5rem;
 }
@@ -64,7 +64,7 @@
 }
 
 .ApT-billing-drop{
-  width: 3.3rem;
+  width: 4.7rem;
   background-color: #F7F7F7;
   border: none;
   text-decoration: underline;

@@ -65,7 +65,7 @@ border-radius: 5px;
 
     .table-list-sub-container{
         right: 5rem;
-
+        top: 95px;
     }
 
     .Case-profile-addbtn {
@@ -79,9 +79,8 @@ border-radius: 5px;
 @media (max-width: 1366px) {
 
     .table-list-sub-container{
-        left: 11.7rem;
-
-
+        left: 18.8rem;
+        top: -115.5%;
     }
 
     .Case-profile-addbtn {
@@ -99,6 +98,11 @@ border-radius: 5px;
     .Case-profile-addbtn {
         left: 74.6rem;
         width: 11rem;
+    }
+
+    .table-list-sub-container{
+        left: 18.8rem;
+        top: -110.6%;
     }
  
 }

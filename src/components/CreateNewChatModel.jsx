@@ -17,25 +17,28 @@ import { useCreateChatMutation } from '../services/api/chatApi';
 import { toastError } from './Toast';
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useSelector } from 'react-redux';
 
 const CreateNewChatModel = ({
   setNewChatModel,
   newChatModel,
   caseworkers,
   handleChatClick,
+  refetch,
 }) => {
   const [createChat, res] = useCreateChatMutation();
-  const { isLoading, error, isSuccess,data } = res;
-
+  const { isLoading, error, isSuccess, data } = res;
+  const { user } = useSelector((state) => state.user);
   const handleClose = () => {
     setNewChatModel(false);
   };
 
   useMemo(() => {
     if (isSuccess) {
-      console.log("Success",data?.chat);
+      console.log("Success", data?.chat);
       handleChatClick(data?.chat);
       setNewChatModel(false);
+      refetch();
     }
   }, [isSuccess]);
 
@@ -62,9 +65,14 @@ const CreateNewChatModel = ({
         </Backdrop>
         <DialogTitle>Select User</DialogTitle>
         <Divider light />
-        <List sx={{ p: 1.4, pb: 2.9, minWidth: "330px" }}>
+        <List sx={{ p: 1.4, pb: 2.9, minWidth: "390px" }}>
           {caseworkers?.caseWorker?.map((item) => (
-            <ListItem disableGutters key={item._id} onClick={()=> handleCreateChat(item)}>
+            item.userId != user?._id &&
+            <ListItem
+              disableGutters
+              key={item._id}
+              onClick={() => handleCreateChat(item)}
+            >
               <ListItemButton>
                 <ListItemAvatar>
                   <Avatar sx={{ bgcolor: deepOrange[500] }}>

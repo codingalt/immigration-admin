@@ -223,7 +223,8 @@
 
 .dummy-data p:nth-child(1){
     font-weight: 500;
-    font-size: .98rem;
+    font-size: .9rem;
+    margin-top: 13px;
 }
 
 .text-area-input-23{

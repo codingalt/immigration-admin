@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { useAddNotesMutation } from '../services/api/applicationApi';
 import { toastError, toastSuccess } from './Toast';
 import { useMemo } from 'react';
+import { useAddNotesGroupMutation } from '../services/api/companyClient';
 
-const Addnewnotes = ({ onCancel, onSubmit, applicationId }) => {
+const Addnewnotes = ({ onCancel, onSubmit, applicationId, item }) => {
   const handleCancel = () => {
     onCancel();
   };
@@ -14,13 +15,22 @@ const Addnewnotes = ({ onCancel, onSubmit, applicationId }) => {
   const [notes, setNotes] = useState("");
 
   const [addNotes, result] = useAddNotesMutation();
-  const { isLoading,error } = result;
+  const { isLoading, error } = result;
+
+  const [addNotesGroup, res] = useAddNotesGroupMutation();
+  const { isLoading: isLoadingGroupNote, error: isGroupNoteError } = res;
 
   useMemo(() => {
     if (error) {
       toastError(error?.data?.message);
     }
   }, [error]);
+
+  useMemo(() => {
+    if (isGroupNoteError) {
+      toastError(isGroupNoteError?.data?.message);
+    }
+  }, [isGroupNoteError]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -29,26 +39,41 @@ const Addnewnotes = ({ onCancel, onSubmit, applicationId }) => {
   const handleNotesChange = (event) => {
     setNotes(event.target.value);
   };
-
+  console.log("Selected Note", item);
   const handleSubmitNotes = async () => {
     if (name === "" || notes === "") {
       toastError("Please enter notes details");
       return;
     }
-    console.log(applicationId);
-    const { data } = await addNotes({
-      name: name,
-      content: notes,
-      applicationId: applicationId,
-    });
-    console.log("data", data);
-    console.log("Result", result);
-    if (data?.success) {
-      toastSuccess("Note Added Successfully");
-      setName("");
-      setNotes("");
-      onSubmit();
+
+    if(item.phase1.fullNameAsPassport){
+      const { data } = await addNotesGroup({
+        name: name,
+        content: notes,
+        applicationId: applicationId,
+      });
+      console.log("hey data",data);
+      if (data.success) {
+        toastSuccess("Note Added Successfully");
+        setName("");
+        setNotes("");
+        onSubmit();
+      }
+    }else{
+          const { data } = await addNotes({
+            name: name,
+            content: notes,
+            applicationId: applicationId,
+          });
+
+          if (data?.success) {
+            toastSuccess("Note Added Successfully");
+            setName("");
+            setNotes("");
+            onSubmit();
+          }
     }
+
   };
 
   return (

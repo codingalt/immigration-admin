@@ -17,7 +17,7 @@ const Notes = () => {
 
   const { user } = useSelector((state) => state.user);
 
-  const { data, isLoading } = useGetAllApplicationNotesQuery();
+  const { data, isLoading, refetch } = useGetAllApplicationNotesQuery(null, {refetchOnMountOrArgChange: true});
   console.log(data);
 
   const [applicationId, setApplicationId] = useState("");
@@ -29,6 +29,9 @@ const Notes = () => {
 
   const handleSubmit = () => {
     setShowAddNewNote1(false);
+    setSelectedNote(null);
+    console.log("on submit calling");
+    refetch();
   };
 
   // Define a variable to track whether any notes are found
@@ -46,8 +49,8 @@ const Notes = () => {
           <div
             style={{
               marginTop: "4rem",
-              display:"flex",
-              justifyContent:"center"
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <Loader color={"#5D982E"} width={35} />
@@ -84,25 +87,37 @@ const Notes = () => {
                   </p>
                 </div>
                 <div className="all-textarea">
-                  {item.notes?.map((note) => (
-                    <div
-                      key={note._id}
-                      className="dummy-data"
-                      style={{ position: "relative",paddingTop:"18px" }}
-                    >
-                      <p>{note.name}</p>
-                      <p>{note.content}</p>
-                      <p style={{position:"absolute",top:"7px",right:"20px",color:"#222",fontWeight:"500"}}>
-                        {moment(note?.dateTime).format("dddd, MMMM D, hh:mm a")}
-                      </p>
-                    </div>
-                  ))}
+                  {item.notes?.slice().sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+                    .map((note) => (
+                      <div
+                        key={note._id}
+                        className="dummy-data"
+                        style={{ position: "relative", paddingTop: "18px" }}
+                      >
+                        <p>{note.name}</p>
+                        <p>{note.content}</p>
+                        <p
+                          style={{
+                            position: "absolute",
+                            top: "7px",
+                            right: "20px",
+                            color: "#222",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {moment(note?.dateTime).format(
+                            "dddd, MMMM D, hh:mm a"
+                          )}
+                        </p>
+                      </div>
+                    ))}
 
                   {selectedNote == item ? (
                     <Addnewnotes
                       onCancel={handleCancel1}
                       onSubmit={handleSubmit}
                       applicationId={applicationId}
+                      item={selectedNote}
                     />
                   ) : (
                     <button

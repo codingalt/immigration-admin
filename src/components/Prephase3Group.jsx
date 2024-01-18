@@ -107,7 +107,7 @@ const Prephase3Group = () => {
   };
 
     const [requestGroupPhase, res] = useRequestGroupPhaseMutation();
-  const { isLoading, isSuccess, error } = res;
+  const { isLoading, isSuccess, error, data: submitResponse } = res;
 
   useMemo(() => {
     if (error) {
@@ -117,13 +117,36 @@ const Prephase3Group = () => {
 
   useMemo(() => {
     if (isSuccess) {
-      socket.emit("phase notification", {
-        userId: app?.userId,
-        applicationId: applicationId,
-        phase: 2,
-        phaseStatus: "approved",
-        phaseSubmittedByClient: app?.phaseSubmittedByClient,
-      });
+      if (!submitResponse?.data?.phase3.doesCompanyHelp) {
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "rejected",
+          phaseSubmittedByClient: 2,
+        });
+      } else if (
+        submitResponse?.data?.phase === 3 &&
+        submitResponse?.data?.phaseStatus === "rejected" &&
+        submitResponse?.data?.phase3.doesCompanyHelp
+      ) {
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "pending",
+          phaseSubmittedByClient: 2,
+          reSubmit: 3,
+        });
+      } else {
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "approved",
+          phaseSubmittedByClient: app?.phaseSubmittedByClient,
+        });
+      }
 
       toastSuccess("Phase 3 Requested");
       navigate(`/admin/group/prescreening/${applicationId}`);
@@ -404,7 +427,8 @@ const Prephase3Group = () => {
                 {!isCompanyHelp && (
                   <>
                     <p className="prephase-3-text-left">Type Reason</p>
-                    <textarea
+                    <Field
+                      as="textarea"
                       required={!isCompanyHelp}
                       name="phase3.reason"
                       id="phase3.reason"

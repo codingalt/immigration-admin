@@ -91,21 +91,7 @@ const ClientForm = () => {
       <div className="SIdeform-img-main">
         <img src={Formimg} alt="" className="Sideform-img-33" />
       </div>
-      {searchParams ? (
-        <Link
-          to={
-            searchParams?.companyId
-              ? `/admin/group/prescreening/${searchParams?._id}`
-              : `/admin/prescreening/${searchParams?._id}`
-          }
-        >
-          <p className="View-more-text">View More</p>
-        </Link>
-      ) : (
-        <Link to={"#"}>
-          <p className="View-more-text">View More</p>
-        </Link>
-      )}
+     
     </div>
   );
 };

@@ -107,7 +107,7 @@ const Prephase3 = () => {
   };
 
   const [requestAPhase, res] = useRequestAPhaseMutation();
-  const { isLoading, isSuccess, error } = res;
+  const { isLoading, isSuccess, error, data: submitResponse } = res;
 
   useMemo(() => {
     if (error) {
@@ -117,7 +117,19 @@ const Prephase3 = () => {
 
   useMemo(() => {
     if (isSuccess) {
-      if(app?.phase === 3 && app?.phaseStatus === "rejected"){
+      if(!submitResponse?.data?.phase3.doesCompanyHelp){
+        socket.emit("phase notification", {
+          userId: app?.userId,
+          applicationId: applicationId,
+          phase: 2,
+          phaseStatus: "rejected",
+          phaseSubmittedByClient: 2,
+        });
+      } else if (
+        submitResponse?.data?.phase === 3 &&
+        submitResponse?.data?.phaseStatus === "rejected" &&
+        submitResponse?.data?.phase3.doesCompanyHelp
+      ) {
         socket.emit("phase notification", {
           userId: app?.userId,
           applicationId: applicationId,
@@ -126,7 +138,7 @@ const Prephase3 = () => {
           phaseSubmittedByClient: 2,
           reSubmit: 3,
         });
-      }else{
+      } else {
         socket.emit("phase notification", {
           userId: app?.userId,
           applicationId: applicationId,
@@ -415,7 +427,8 @@ const Prephase3 = () => {
                 {!isCompanyHelp && (
                   <>
                     <p className="prephase-3-text-left">Type Reason</p>
-                    <textarea
+                    <Field
+                       as="textarea"
                       required={!isCompanyHelp}
                       name="phase3.reason"
                       id="phase3.reason"

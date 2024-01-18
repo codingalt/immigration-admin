@@ -10,6 +10,17 @@ body {
   overflow: hidden;
 }
 
+.react-datepicker__month-container{
+  z-index: 99;
+  position: relative;
+}
+
+body::-webkit-scrollbar{
+  width: 0px;
+  display: none;
+  height: 0px;
+}
+
 
 h1,h2,h3,h4,h5,h6,p,span,a {
   padding:0;
@@ -28,11 +39,6 @@ li {
   height: 100vh;
   padding: 0 5px;
 }
-
-
-
-
-
 
 
   @media (max-width: 1920px) {
@@ -91,13 +97,6 @@ li {
     }
   }
 
- 
-
-
-
-
-
-
 
   @media (max-width: 1440px) {
     .Container-main-div{
@@ -108,17 +107,14 @@ li {
       transform-origin: center center;
       transform: scale(0.9) !important ;
       margin-left: -1rem;
-      margin-top: -2rem !important;
+      margin-top: -2.54rem !important;
     }
   } 
 
-
-
   @media (max-width: 1366px) {
     .Container-main-div{
-      max-width: 1366px;
+      max-width: 1280px;
       margin: 0 auto;
-      /* margin-top: 18px; */
       height: 100vh;
       padding: 0 5px;
       transform-origin: center center;
@@ -127,10 +123,6 @@ li {
           margin-left: -9rem;
     }
   } 
-
-
-
-
 
    
   @media (max-width: 1280px) {

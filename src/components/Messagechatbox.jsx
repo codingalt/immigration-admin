@@ -42,9 +42,8 @@ const Message = ({applicationId}) => {
   }, []);
 
   const navigate = useNavigate();
-  const { data, isLoading } = useGetUserChatsQuery();
-
-  const chatId = data?.chats[0]?._id;
+  // const { data, isLoading } = useGetUserChatsQuery();
+  const chatId = chat?.result[0]?._id;
 
   // get messages
   const {
@@ -55,6 +54,12 @@ const Message = ({applicationId}) => {
     skip: chatId === undefined,
     refetchOnMountOrArgChange: true,
   });
+
+  useEffect(()=>{
+    if(chatId){
+      refetch();
+    }
+  },[chatId]);
 
   const [sendMessage, sendMsgRes] = useSendMessageMutation();
   const { isLoading: isLoadingSend, error: isSendMsgErr } = sendMsgRes;
@@ -132,8 +137,8 @@ const Message = ({applicationId}) => {
    };
 
   return (
-    <div className="Main-message-container">
-      <div className="Main-Message">
+    <div className="Main-message-container-2">
+      <div className="Main-Message-2">
         <div className="container-message-box-2">
           <div className="row" style={{ height: "90%" }}>
             <section className="chat-2" style={{ height: "94%" }}>
@@ -182,7 +187,7 @@ const Message = ({applicationId}) => {
               </div>
               <div className="messages-chat-2" ref={chatContainerRef}>
                 {messages?.map((item) => {
-                  const isUserMessage = item?.sender?.toString() != chat?.result[0]?.clientId;
+                  const isUserMessage = item?.sender?._id?.toString() != chat?.result[0]?.clientId;
                   return (
                     !loading && (
                       <div

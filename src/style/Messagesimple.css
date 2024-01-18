@@ -30,7 +30,6 @@
     left: 135px;
     bottom: 55px;
     color: #777;
-    
   }
   
   .Message-heading {
@@ -737,18 +736,13 @@
    
 
     .container-message-box-2 {
-  
-
-      left: 71%;
-
-
+      left: 106.6%;
   }
 
   
 .Main-message-container {
   display: flex;
   margin-left: 150px;
-
   
 }
 
@@ -775,11 +769,9 @@
 .Main-message-container {
   display: flex;
   margin-left: 40px;
-
-  
 }
 .container-message-box-2 {
-  left: 24rem;
+  left: 26.63rem;
 }
 }
 
