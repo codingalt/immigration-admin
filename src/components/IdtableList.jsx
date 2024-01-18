@@ -65,7 +65,7 @@ const IdtableList = () => {
 
         <h2 className="changepassword-profile-heading">Search Results</h2>
 
-        <div className="table-list-sub-container">
+        <div className="table-list-sub-container search-record">
           <table>
             <thead>
               <tr className="Table-heading">

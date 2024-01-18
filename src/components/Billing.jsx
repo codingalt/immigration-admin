@@ -247,7 +247,7 @@ const Billing = () => {
 
       <h2 className="Billing-profile-heading-2">Billing</h2>
 
-      <div className="table-list-sub-container">
+      <div className="table-list-sub-container billing-main">
         <table style={{ maxHeight: "4rem" }}>
           <p className="Invoice-detail-heading">Invoice Details</p>
           <div className="Billing-header">

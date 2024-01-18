@@ -45,7 +45,7 @@ const Companyprofile = () => {
       <SideNavbar />
 
       <div className="company-proile-border">
-        <div className="Profile-routes">
+        <div className="Profile-routes profile-route-cp">
           {links.map((link, index) => (
             <NavLink
               key={index}

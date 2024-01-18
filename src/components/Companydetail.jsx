@@ -27,7 +27,7 @@ const Companydetail = () => {
             Create New Case
           </button>
         </Link>
-        <div className="table-list-sub-container">
+        <div className="table-list-sub-container table-list-cd" id='table-list2'>
           <table>
             <thead>
               <tr className="Table-heading">
