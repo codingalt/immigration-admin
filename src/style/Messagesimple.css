@@ -661,6 +661,12 @@
   overflow-anchor: none !important;
 }
 
+@media screen and (min-width: 1920px) {
+  .container-message-box-2{
+    left: 106.55%;
+  }
+}
+
 @media (max-width: 1680px) {
   .Message-heading {
     position: relative;
