@@ -83,7 +83,9 @@ const Message = () => {
     if(selectedChat){
       setName(messageData?.name)
       setMessages(messageData?.result);
-      readMessagesByChat(selectedChat._id);
+      if(searchInput === ""){
+        readMessagesByChat(selectedChat._id);
+      }
     }
   },[selectedChat])
 
