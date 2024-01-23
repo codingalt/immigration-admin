@@ -664,8 +664,8 @@
 @media screen and (min-width: 1920px) {
   .container-message-box-2{
     left: 106.55%;
-    left: auto;
-    right: -426px;
+    /* left: auto;
+    right: -426px; */
   }
 }
 
