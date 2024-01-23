@@ -209,7 +209,7 @@
       display: flex;
       max-width: 1990px;
       margin: 0 auto;
-      height: 100vh;
+      /* height: 100vh; */
       margin-left: 127px;
   }
   
@@ -249,7 +249,7 @@
     display: flex;
     max-width: 1990px;
     margin: 0 auto;
-    height: 100vh;
+    /* height: 100vh; */
     margin-left: -11px;
   }
   
@@ -270,7 +270,7 @@
         display: flex;
         max-width: 1990px;
         margin: 0 auto;
-        height: 100vh;
+        /* height: 100vh; */
         margin-left: -12px;
       }
       
@@ -291,7 +291,7 @@
         display: flex;
         max-width: 1990px;
         margin: 0 auto;
-        height: 100vh;
+        /* height: 100vh; */
         margin-left: 150px;
     }
       
@@ -335,7 +335,7 @@
             display: flex;
             max-width: 1990px;
             margin: 0 auto;
-            height: 100vh;
+            /* height: 100vh; */
             margin-left: 40px;
         }
 
