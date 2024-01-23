@@ -148,7 +148,7 @@ const Message = () => {
   },[receiveMessage]);
 
   useEffect(() => {
-    if (selectedChat) {
+    if (selectedChat && searchInput === "") {
       refetchChats();
     }
   }, [selectedChat]);
