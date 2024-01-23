@@ -123,9 +123,9 @@
     line-height: 9px;
     letter-spacing: 0em;
     text-align: left;
-    position: relative;
+    /* position: relative;
     top: -14.7px;
-    left: 9px;
+    left: 9px; */
     color: white;
 }
 
@@ -145,8 +145,8 @@
 
 
 .add-to-q-img{
-    width: 8rem;
-    height: 2.5rem;
+    width: 10rem;
+    height: 2.7rem;
     position: absolute;
     /* left: 523px; */
     border: 1px solid #5D982E;
@@ -154,10 +154,15 @@
     border-radius: 10px;
     bottom: 48.3rem;
     left: 24rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 0 12px;
 }
 .Add-profile-img{
-    width: 8rem;
-    height: 2.5rem;
+    width: 10rem;
+    height: 2.7rem;
     position: absolute;
     /* left: 523px; */
     border: 1px solid #5D982E;
@@ -168,33 +173,43 @@
 }
 
 .books-img{
-    width: 8rem;
-    height: 2.5rem;
+    width: 10rem;
+    height: 2.7rem;
     position: absolute;
     /* left: 523px; */
     border: 1px solid #5D982E;
     background: linear-gradient(0deg, #5D982E, #5D982E), linear-gradient(0deg, #E2E2E4, #E2E2E4);
     border-radius: 10px;
     bottom: 48.3rem;
-    left: 33rem;
+    left: 35.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 0 12px;
 }
 
 .link-img{
-    width: 8rem;
-    height: 2.5rem;
+    width: 10rem;
+    height: 2.7rem;
     position: absolute;
     /* left: 523px; */
     border: 1px solid #5D982E;
     background: linear-gradient(0deg, #5D982E, #5D982E), linear-gradient(0deg, #E2E2E4, #E2E2E4);
     border-radius: 10px;
     bottom: 48.3rem;
-    left: 42rem;
+    left: 47rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 0 12px;
 }
 
 .add-to-queue{
-    position: relative;
-    left: 97px;
-    top: 8px;
+    /* position: relative;
+    left: 112px;
+    top: 8px; */
     width: 1.3rem;
 }
 
@@ -210,10 +225,6 @@
     font-weight: 500;
     line-height: 9px;
     letter-spacing: 0em;
-    text-align: left;
-    position: relative;
-    top: -14.8px;
-    left: 18px;
     color: white;
 }
 
@@ -235,25 +246,18 @@
     font-weight: 500;
     line-height: 9px;
     letter-spacing: 0em;
-    text-align: left;
+    /* text-align: left;
     position: relative;
     top: -11.3px;
-    left: 14px;
+    left: 14px; */
     color: white;
 }
-
-.books{
-    position: relative;
-    left: 87px;
-    top: 8px;
-    /* width: 1.3rem; */
-}
-
+/* 
 .link-company{
     position: relative;
-    left: 96px;
+    left: 110px;
     top: 8px;
-}
+} */
 
 
 .preescreen-form-main{

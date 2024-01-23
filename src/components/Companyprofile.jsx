@@ -71,7 +71,7 @@ const Companyprofile = () => {
 
         <Link to="/admin/addingprofile">
           <button className="company-profile-addbtn">
-            Add Comapnay Profile
+            Add Company Profile
           </button>
         </Link>
         <div className="company-sub-container">

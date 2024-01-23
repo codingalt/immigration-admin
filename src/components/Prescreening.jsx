@@ -20,9 +20,12 @@ import Loader from './Loader';
 import { useUpdateServiceMutation } from '../services/api/adminApi';
 import Rejectpopup from './Rejectpopup';
 import { useReadMessagesByChatMutation } from '../services/api/chatApi';
+import { useSelector } from 'react-redux';
 
 const Prescreening = () => {
     const { socket } = useContext(MainContext);
+  const { user } = useSelector((state) => state.user);
+  const { isCaseWorker } = user ? user : "";
     const navigate = useNavigate();
     const [isReject,setIsReject] = useState(false);
   const [name, setName] = useState('');
@@ -537,6 +540,7 @@ const Prescreening = () => {
             className="case-selctor form-select"
             value={selectedCaseWorkerName}
             onChange={handleSelectChange}
+            disabled={isCaseWorker}
           >
             <option value={""}>Select Case Worker</option>
             {caseworkers?.caseWorker?.map((item) => (
@@ -545,7 +549,7 @@ const Prescreening = () => {
               </option>
             ))}
           </select>
-          <button onClick={handleAssignCaseWorker}>
+          <button onClick={handleAssignCaseWorker} disabled={isCaseWorker}>
             {assignCaseWorkerLoading ? <Loader color={"#5D982E"} /> : "Assign"}
           </button>
         </div>
