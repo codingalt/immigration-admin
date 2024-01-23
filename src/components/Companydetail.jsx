@@ -9,7 +9,7 @@ import Loader from './Loader';
 
 const Companydetail = () => {
 
-      const {companyId} = useParams();
+      const { companyId, companyName } = useParams();
       const { data,isLoading,isSuccess,error } = useGetApplicationsByCompanyQuery(companyId);
       console.log(data);
 
@@ -21,7 +21,7 @@ const Companydetail = () => {
 
         <SideNavbar />
 
-        <h2 className="changepassword-profile-heading">LeSoft Pvt Ltd Cases</h2>
+        <h2 className="changepassword-profile-heading">{companyName}</h2>
         <Link to={`/servicelist/${companyId}`}>
           <button className="Case-profile-addbtn" type="button">
             Create New Case

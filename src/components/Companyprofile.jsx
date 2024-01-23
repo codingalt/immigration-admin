@@ -9,9 +9,9 @@ import "../style/Genral.css";
 import { useGetAllCompaniesQuery } from "../services/api/companyApi";
 import Loader from "./Loader";
 const Companyprofile = () => {
-  const {data,isLoading} = useGetAllCompaniesQuery();
+  const { data, isLoading } = useGetAllCompaniesQuery();
   const navigate = useNavigate();
-  console.log(data);
+  console.log(data?.company);
   const links = [
     { to: "/admin/clientprofiles", label: "Client Profile" },
     { to: "/admin/companyprofiles", label: "Company Profile" },
@@ -118,86 +118,91 @@ const Companyprofile = () => {
                 style={{ display: "flex", gap: "30px" }}
               > */}
               {!isLoading &&
-                data?.company?.map((item) => (
-                  <div
-                    style={{ cursor: "pointer" }}
-                    key={item._id}
-                    className="Box-10"
-                    onClick={() => navigate(`/company/${item._id}`)}
-                  >
-                    <div className="company-Name">
-                      <p>
-                        {" "}
-                        Comapny Name{" "}
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="company-Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          value={item.name}
-                          type="text"
-                          placeholder="Imigration1"
-                          className="company-Client-inputs"
-                        />
-                      </p>
+                data?.company
+                  .slice()
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map((item) => (
+                    <div
+                      style={{ cursor: "pointer" }}
+                      key={item._id}
+                      className="Box-10"
+                      onClick={() =>
+                        navigate(`/company/${item.name}/${item._id}`)
+                      }
+                    >
+                      <div className="company-Name">
+                        <p>
+                          {" "}
+                          Comapny Name{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="company-Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            value={item.name}
+                            type="text"
+                            placeholder="Imigration1"
+                            className="company-Client-inputs"
+                          />
+                        </p>
+                      </div>
+                      <div className="company-caseid">
+                        <p>
+                          {" "}
+                          Email
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="company-Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            value={item.email}
+                            type="text"
+                            placeholder="00112"
+                            className="company-Client-inputs"
+                          />
+                        </p>
+                      </div>
+                      <div className="company-ApplicationType">
+                        <p>
+                          Full Name{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="company-Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            type="text"
+                            value={item.fullName}
+                            placeholder="Set LR"
+                            className="company-Client-inputs"
+                          />
+                        </p>
+                      </div>
+                      <div className="company-Applicationstatus">
+                        <p>
+                          {" "}
+                          Telephone{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="company-Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            type="text"
+                            value={item.telephone}
+                            placeholder="Approved"
+                            className="company-Client-inputs"
+                          />
+                        </p>
+                      </div>
                     </div>
-                    <div className="company-caseid">
-                      <p>
-                        {" "}
-                        Email
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="company-Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          value={item.email}
-                          type="text"
-                          placeholder="00112"
-                          className="company-Client-inputs"
-                        />
-                      </p>
-                    </div>
-                    <div className="company-ApplicationType">
-                      <p>
-                        Full Name{" "}
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="company-Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          type="text"
-                          value={item.fullName}
-                          placeholder="Set LR"
-                          className="company-Client-inputs"
-                        />
-                      </p>
-                    </div>
-                    <div className="company-Applicationstatus">
-                      <p>
-                        {" "}
-                        Telephone{" "}
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="company-Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          type="text"
-                          value={item.telephone}
-                          placeholder="Approved"
-                          className="company-Client-inputs"
-                        />
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
               {/* </Link> */}
             </div>
           </div>

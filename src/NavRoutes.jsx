@@ -187,7 +187,7 @@ const NavRoutes = () => {
 
       {/* Group Client  */}
       <Route
-        path="/company/:companyId"
+        path="/company/:companyName/:companyId"
         element={<Protected Component={Companydetail} />}
       />
       <Route

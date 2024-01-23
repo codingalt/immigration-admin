@@ -8,8 +8,8 @@ import { useGetCaseWorkerQuery } from "../services/api/caseworkerApi";
 import Loader from "./Loader";
 
 const Caseworker = () => {
-   const {data,isLoading} = useGetCaseWorkerQuery();
-   console.log(data);
+  const { data, isLoading } = useGetCaseWorkerQuery();
+  console.log(data);
   return (
     <div className="Caseworkerprofile-main-container">
       <div className="Topnavbar-caseworker-profile">
@@ -52,89 +52,104 @@ const Caseworker = () => {
                     marginLeft: "11.5rem",
                   }}
                 >
-                  <p style={{fontSize:"1.06rem",fontWeight:"500",color:"red"}}>No Case Worker Profile!</p>
+                  <p
+                    style={{
+                      fontSize: "1.06rem",
+                      fontWeight: "500",
+                      color: "red",
+                    }}
+                  >
+                    No Case Worker Profile!
+                  </p>
                 </div>
               )}
 
               {}
               {!isLoading &&
-                data?.caseWorker?.map((item) => (
-                  <div key={item._id} className="Box-1">
-                    <div className="Name">
-                      <p
-                        style={{
-                          width: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        {" "}
-                        Case Worker{" "}
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          value={item.name}
-                          type="text"
-                          placeholder="Jhon leo"
-                          className="Caseworker-inputs"
-                        />
-                      </p>
+                data?.caseWorker
+                  ?.slice()
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map((item) => (
+                    <div key={item._id} className="Box-1">
+                      <div className="Name">
+                        <p
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          {" "}
+                          Case Worker{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            value={item.name}
+                            type="text"
+                            placeholder="Jhon leo"
+                            className="Caseworker-inputs"
+                          />
+                        </p>
+                      </div>
+                      <div className="caseid">
+                        <p>
+                          {" "}
+                          Worker ID{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            value={item.workerId}
+                            type="text"
+                            placeholder="00112"
+                            className="Caseworker-inputs"
+                          />
+                        </p>
+                      </div>
+                      <div className="ApplicationType">
+                        <p>
+                          Email{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            value={`${item?.email}`}
+                            type="text"
+                            placeholder="Worker@gmail.com"
+                            className="Caseworker-inputs"
+                          />
+                        </p>
+                      </div>
+                      <div className="Applicationstatus">
+                        <p>
+                          {" "}
+                          Contact{" "}
+                          <img
+                            src={vectorline}
+                            alt=""
+                            className="Vector-line"
+                          />{" "}
+                          <input
+                            disabled
+                            value={item.contact}
+                            type="text"
+                            placeholder="(484)-845-58462584"
+                            className="Caseworker-inputs"
+                          />
+                        </p>
+                      </div>
                     </div>
-                    <div className="caseid">
-                      <p>
-                        {" "}
-                        Worker ID{" "}
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          value={item.workerId}
-                          type="text"
-                          placeholder="00112"
-                          className="Caseworker-inputs"
-                        />
-                      </p>
-                    </div>
-                    <div className="ApplicationType">
-                      <p>
-                        Email{" "}
-                        <img src={vectorline} alt="" className="Vector-line" />{" "}
-                        <input
-                          disabled
-                          value={`${item?.email}`}
-                          type="text"
-                          placeholder="Worker@gmail.com"
-                          className="Caseworker-inputs"
-                        />
-                      </p>
-                    </div>
-                    <div className="Applicationstatus">
-                      <p>
-                        {" "}
-                        Contact{" "}
-                        <img
-                          src={vectorline}
-                          alt=""
-                          className="Vector-line"
-                        />{" "}
-                        <input
-                          disabled
-                          value={item.contact}
-                          type="text"
-                          placeholder="(484)-845-58462584"
-                          className="Caseworker-inputs"
-                        />
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
             </div>
           </div>
         </div>
