@@ -90,7 +90,9 @@ const Message = () => {
   const handleChatClick = (chat) => {
     dispatch(setIsRead(chat?._id));
     setSelectedChat(chat);
-    readMessagesByChat(chat?._id);
+    if(searchInput === ""){
+      readMessagesByChat(chat?._id);
+    }
   };
 
    const chatContainerRef = useRef(null);
