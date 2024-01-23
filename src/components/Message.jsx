@@ -74,7 +74,7 @@ const Message = () => {
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (data && searchInput === "") {
       setChats(data?.chats);
     }
   }, [data,messages]);
