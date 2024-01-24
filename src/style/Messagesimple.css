@@ -723,7 +723,7 @@
 
 @media (max-width: 1366px) {
   .container-message-box-2 {
-    left: 106.6%;
+   /* left: 106.6%; */
   }
 
   .Main-message-container {
