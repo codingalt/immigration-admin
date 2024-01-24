@@ -12,7 +12,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   height: 561px;
   position: relative;
-  left: 24.5%;
+  left: 29.5%;
   width: 100%;
   max-width: 25rem;
   top: 18rem;
@@ -663,7 +663,7 @@
 
 @media screen and (min-width: 1920px) {
   .container-message-box-2{
-    left: 106.55%;
+    left: 24.5%;
     left: auto;
     right: -426px;
   }
