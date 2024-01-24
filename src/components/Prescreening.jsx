@@ -554,7 +554,7 @@ const Prescreening = () => {
           </button>
         </div>
       </div>
-      <div>{applicationId && <Message applicationId={applicationId} />}</div>
+      {applicationId && <Message applicationId={applicationId} />}
     </div>
   );
 }

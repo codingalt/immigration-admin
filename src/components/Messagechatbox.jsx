@@ -137,8 +137,8 @@ const Message = ({applicationId}) => {
    };
 
   return (
-    <div className="Main-message-container-2">
-      <div className="Main-Message-2">
+    // <div className="Main-message-container-2">
+    //   <div className="Main-Message-2">
         <div className="container-message-box-2">
           <div className="row" style={{ height: "90%" }}>
             <section className="chat-2" style={{ height: "94%" }}>
@@ -348,8 +348,8 @@ const Message = ({applicationId}) => {
             </section>
           </div>
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 }
 
