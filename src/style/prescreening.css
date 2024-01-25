@@ -513,7 +513,6 @@
   left: 45px;
   top: 15px;
 }
-
 @media (min-width: 1920px) {
   .add-to-q-img{
     top: 0.4rem;
@@ -546,7 +545,6 @@
     top: 0.4rem;
   }
 }
-
 @media (max-width: 1440px) {
   .Pre-screening-text {
   }
@@ -576,7 +574,6 @@
     top: 0.4rem;
   }
 }
-
 @media (max-width: 1366px) {
   .Pre-screening-text {
     left: 21%;

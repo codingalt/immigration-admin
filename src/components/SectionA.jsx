@@ -39,7 +39,6 @@ const SectionA = () => {
       >
         <FiClipboard style={{ fontSize: "4.7rem", color: "#5D982E" }} />
         {/* <img src={prescreeningimg} alt="" className="Prescrening-img" /> */}
-        {/* <p className="pre-screening-text">Pre-Screening</p> */}
         <div class="Pre-screening-text"><h2>Pre-Screening</h2>
           <div class="four-routes-images">
               <a class="" href="/add/phase1" style="padding: 0px 10px;"><div class="add-to-q-img"> <img src="/assets/Add-application-icon-c6d10e1d.svg" alt="" class="add-to-queue"> <p class="add-app-text">Add Application</p> </div></a>
