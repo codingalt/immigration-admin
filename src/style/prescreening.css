@@ -123,6 +123,12 @@
 }
 
 .Pre-screening-text {
+  margin-left: 299px;
+  margin-top: 13px;
+  position: absolute;
+}
+
+.Pre-screening-texts {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
