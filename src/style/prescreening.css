@@ -123,6 +123,10 @@
 }
 
 .Pre-screening-text {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
   margin-left: 299px;
   margin-top: 13px;
   position: absolute;
@@ -131,6 +135,8 @@
 .four-routes-images {
   position: relative;
   left: 12px;
+  /* display: flex;
+    padding-left: 90px; */
 }
 
 .add-to-q-img {

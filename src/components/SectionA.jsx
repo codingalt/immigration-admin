@@ -39,7 +39,14 @@ const SectionA = () => {
       >
         <FiClipboard style={{ fontSize: "4.7rem", color: "#5D982E" }} />
         {/* <img src={prescreeningimg} alt="" className="Prescrening-img" /> */}
-        <p className="pre-screening-text">Pre-Screening</p>
+        {/* <p className="pre-screening-text">Pre-Screening</p> */}
+        <div class="Pre-screening-text"><h2>Pre-Screening</h2>
+          <div class="four-routes-images">
+              <a class="" href="/add/phase1" style="padding: 0px 10px;"><div class="add-to-q-img"> <img src="/assets/Add-application-icon-c6d10e1d.svg" alt="" class="add-to-queue"> <p class="add-app-text">Add Application</p> </div></a>
+              <a class="" href="/report/view" style="padding: 0px 10px;"><div class="books-img"> <img src="/assets/view-report-icon-b9b82219.svg" alt="" class="books"><p class="add-report-text">View Report</p> </div></a>
+              <a class="" href="/admin/linkcompany/view" style="padding: 0px 10px;"><div class="link-img"> <img src="/assets/Link-company-icon-6fba65b0.svg" alt="" class="link-company"><p class="add-company-text">Link Company</p> </div></a>
+            </div>
+          </div>
       </div>
       <div className="Notes" onClick={() => navigate("/admin/notes")}>
         <LuClipboardEdit style={{ fontSize: "4.7rem", color: "#5D982E" }} />
