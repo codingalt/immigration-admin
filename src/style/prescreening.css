@@ -145,17 +145,23 @@
     padding-left: 90px; */
 }
 
+.four-routes-image {
+  position: relative;
+  left: 50px;
+  display: flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
 .add-to-q-img {
   width: 10rem;
   height: 2.7rem;
-  position: absolute;
   /* left: 523px; */
   border: 1px solid #5d982e;
   background: linear-gradient(0deg, #5d982e, #5d982e),
     linear-gradient(0deg, #e2e2e4, #e2e2e4);
   border-radius: 10px;
-  bottom: 47.5rem;
-  left: 24rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -178,14 +184,11 @@
 .books-img {
   width: 10rem;
   height: 2.7rem;
-  position: absolute;
   /* left: 523px; */
   border: 1px solid #5d982e;
   background: linear-gradient(0deg, #5d982e, #5d982e),
     linear-gradient(0deg, #e2e2e4, #e2e2e4);
   border-radius: 10px;
-  bottom: 47.5rem;
-  left: 35.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -196,14 +199,11 @@
 .link-img {
   width: 10rem;
   height: 2.7rem;
-  position: absolute;
   /* left: 523px; */
   border: 1px solid #5d982e;
   background: linear-gradient(0deg, #5d982e, #5d982e),
     linear-gradient(0deg, #e2e2e4, #e2e2e4);
   border-radius: 10px;
-  bottom: 47.5rem;
-  left: 47rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

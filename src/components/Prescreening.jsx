@@ -1,34 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import SideNavbar from './SideNavbar'
-import TopNavbar from './TopNavbar'
-import "../style/prescreening.css"
-import addqueue from "../assests/Add-application-icon.svg"
-import addprofile from "../assests/add-group-icon.svg"
-import books from "../assests/view-report-icon.svg"
-import link from "../assests/Link-company-icon.svg"
-import Message from './Messagechatbox'
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { useAddNotesMutation, useGetAllApplicationsQuery, useGetApplicationDataByIdQuery } from '../services/api/applicationApi';
+import React, { useEffect, useState } from "react";
+import SideNavbar from "./SideNavbar";
+import TopNavbar from "./TopNavbar";
+import "../style/prescreening.css";
+import addqueue from "../assests/Add-application-icon.svg";
+import addprofile from "../assests/add-group-icon.svg";
+import books from "../assests/view-report-icon.svg";
+import link from "../assests/Link-company-icon.svg";
+import Message from "./Messagechatbox";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {
+  useAddNotesMutation,
+  useGetAllApplicationsQuery,
+  useGetApplicationDataByIdQuery,
+} from "../services/api/applicationApi";
 import { format } from "date-fns";
-import moment from 'moment';
-import { useAssignApplicationToCaseWorkerMutation, useGetCaseWorkerQuery } from '../services/api/caseworkerApi';
-import { toastError, toastSuccess } from './Toast';
-import { useMemo } from 'react';
-import { useContext } from 'react';
-import MainContext from './Context/MainContext';
-import Loader from './Loader';
-import { useUpdateServiceMutation } from '../services/api/adminApi';
-import Rejectpopup from './Rejectpopup';
-import { useReadMessagesByChatMutation } from '../services/api/chatApi';
-import { useSelector } from 'react-redux';
+import moment from "moment";
+import {
+  useAssignApplicationToCaseWorkerMutation,
+  useGetCaseWorkerQuery,
+} from "../services/api/caseworkerApi";
+import { toastError, toastSuccess } from "./Toast";
+import { useMemo } from "react";
+import { useContext } from "react";
+import MainContext from "./Context/MainContext";
+import Loader from "./Loader";
+import { useUpdateServiceMutation } from "../services/api/adminApi";
+import Rejectpopup from "./Rejectpopup";
+import { useReadMessagesByChatMutation } from "../services/api/chatApi";
+import { useSelector } from "react-redux";
 
 const Prescreening = () => {
-    const { socket } = useContext(MainContext);
+  const { socket } = useContext(MainContext);
   const { user } = useSelector((state) => state.user);
   const { isCaseWorker } = user ? user : "";
-    const navigate = useNavigate();
-    const [isReject,setIsReject] = useState(false);
-  const [name, setName] = useState('');
+  const navigate = useNavigate();
+  const [isReject, setIsReject] = useState(false);
+  const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const [selectedCaseWorker, setSelectedCaseWorker] = useState({
     caseWorkerId: "",
@@ -37,27 +44,32 @@ const Prescreening = () => {
 
   const [getData, setGetData] = useState();
 
-  const {applicationId} = useParams();
+  const { applicationId } = useParams();
 
   const {
     data,
     refetch,
     isLoading: isLoadingApplication,
   } = useGetApplicationDataByIdQuery(applicationId);
-  const {data: caseworkers} = useGetCaseWorkerQuery();
-  
-  const [assignApplicationToCaseWorker, res] = useAssignApplicationToCaseWorkerMutation();
-  const {error, isSuccess,isLoading: assignCaseWorkerLoading} = res;
+  const { data: caseworkers } = useGetCaseWorkerQuery();
+
+  const [assignApplicationToCaseWorker, res] =
+    useAssignApplicationToCaseWorkerMutation();
+  const { error, isSuccess, isLoading: assignCaseWorkerLoading } = res;
 
   const [addNotes, result] = useAddNotesMutation();
-  const {isLoading} = result;
+  const { isLoading } = result;
 
   const [updateService, updateRes] = useUpdateServiceMutation();
-  const {isLoading: updateLoading} = updateRes;
+  const { isLoading: updateLoading } = updateRes;
 
-  const [selectedCaseWorkerName, setSelectedCaseWorkerName] = useState(data?.application?.caseWorkerName);
-  const [selectedApplicationType,setSelectedApplicationType] = useState(data?.application?.phase1?.applicationType)
-  const [showSave, setShowSave] = useState(false)
+  const [selectedCaseWorkerName, setSelectedCaseWorkerName] = useState(
+    data?.application?.caseWorkerName
+  );
+  const [selectedApplicationType, setSelectedApplicationType] = useState(
+    data?.application?.phase1?.applicationType
+  );
+  const [showSave, setShowSave] = useState(false);
 
   const { data: notesData } = useGetAllApplicationsQuery();
   console.log(notesData);
@@ -82,19 +94,19 @@ const Prescreening = () => {
     setNotes(event.target.value);
   };
 
-  const handleSubmit = async() => {
-    if(name === "" || notes === ""){
+  const handleSubmit = async () => {
+    if (name === "" || notes === "") {
       toastError("Please enter notes details");
       return;
     }
     const { data } = await addNotes({
-      name: name, 
+      name: name,
       content: notes,
       applicationId: applicationId,
     });
-    console.log("data",data);
+    console.log("data", data);
     console.log("Result", result);
-    if(data?.success){
+    if (data?.success) {
       toastSuccess("Notes Added Successfully");
       setName("");
       setNotes("");
@@ -106,22 +118,25 @@ const Prescreening = () => {
     setNotes("");
   };
 
-   const handleSelectChange = (e) => {
-     const selectedName = e.target.value;
-     const selectedId = e.target.selectedOptions[0].getAttribute("data-id");
-     setSelectedCaseWorker({ caseWorkerId: selectedId, caseWorkerName: selectedName });
-     setSelectedCaseWorkerName(selectedName)
-   };
+  const handleSelectChange = (e) => {
+    const selectedName = e.target.value;
+    const selectedId = e.target.selectedOptions[0].getAttribute("data-id");
+    setSelectedCaseWorker({
+      caseWorkerId: selectedId,
+      caseWorkerName: selectedName,
+    });
+    setSelectedCaseWorkerName(selectedName);
+  };
 
-   const handleSelectApplicationType = (e) => {
-     const selectedName = e.target.value;
-     setSelectedApplicationType(selectedName);
-     setTimeout(() => {
-        setShowSave(true)
-     }, 500);
-   };
+  const handleSelectApplicationType = (e) => {
+    const selectedName = e.target.value;
+    setSelectedApplicationType(selectedName);
+    setTimeout(() => {
+      setShowSave(true);
+    }, 500);
+  };
 
-  const handleAssignCaseWorker = async()=>{
+  const handleAssignCaseWorker = async () => {
     if (
       selectedCaseWorker.caseWorkerName === "" ||
       selectedCaseWorker.caseWorkerId === ""
@@ -129,29 +144,29 @@ const Prescreening = () => {
       toastError("Please Select Case Worker to assign");
       return;
     }
-     const {data: res} = await assignApplicationToCaseWorker({
-       applicationId: applicationId,
-       caseWorkerId: selectedCaseWorker.caseWorkerId,
-       caseWorkerName: selectedCaseWorker.caseWorkerName,
-     });
+    const { data: res } = await assignApplicationToCaseWorker({
+      applicationId: applicationId,
+      caseWorkerId: selectedCaseWorker.caseWorkerId,
+      caseWorkerName: selectedCaseWorker.caseWorkerName,
+    });
 
-     if (res.success) {
-       console.log("Assigned data", res?.data);
-       socket.emit("send noti to caseworker", {
-         userId: data?.application?.userId,
-         applicationId: applicationId,
-         phase: data?.application?.phase,
-         phaseSubmittedByClient: data?.application?.phaseSubmittedByClient,
-         caseWorkerId: selectedCaseWorker.caseWorkerId,
-       });
-     }
-  }
+    if (res.success) {
+      console.log("Assigned data", res?.data);
+      socket.emit("send noti to caseworker", {
+        userId: data?.application?.userId,
+        applicationId: applicationId,
+        phase: data?.application?.phase,
+        phaseSubmittedByClient: data?.application?.phaseSubmittedByClient,
+        caseWorkerId: selectedCaseWorker.caseWorkerId,
+      });
+    }
+  };
 
-  useMemo(()=>{
-    if(error){
+  useMemo(() => {
+    if (error) {
       toastError(error?.data?.message);
     }
-  },[error]);
+  }, [error]);
 
   useMemo(() => {
     if (isSuccess) {
@@ -165,10 +180,9 @@ const Prescreening = () => {
     }
   }, [error]);
 
-  const birthDate = data ? format(
-    new Date(data?.application?.phase1?.birthDate),
-    "yyyy-MM-dd"
-  ) : "";
+  const birthDate = data
+    ? format(new Date(data?.application?.phase1?.birthDate), "yyyy-MM-dd")
+    : "";
 
   useEffect(() => {
     socket.on("phase data received", async (request) => {
@@ -185,14 +199,16 @@ const Prescreening = () => {
     }
   }, [getData]);
 
-  const handleUpdateService = async()=>{
-    const {data: response} = await updateService({applicationId: applicationId, applicationType: selectedApplicationType})
+  const handleUpdateService = async () => {
+    const { data: response } = await updateService({
+      applicationId: applicationId,
+      applicationType: selectedApplicationType,
+    });
 
-    if(response.success){
+    if (response.success) {
       refetch();
     }
-
-  }
+  };
 
   return (
     <div className="prescreening-container">
@@ -207,32 +223,64 @@ const Prescreening = () => {
         <TopNavbar />
       </div>
       <SideNavbar />
-      <div className="four-routes-images">
-        <NavLink to={`/add/phase1`}>
-          <div className="add-to-q-img">
-            {" "}
-            <img src={addqueue} alt="" className="add-to-queue" />{" "}
-            <p className="add-app-text">Add Application</p>{" "}
-          </div>
-        </NavLink>
+      <div class="Pre-screening-texts">
+        <h2>Pre-Screening</h2>
+        <div class="four-routes-image">
+          <NavLink
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            to={`/add/phase1`}
+          >
+            <div className="add-to-q-img">
+              {" "}
+              <img src={addqueue} alt="" className="add-to-queue" />{" "}
+              <p className="add-app-text">Add Application</p>{" "}
+            </div>
+          </NavLink>
 
-        <NavLink to={`/report/${applicationId}`}>
-          <div className="books-img">
-            {" "}
-            <img src={books} alt="" className="books" />
-            <p className="add-report-text">View Report</p>{" "}
-          </div>
-        </NavLink>
-        <NavLink to={`/admin/linkcompany/${applicationId}`}>
-          <div className="link-img">
-            {" "}
-            <img src={link} alt="" className="link-company" />
-            <p className="add-company-text">Link Company</p>{" "}
-          </div>
-        </NavLink>
-        {data?.application?.isManual && data?.application?.phase < 4 && (
-          <NavLink to={`/add/phase1/filled/${applicationId}`}>
-            <div
+          <NavLink
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            to={`/report/${applicationId}`}
+          >
+            <div className="books-img">
+              {" "}
+              <img src={books} alt="" className="books" />
+              <p className="add-report-text">View Report</p>{" "}
+            </div>
+          </NavLink>
+          <NavLink
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            to={`/admin/linkcompany/${applicationId}`}
+          >
+            <div className="link-img">
+              {" "}
+              <img src={link} alt="" className="link-company" />
+              <p className="add-company-text">Link Company</p>{" "}
+            </div>
+          </NavLink>
+          {data?.application?.isManual && data?.application?.phase < 4 && (
+            <NavLink
+              style={{ paddingRight: 10, paddingLeft: 10 }}
+              to={`/add/phase1/filled/${applicationId}`}
+            >
+              <div
+                className="link-img"
+                style={{
+                  left: "51rem",
+                  padding: "0",
+                  margin: "0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <p style={{ color: "#fff", textAlign: "center", margin: "0" }}>
+                  Resume
+                </p>
+              </div>
+            </NavLink>
+          )}
+          {showSave && (
+            <button
               className="link-img"
               style={{
                 left: "51rem",
@@ -241,40 +289,22 @@ const Prescreening = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: "pointer",
               }}
+              onClick={handleUpdateService}
             >
-              <p style={{ color: "#fff", textAlign: "center", margin: "0" }}>
-                Resume
-              </p>
-            </div>
-          </NavLink>
-        )}
-        {showSave && (
-          <button
-            className="link-img"
-            style={{
-              left: "51rem",
-              padding: "0",
-              margin: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-            onClick={handleUpdateService}
-          >
-            {updateLoading ? (
-              <Loader />
-            ) : (
-              <p style={{ color: "#fff", textAlign: "center", margin: "0" }}>
-                Save Changes
-              </p>
-            )}
-          </button>
-        )}
+              {updateLoading ? (
+                <Loader />
+              ) : (
+                <p style={{ color: "#fff", textAlign: "center", margin: "0" }}>
+                  Save Changes
+                </p>
+              )}
+            </button>
+          )}
+        </div>
       </div>
-      <h2 className="Pre-screening-text">Pre-Screening</h2>
-
+     
       <div className="preescreen-form-main">
         <div className="preescreen-form">
           <button onClick={() => setIsReject(true)} className="reject-btn">
@@ -553,10 +583,11 @@ const Prescreening = () => {
             {assignCaseWorkerLoading ? <Loader color={"#5D982E"} /> : "Assign"}
           </button>
         </div>
+        {applicationId && <Message applicationId={applicationId} />}
       </div>
-      {applicationId && <Message applicationId={applicationId} />}
+      
     </div>
   );
-}
+};
 
-export default Prescreening
+export default Prescreening;
