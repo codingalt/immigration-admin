@@ -10,7 +10,6 @@
 
 .table-list-sub-container {
   border: 1px solid #e2e2e4;
-  position: relative;
 
   width: 64.2rem;
   height: 45.6rem;
@@ -52,14 +51,11 @@
 
 @media (max-width: 1680px) {
   .table-list-sub-container {
-    right: 5rem;
   }
 }
 
 @media (max-width: 1480px) {
   .table-list-sub-container {
-    right: 5rem;
-    top: 125px;
   }
 
   .billing-main {
@@ -73,8 +69,7 @@
 
 @media (max-width: 1366px) {
   .table-list-sub-container {
-    left: 18.8rem;
-    top: -115.5%;
+    right: 0rem;
   }
 
   .search-record{
@@ -99,8 +94,6 @@
    
 
   .table-list-sub-container {
-    left: 18.8rem;
-    top: -110.6%;
   }
   .search-record{
     top: 20%;
@@ -114,7 +107,5 @@
 
 @media (max-width: 1024px) {
   .table-list-sub-container {
-    left: 21.7rem;
-    position: absolute;
   }
 }

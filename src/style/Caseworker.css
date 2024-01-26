@@ -1,249 +1,237 @@
-.Topnavbar-caseworker-profile{
+.Topnavbar-caseworker-profile {
+  position: absolute;
+  left: 244px;
+}
+.Caseworker-proile-border {
+  /* height: 100vh; */
+}
+.caseworkerproile-sub-container {
+  border: 1px solid #e2e2e4;
+  position: relative;
+  /* right: 172px; */
+  /* bottom: -16px; */
+  width: 1040px;
+  margin: auto;
+  overflow-y: scroll;
+  height: 43.7rem;
+  border-radius: 13px;
+  scrollbar-color: #5d982e white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
-    position: absolute;
-    left: 244px;
-  }
-  .Caseworker-proile-border{ 
-      /* height: 100vh; */
-  }
-  .caseworkerproile-sub-container{
-    border: 1px solid #e2e2e4;
-    position: relative;
-    /* right: 172px; */
-    left: 11.5rem;
+.caseworker-profile-addbtn {
+  left: 82.6rem;
+  top: 90px;
+  padding: 9px;
+  background-color: white;
+  color: black;
+  border: 1px solid #e2e2e4;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-    /* bottom: -16px; */
-    width: 1040px;
-    margin: auto;
-    overflow-y: scroll;
-    height: 43.7rem;
-    border-radius: 13px;
-    scrollbar-color: #5d982e white;
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
-    top: 18px;
-    overflow-x: hidden;
-  }
-  
-  
-  .caseworker-profile-addbtn{
+.Caseworker-prolie-boxes {
+  display: flex;
+  column-gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 5.3rem;
+}
+
+.All-boxes {
+  position: relative;
+  right: 144px;
+  bottom: 80px;
+  font-size: 12px;
+}
+
+.Caseworker-prolie-boxes-2 {
+  display: flex;
+  column-gap: 18px;
+}
+
+.Caseworker-prolie-boxes-3 {
+  display: flex;
+  column-gap: 18px;
+}
+.Box-1 {
+  border: 1px solid #e2e2e4;
+  width: 360px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 16%;
+  margin-top: 13px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+}
+
+.Box-2 {
+  border: 1px solid #e2e2e4;
+  width: 315px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+
+  margin-top: 103px;
+  border-radius: 16px;
+}
+
+.Box-3 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 103px;
+  border-radius: 16px;
+}
+
+.Box-4 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-5 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-6 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-7 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-8 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+
+.Box-9 {
+  border: 1px solid #e2e2e4;
+  width: 309px;
+  height: 224px;
+  gap: 8px;
+  position: relative;
+  left: 161px;
+  margin-top: 19px;
+  border-radius: 16px;
+}
+.Name {
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.caseid {
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.ApplicationType {
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.Applicationstatus {
+  margin-left: 22px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e2e4;
+  width: 84%;
+  border-radius: 8px;
+  padding-left: 12px;
+}
+
+.Caseworkerprofile-main-container {
+  display: flex;
+  max-width: 1990px;
+  margin: 0 auto;
+  /* height: 100vh; */
+  margin-left: 127px;
+}
+
+.Caseworker-inputs {
+  border: none;
+  margin-left: 6px;
+  width: 190px;
+  background-color: transparent;
+  outline: none;
+  user-select: none;
+}
+
+.Vector-line {
+  position: relative;
+  left: 3px;
+  top: 7px;
+}
+
+.Caseworker-profile-heading {
+  position: relative;
+  margin-top: 90px;
+  left: 197px;
+  color: #5d982e;
+  /* border-bottom: 3px #5d982e solid; */
+  text-decoration: underline;
+  width: 16rem;
+}
+
+@media (max-width: 1440px) {
+  .Topnavbar-caseworker-profile {
     position: absolute;
-    left: 82.6rem;
-    top: 90px;
-    padding: 9px;
-    background-color: white;
-    color: black;
-    border: 1px solid #E2E2E4;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  
-  .Caseworker-prolie-boxes{
-    display: flex;
-    column-gap: 18px;
-    flex-wrap: wrap;
-    margin-top: 5.3rem;
-  }
-  
-  .All-boxes{
-    position: relative;
-    right: 144px;
-    bottom: 80px;
-    font-size: 12px;
-  }
-  
-  .Caseworker-prolie-boxes-2{
-    display: flex;
-    column-gap: 18px;
-  }
-  
-  .Caseworker-prolie-boxes-3{
-    display: flex;
-    column-gap: 18px;
-  }
-  .Box-1{
-    border: 1px solid #e2e2e4;
-    width: 360px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 16%;
-    margin-top: 13px;
-    margin-bottom: 12px;
-    border-radius: 16px;
-  
-  }
-  
-  .Box-2{
-    border: 1px solid #e2e2e4;
-    width: 315px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-  
-    margin-top: 103px;
-    border-radius: 16px;
-  }
-  
-  .Box-3{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 103px;
-    border-radius: 16px;
-  }
-  
-  .Box-4{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 19px;
-    border-radius: 16px;
-  }
-  
-  .Box-5{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 19px;
-    border-radius: 16px;
-  }
-  
-  .Box-6{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 19px;
-    border-radius: 16px;
-      
-  }
-  
-  
-  .Box-7{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 19px;
-    border-radius: 16px;
-  }
-  
-  .Box-8{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 19px;
-    border-radius: 16px;
-  }
-  
-  .Box-9{
-    border: 1px solid #e2e2e4;
-    width: 309px;
-    height: 224px;
-    gap: 8px;
-    position: relative;
-    left: 161px;
-    margin-top: 19px;
-    border-radius: 16px;
-  }
-  .Name{
-    margin-left: 22px;
-    margin-top: 15px;
-    margin-bottom: 12px;
-    border: 1px solid #e2e2e4;
-    width: 84%;
-    border-radius: 8px;
-    padding-left: 12px;
-  }
-  
-  .caseid{
-    margin-left: 22px;
-    margin-top: 15px;
-    margin-bottom: 12px;
-    border: 1px solid #e2e2e4;
-    width: 84%;
-    border-radius: 8px;
-    padding-left: 12px;
-  }
-  
-  .ApplicationType{
-    margin-left: 22px;
-    margin-top: 15px;
-    margin-bottom: 12px;
-    border: 1px solid #e2e2e4;
-    width: 84%;
-    border-radius: 8px;
-    padding-left: 12px;
-  }
-  
-  .Applicationstatus{
-    margin-left: 22px;
-    margin-top: 15px;
-    margin-bottom: 12px;
-    border: 1px solid #e2e2e4;
-    width: 84%;
-    border-radius: 8px;
-    padding-left: 12px;
-  }
-  
-  .Caseworkerprofile-main-container{
-      display: flex;
-      max-width: 1990px;
-      margin: 0 auto;
-      /* height: 100vh; */
-      margin-left: 127px;
-  }
-  
-  .Caseworker-inputs{
-    border: none;
-    margin-left: 6px;
-    width: 190px;
-    background-color: transparent;
-    outline: none;
-    user-select: none;
-  }
-  
-  .Vector-line{
-      position: relative;
-      left: 3px;
-      top: 7px;;
-  }
-  
-  .Caseworker-profile-heading{
-    position: relative;
-    margin-top: 90px;
-    left: 197px;
-    color: #5d982e;
-    /* border-bottom: 3px #5d982e solid; */
-    text-decoration: underline;
-    width: 16rem;
-  }
-  
-  
-  @media (max-width: 1440px) {
-     
-    .Topnavbar-caseworker-profile {
-      position: absolute;
-      left: 108px;
+    left: 108px;
   }
   .Caseworkerprofile-main-container {
     display: flex;
@@ -252,113 +240,89 @@
     /* height: 100vh; */
     margin-left: -11px;
   }
-  
+
   .caseworker-profile-addbtn {
-   
     left: 89%;
-  
-  
   }
-      } 
-  
-      @media (max-width: 1440px) {
-        .Topnavbar-caseworker-profile {
-          position: absolute;
-          left: 106px;
-      }
-      .Caseworkerprofile-main-container{
-        display: flex;
-        max-width: 1990px;
-        margin: 0 auto;
-        /* height: 100vh; */
-        margin-left: -12px;
-      }
-      
-      .caseworker-profile-addbtn {
-        left: 74rem;
-    }
-  
-  
-          } 
-  
-      @media (max-width: 1366px) {
-     
-        .Topnavbar-caseworker-profile {
-          position: absolute;
-          left: 268px;
-      }
-      .Caseworkerprofile-main-container {
-        display: flex;
-        max-width: 1990px;
-        margin: 0 auto;
-        /* height: 100vh; */
-        margin-left: 150px;
-    }
-      
-      .caseworker-profile-addbtn {
-       
-        left: 97%;
-        width: 10rem;
+}
 
-      
-      
-      }
-
-      .Caseworker-profile-heading {
-        position: absolute;
-        margin-top: 90px;
-        left: 197px;
-        color: #5d982e;
-        /* border-bottom: 3px #5d982e solid; */
-        text-decoration: underline;
-        width: 16rem;
-    }
-  
-    .caseworkerproile-sub-container {
- 
-      top: 149px;
+@media (max-width: 1440px) {
+  .Topnavbar-caseworker-profile {
+    position: absolute;
+    left: 106px;
   }
-  
-          } 
-   
-  
-          @media (max-width: 1280px){
-            .caseworker-profile-addbtn {
-           
+  .Caseworkerprofile-main-container {
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    /* height: 100vh; */
+    margin-left: -12px;
+  }
 
-              left: 96%;
+  .caseworker-profile-addbtn {
+    left: 74rem;
+  }
+}
+
+@media (max-width: 1366px) {
+  .Topnavbar-caseworker-profile {
+    position: absolute;
+    left: 268px;
+  }
+  .Caseworkerprofile-main-container {
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    /* height: 100vh; */
+    margin-left: 150px;
+  }
+
+  .caseworker-profile-addbtn {
+    left: 97%;
+    width: 10rem;
+  }
+
+  .Caseworker-profile-heading {
+    position: absolute;
+    margin-top: 90px;
+    left: 197px;
+    color: #5d982e;
+    /* border-bottom: 3px #5d982e solid; */
+    text-decoration: underline;
+    width: 16rem;
+  }
+
+  .caseworkerproile-sub-container {
+  }
+}
+
+@media (max-width: 1280px) {
+  .caseworker-profile-addbtn {
+    left: 96%;
 
     width: 144px;
+  }
+  .Caseworkerprofile-main-container {
+    display: flex;
+    max-width: 1990px;
+    margin: 0 auto;
+    /* height: 100vh; */
+    margin-left: 40px;
+  }
 
-          }
-          .Caseworkerprofile-main-container {
-            display: flex;
-            max-width: 1990px;
-            margin: 0 auto;
-            /* height: 100vh; */
-            margin-left: 40px;
-        }
+  .Topnavbar-caseworker-profile {
+    position: absolute;
+    left: 157px;
+  }
 
-        .Topnavbar-caseworker-profile {
-          position: absolute;
-          left: 157px;
-      }
+  .Caseworker-profile-heading {
+    left: 345px;
+  }
+}
 
-      .Caseworker-profile-heading {
-    
-    
-        left: 345px;
- 
-    }
-   
-          }
-  
-
-          @media (max-width: 1024px){
-        
-
-        .caseworker-profile-addbtn {
-          left: 120%;
-          width: 144px;
-      }
-          }
+@media (max-width: 1024px) {
+  .caseworker-profile-addbtn {
+    left: 120%;
+    width: 144px;
+  }
+}

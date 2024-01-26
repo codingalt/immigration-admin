@@ -7,7 +7,6 @@
 }
 .company-sub-container {
   border: 1px solid #e2e2e4;
-  position: relative;
   left: 19.2%;
   bottom: 23px;
   width: 1010px;
@@ -17,13 +16,14 @@
   scrollbar-color: #5d982e white;
   scrollbar-width: thin;
   scroll-behavior: smooth;
+  margin-top: 25px;
 }
 
 .company-profile-addbtn {
   position: absolute;
   left: 67%;
 
-  top: 90px;
+  top: 80px;
   padding: 9px;
   background-color: white;
   color: black;
@@ -196,7 +196,6 @@
 .comapnayprofile-main-container {
   display: flex;
   margin-left: 127px;
-  flex-wrap: wrap;
 }
 
 .company-Client-inputs {
@@ -251,7 +250,6 @@
     display: flex;
     max-width: 1990px;
     margin: 0 auto;
-    height: 100vh;
     margin-left: -12px;
   }
 
@@ -262,8 +260,6 @@
 
 @media (max-width: 1366px) {
   .company-sub-container {
-    top: -107.5%;
-    left: 30%;
   }
 
   .profile-route-cp{
@@ -280,7 +276,6 @@
     display: flex;
     max-width: 1990px;
     margin: 0 auto;
-    height: 100vh;
     margin-left: 150px;
   }
 
@@ -310,12 +305,9 @@
     display: flex;
     max-width: 1990px;
     margin: 0 auto;
-    height: 100vh;
     margin-left: 40px;
   }
   .company-sub-container {
-    top: 0%;
-    left: 18%;
   }
 }
 

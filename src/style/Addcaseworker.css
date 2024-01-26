@@ -1,15 +1,9 @@
 .Addcaseworkerproile-sub-container{
     border: 1px solid #e2e2e4;
-    position: relative;
-    /* right: 172px; */
-    left: -67px;
-
-    /* bottom: -16px; */
     width: 64.1rem;
     height: 44rem;
     border-radius: 13px;
 
-    top: 144px;
     background-color: #fcfcfc;
 }
 
@@ -107,14 +101,10 @@
      
     .Addcaseworkerproile-sub-container {
         border: 1px solid #e2e2e4;
-        position: relative;
-        /* right: 172px; */
-        left: -4.7%;
-        /* bottom: -16px; */
+      
         width: 64rem;
         height: 43.7rem;
         border-radius: 13px;
-        top: 144px;
  
     }
 
@@ -155,14 +145,10 @@
 
         .Addcaseworkerproile-sub-container {
             border: 1px solid #e2e2e4;
-            position: relative;
-            /* right: 172px; */
-            left: 15.9%;
-            /* bottom: -16px; */
+            
             width: 63.9rem;
             height: 43.7rem;
             border-radius: 13px;
-            top: 143px;
         }
 
         
@@ -196,14 +182,10 @@
 
         .Addcaseworkerproile-sub-container {
             border: 1px solid #e2e2e4;
-            position: relative;
-            /* right: 172px; */
-            left: 15.9%;
-            /* bottom: -16px; */
+          
             width: 63.9rem;
             height: 43.7rem;
             border-radius: 13px;
-            top: 143px;
         }
 
         
@@ -217,13 +199,12 @@
                 /* border: 1px solid #e2e2e4; */
                 /* position: relative; */
                 /* right: 172px; */
-                left: 33.9%;
+               
                 /* bottom: -16px; */
                 /* width: 63.9rem; */
                 /* height: 43.7rem; */
                 /* border-radius: 13px; */
                 /* top: 143px; */
-                position: absolute;
             }
        
           }

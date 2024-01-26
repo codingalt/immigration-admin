@@ -1,126 +1,128 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import SideNavbar from './SideNavbar';
-import TopNavbar from './TopNavbar';
-import { Link, useNavigate } from 'react-router-dom';
-import "../style/Changepassword.css"
-import profile from '../assests/profile.png'
-import { useDispatch, useSelector } from 'react-redux';
-import { useChangePasswordMutation, useUpdateUserDataMutation } from '../services/api/userApi';
-import { toastError, toastSuccess } from './Toast';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import SideNavbar from "./SideNavbar";
+import TopNavbar from "./TopNavbar";
+import { Link, useNavigate } from "react-router-dom";
+import "../style/Changepassword.css";
+import profile from "../assests/profile.png";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useChangePasswordMutation,
+  useUpdateUserDataMutation,
+} from "../services/api/userApi";
+import { toastError, toastSuccess } from "./Toast";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { changePasswordSchema } from '../utils/ValidationSchema';
-import Loader from './Loader';
-import { setUserData } from '../services/redux/userSlice';
-
+import { changePasswordSchema } from "../utils/ValidationSchema";
+import Loader from "./Loader";
+import { setUserData } from "../services/redux/userSlice";
 
 const Changepassowrd = () => {
-      const [imageName, setImageName] = useState();
-      const dispatch = useDispatch();
-      const navigate = useNavigate();
+  const [imageName, setImageName] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-      const { user } = useSelector((state) => state.user);
-      const { name, email, contact, profilePic, googleId } = user && user;
-      const [updateUserData, result] = useUpdateUserDataMutation();
-      const { isLoading, isSuccess, error, isError } = result;
-      const [changePassword, res] = useChangePasswordMutation();
-      const {
-        error: passError,
-        isLoading: passLoading,
-        isSuccess: passSuccess,
-      } = res;
-      const [image, setImage] = useState(null);
-      const imageRef = useRef();
+  const { user } = useSelector((state) => state.user);
+  const { name, email, contact, profilePic, googleId } = user && user;
+  const [updateUserData, result] = useUpdateUserDataMutation();
+  const { isLoading, isSuccess, error, isError } = result;
+  const [changePassword, res] = useChangePasswordMutation();
+  const {
+    error: passError,
+    isLoading: passLoading,
+    isSuccess: passSuccess,
+  } = res;
+  const [image, setImage] = useState(null);
+  const imageRef = useRef();
 
-      useMemo(() => {
-        if (error) {
-          toastError(error?.data?.message);
-        }
-      }, [error]);
+  useMemo(() => {
+    if (error) {
+      toastError(error?.data?.message);
+    }
+  }, [error]);
 
-      useMemo(() => {
-        if (passError) {
-          toastError(passError?.data?.message);
-        }
-      }, [passError]);
+  useMemo(() => {
+    if (passError) {
+      toastError(passError?.data?.message);
+    }
+  }, [passError]);
 
-      useMemo(() => {
-        if (passSuccess) {
-          toastSuccess("Password Updated.");
-        }
-      }, [passSuccess]);
+  useMemo(() => {
+    if (passSuccess) {
+      toastSuccess("Password Updated.");
+    }
+  }, [passSuccess]);
 
-      useMemo(() => {
-        if (isSuccess) {
-          toastSuccess("Profile Updated.");
-        }
-      }, [isSuccess]);
+  useMemo(() => {
+    if (isSuccess) {
+      toastSuccess("Profile Updated.");
+    }
+  }, [isSuccess]);
 
-      const initialValues = {
-        name,
-        email,
-        contact,
-        profilePic,
-      };
+  const initialValues = {
+    name,
+    email,
+    contact,
+    profilePic,
+  };
 
-      const initialValuesPass = {
-        password: "",
-        confirmPassword: "",
-        currentPassword: "",
-      };
+  const initialValuesPass = {
+    password: "",
+    confirmPassword: "",
+    currentPassword: "",
+  };
 
-      const handleUpdateData = async (values) => {
-        let formData = new FormData();
-        formData.append("name", values.name);
-        formData.append("email", values.email);
-        formData.append("contact", values.contact);
-        if (image) {
-          formData.append("profilePic", values.profilePic);
-        }
-        try {
-          const { data } = await updateUserData(formData);
-          console.log(data);
-          dispatch(setUserData(data));
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  const handleUpdateData = async (values) => {
+    let formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("email", values.email);
+    formData.append("contact", values.contact);
+    if (image) {
+      formData.append("profilePic", values.profilePic);
+    }
+    try {
+      const { data } = await updateUserData(formData);
+      console.log(data);
+      dispatch(setUserData(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      const handleChangePassword = async (values) => {
-        try {
-          console.log(values);
-          const response = await changePassword(values);
-          console.log(response);
-          if (response.success) {
-            toastSuccess(response.message);
-            initialValuesPass.password = "";
-          }
-        } catch (error) {
-          console.error(error);
-          toastError(error.message);
-        }
-      };
+  const handleChangePassword = async (values) => {
+    try {
+      console.log(values);
+      const response = await changePassword(values);
+      console.log(response);
+      if (response.success) {
+        toastSuccess(response.message);
+        initialValuesPass.password = "";
+      }
+    } catch (error) {
+      console.error(error);
+      toastError(error.message);
+    }
+  };
 
-      const openImage = (e, setFieldValue) => {
-        if (e.target.files && e.target.files[0]) {
-          let img = e.target.files[0];
-          console.log(img);
-          setImageName(img?.name);
-          setFieldValue("profilePic", img);
-          setImage({
-            image: URL.createObjectURL(img),
-          });
-        }
-      };
+  const openImage = (e, setFieldValue) => {
+    if (e.target.files && e.target.files[0]) {
+      let img = e.target.files[0];
+      console.log(img);
+      setImageName(img?.name);
+      setFieldValue("profilePic", img);
+      setImage({
+        image: URL.createObjectURL(img),
+      });
+    }
+  };
 
-
-    return (
-      <div className="comapnayprofile-main-container">
-        <div className="Addcompany-Topnavbar-client-profile-2">
+  return (
+    <div className="comapnayprofile-main-container">
+      {/* <div className="Addcompany-Topnavbar-client-profile-2">
           <TopNavbar />
-        </div>
+        </div> */}
 
-        <SideNavbar />
-
+      <SideNavbar />
+      <div style={{ marginLeft: "11.8rem" }}>
+        <TopNavbar />
         <h2 className="changepassword-profile-heading">Settings</h2>
 
         <div className="chnagepassowrd-sub-container">
@@ -280,7 +282,8 @@ const Changepassowrd = () => {
           </div>
         </div>
       </div>
-    );
-}
+    </div>
+  );
+};
 
-export default Changepassowrd
+export default Changepassowrd;

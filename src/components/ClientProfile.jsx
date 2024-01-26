@@ -50,162 +50,164 @@ const ClientProfile = () => {
 
   return (
     <div className="Clientprofile-main-container">
-      <div className="Topnavbar-client-profile">
-        {" "}
-        <TopNavbar />
-      </div>
-
       <SideNavbar />
+      <div style={{ marginLeft: "11.8rem" }}>
+        <TopNavbar />
+        <div >
 
-      <div className="Profile-routes">
-        {links.map((link, index) => (
-          <NavLink
-            key={index}
-            to={link.to}
-            className={`link-hover-effect ${
-              activeLink === link.label ? "link-active" : ""
-            }`}
-            onClick={() => handleLinkClick(link.label)}
-            style={
-              link.to === "/admin/clientprofiles"
-                ? { width: "10rem" }
-                : link.to === "/admin/companyprofiles"
-                ? { width: "13rem" }
-                : {
-                    width: "14rem",
-                  }
-            }
-          >
-            <span className="routes-all">{link.label}</span>
-          </NavLink>
-        ))}
-      </div>
+          <div className="Profile-routes"  style={{ marginTop: 10  }}>
+            {links.map((link, index) => (
+              <NavLink
+                key={index}
+                to={link.to}
+                className={`link-hover-effect ${
+                  activeLink === link.label ? "link-active" : ""
+                }`}
+                onClick={() => handleLinkClick(link.label)}
+                style={
+                  link.to === "/admin/clientprofiles"
+                    ? { width: "10rem" }
+                    : link.to === "/admin/companyprofiles"
+                    ? { width: "13rem" }
+                    : {
+                        width: "14rem",
+                      }
+                }
+              >
+                <span className="routes-all">{link.label}</span>
+              </NavLink>
+            ))}
+          </div>
 
-      <div className="Client-proile-border">
-        <button
-          onClick={() => navigate("/add/phase1")}
-          className="client-profile-addbtn"
-        >
-          Add Profile
-        </button>
+          <div className="Client-proile-border">
+            <button
+              onClick={() => navigate("/add/phase1")}
+              className="client-profile-addbtn"
+            >
+              Add Profile
+            </button>
 
-        <div className="clientproile-sub-container">
-          <div className="All-boxes All-box-client">
-            <div className="CLient-prolie-boxes">
-              {isLoading && (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "4rem",
-                  }}
-                >
-                  <Loader width={35} color={"#5B952D"} />
+            <div style={{  marginTop: 25 }}  className="clientproile-sub-container">
+              <div className="All-boxes All-box-client">
+                <div className="CLient-prolie-boxes">
+                  {isLoading && (
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "4rem",
+                      }}
+                    >
+                      <Loader width={35} color={"#5B952D"} />
+                    </div>
+                  )}
+                  {!isLoading &&
+                    data?.applications
+                      ?.slice()
+                      .sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                      )
+                      .map((item) => (
+                        <>
+                          {" "}
+                          <NavLink
+                            key={item._id}
+                            to={`/admin/prescreening/${item._id}`}
+                            style={{
+                              width: "360px",
+                              cursor: "pointer",
+                              zIndex: "10",
+                            }}
+                          >
+                            <div
+                              className="Box-1"
+                              style={{ cursor: "pointer", left: "0" }}
+                            >
+                              <div className="Name">
+                                <p>
+                                  {" "}
+                                  Name{" "}
+                                  <img
+                                    src={vectorline}
+                                    alt=""
+                                    className="Vector-line"
+                                  />{" "}
+                                  <input
+                                    disabled
+                                    value={item.user.name}
+                                    type="text"
+                                    placeholder="Jhon leo"
+                                    className="Client-inputs"
+                                  />
+                                </p>
+                              </div>
+                              <div className="caseid">
+                                <p>
+                                  {" "}
+                                  Case ID
+                                  <img
+                                    src={vectorline}
+                                    alt=""
+                                    className="Vector-line"
+                                  />{" "}
+                                  <input
+                                    disabled
+                                    value={item.caseId}
+                                    type="text"
+                                    placeholder="00112"
+                                    className="Client-inputs"
+                                  />
+                                </p>
+                              </div>
+                              <div className="ApplicationType">
+                                <p>
+                                  Application Type{" "}
+                                  <img
+                                    src={vectorline}
+                                    alt=""
+                                    className="Vector-line"
+                                  />{" "}
+                                  <input
+                                    disabled
+                                    value={item.phase1.applicationType}
+                                    type="text"
+                                    placeholder="Set LR"
+                                    className="Client-inputs"
+                                  />
+                                </p>
+                              </div>
+                              <div className="Applicationstatus">
+                                <p>
+                                  {" "}
+                                  Application Status{" "}
+                                  <img
+                                    src={vectorline}
+                                    alt=""
+                                    className="Vector-line"
+                                  />{" "}
+                                  <input
+                                    disabled
+                                    value={
+                                      item.phase === 4 &&
+                                      item.phaseStatus === "approved"
+                                        ? "Approved"
+                                        : item.applicationStatus === "pending"
+                                        ? "Pending"
+                                        : "Approved"
+                                    }
+                                    type="text"
+                                    placeholder="Approved"
+                                    className="Client-inputs"
+                                  />
+                                </p>
+                              </div>
+                            </div>
+                          </NavLink>
+                        </>
+                      ))}
                 </div>
-              )}
-              {!isLoading &&
-                data?.applications
-                  ?.slice()
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                  .map((item) => (
-                    <>
-                      {" "}
-                      <NavLink
-                        key={item._id}
-                        to={`/admin/prescreening/${item._id}`}
-                        style={{
-                          width: "360px",
-                          cursor: "pointer",
-                          zIndex: "10",
-                        }}
-                      >
-                        <div
-                          className="Box-1"
-                          style={{ cursor: "pointer", left: "0" }}
-                        >
-                          <div className="Name">
-                            <p>
-                              {" "}
-                              Name{" "}
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                value={item.user.name}
-                                type="text"
-                                placeholder="Jhon leo"
-                                className="Client-inputs"
-                              />
-                            </p>
-                          </div>
-                          <div className="caseid">
-                            <p>
-                              {" "}
-                              Case ID
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                value={item.caseId}
-                                type="text"
-                                placeholder="00112"
-                                className="Client-inputs"
-                              />
-                            </p>
-                          </div>
-                          <div className="ApplicationType">
-                            <p>
-                              Application Type{" "}
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                value={item.phase1.applicationType}
-                                type="text"
-                                placeholder="Set LR"
-                                className="Client-inputs"
-                              />
-                            </p>
-                          </div>
-                          <div className="Applicationstatus">
-                            <p>
-                              {" "}
-                              Application Status{" "}
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                value={
-                                  item.phase === 4 &&
-                                  item.phaseStatus === "approved"
-                                    ? "Approved"
-                                    : item.applicationStatus === "pending"
-                                    ? "Pending"
-                                    : "Approved"
-                                }
-                                type="text"
-                                placeholder="Approved"
-                                className="Client-inputs"
-                              />
-                            </p>
-                          </div>
-                        </div>
-                      </NavLink>
-                    </>
-                  ))}
+              </div>
             </div>
           </div>
         </div>
