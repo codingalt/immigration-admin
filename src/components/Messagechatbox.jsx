@@ -142,7 +142,7 @@ const Message = ({applicationId}) => {
         <div className="container-message-box-2">
           <div className="row" style={{ height: "100%" }}>
             <section className="chat-2" style={{ height: "94%" }}>
-              <div className="header-chat-2" style={{ zIndex: "10" }}>
+              <div className="header-chat-2">
                 {chat?.result[0]?.users[0]?.googleId ? (
                   <img
                     style={{
