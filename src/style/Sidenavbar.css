@@ -123,12 +123,10 @@
 
 
 .Dashboard-heading{
-  position: relative;
-  right: 183rem;
-  margin-top: 73px;
   font-size: 20px;
   color: #5D982E;
-
+  margin-top: 10px;
+  margin-left: 5px;
 }
 
 .Icons{

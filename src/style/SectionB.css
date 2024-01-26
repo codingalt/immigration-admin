@@ -7,13 +7,11 @@
   box-sizing: border-box;
   height: 427px;
   /* right: 0px; */
-  margin-top: 271px;
   /* left: 358px; */
   /* transform: translate(-140%, 12px); */
-  right: 119rem;
   width: 64rem;
   height: 36rem;
-
+  margin-top: 15px;
   /* transform: translate(-140%, 12px); */
   }
   
@@ -26,7 +24,6 @@
   
   
       width: 1039px;
-      margin-top: 290px;
       /* left: 22.7%; */
       height: 558px;
       margin-left: -3.5px;
