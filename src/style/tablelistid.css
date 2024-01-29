@@ -14,10 +14,10 @@
   width: 64.2rem;
   height: 45.6rem;
   border-radius: 13px;
-  top: 119px;
+  /* top: 119px; */
   background-color: #fcfcff;
 
-  right: 5rem;
+  /* right: 5rem; */
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
@@ -100,8 +100,8 @@
     left: 11.5rem;
   }
   #table-list2{
-    top: 19%;
-    left: 11.5rem;
+    /* top: 19%;
+    left: 11.5rem; */
   }
 }
 
