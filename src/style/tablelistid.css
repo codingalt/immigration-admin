@@ -14,10 +14,10 @@
   width: 64.2rem;
   height: 45.6rem;
   border-radius: 13px;
-  /* top: 119px; */
+  top: 87px;
   background-color: #fcfcff;
 
-  /* right: 5rem; */
+  right: 5rem;
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
@@ -51,6 +51,7 @@
 
 @media (max-width: 1680px) {
   .table-list-sub-container {
+    top: 87px;
   }
 }
 
@@ -94,6 +95,7 @@
    
 
   .table-list-sub-container {
+    right: 2rem;
   }
   .search-record{
     top: 20%;
