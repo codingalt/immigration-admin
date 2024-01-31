@@ -14,17 +14,12 @@ const Dashboard = ({getData}) => {
   return (
     <div className="Dashboard-Container">
       <SideNavbar getData={getData} />
-      <div className="threeinone-section">
-        <TopNavbar />
-      </div>
-      <div className="hjk">
-        <SectionA />
-      </div>
-      <div className="kjkmm">
-        <SectionB />
-      </div>
-      <div className="fdf">
-        <Dashbaordheadinf />
+      <div style={{ marginLeft: '11.8rem'}}>
+          <TopNavbar />
+          <Dashbaordheadinf />
+          <SectionA />
+          <SectionB />
+        
       </div>
     </div>
   );

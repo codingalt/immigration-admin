@@ -37,178 +37,182 @@ const Companyprofile = () => {
 
   return (
     <div className="comapnayprofile-main-container">
-      <div className="company-Topnavbar-client-profile-2">
-        {" "}
-        <TopNavbar />
-      </div>
-
       <SideNavbar />
+      <div style={{ marginLeft: "11.8rem" }}>
+        <TopNavbar />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-      <div className="company-proile-border">
-        <div className="Profile-routes profile-route-cp">
-          {links.map((link, index) => (
-            <NavLink
-              key={index}
-              to={link.to}
-              className={`link-hover-effect ${
-                activeLink === link.label ? "link-active" : ""
-              }`}
-              onClick={() => handleLinkClick(link.label)}
-              style={
-                link.to === "/admin/clientprofiles"
-                  ? { width: "10rem" }
-                  : link.to === "/admin/companyprofiles"
-                  ? { width: "13rem" }
-                  : {
-                      width: "14rem",
-                    }
-              }
-            >
-              <span className="routes-all">{link.label}</span>
-            </NavLink>
-          ))}
+          <Link to="/admin/addingprofile" style={{ marginTop: 10  }}>
+              <button className="company-profile-addbtn">
+                Add Company Profile
+              </button>
+            </Link>
         </div>
 
-        <Link to="/admin/addingprofile">
-          <button className="company-profile-addbtn">
-            Add Company Profile
-          </button>
-        </Link>
-        <div className="company-sub-container">
-          <div className="company-All-boxes">
-            <div className="company-prolie-boxes">
-              {isLoading && (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "14rem",
-                    marginLeft: "10rem",
-                  }}
+          <div className="company-proile-border">
+            <div className="Profile-routes profile-route-cp">
+              {links.map((link, index) => (
+                <NavLink
+                  key={index}
+                  to={link.to}
+                  className={`link-hover-effect ${
+                    activeLink === link.label ? "link-active" : ""
+                  }`}
+                  onClick={() => handleLinkClick(link.label)}
+                  style={
+                    link.to === "/admin/clientprofiles"
+                      ? { width: "10rem" }
+                      : link.to === "/admin/companyprofiles"
+                      ? { width: "13rem" }
+                      : {
+                          width: "14rem",
+                        }
+                  }
                 >
-                  <Loader width={35} color={"#5B952D"} />
-                </div>
-              )}
+                  <span className="routes-all">{link.label}</span>
+                </NavLink>
+              ))}
+            </div>
 
-              {!isLoading && data?.company?.length === 0 && (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "7.5rem",
-                    marginLeft: "10rem",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: "1.05rem",
-                      fontWeight: "500",
-                      color: "red",
-                    }}
-                  >
-                    No Company Profile!
-                  </p>
-                </div>
-              )}
+       
+            <div className="company-sub-container">
+              <div className="company-All-boxes">
+                <div className="company-prolie-boxes">
+                  {isLoading && (
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "14rem",
+                        marginLeft: "10rem",
+                      }}
+                    >
+                      <Loader width={35} color={"#5B952D"} />
+                    </div>
+                  )}
 
-              {/* <Link
+                  {!isLoading && data?.company?.length === 0 && (
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "7.5rem",
+                        marginLeft: "10rem",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "1.05rem",
+                          fontWeight: "500",
+                          color: "red",
+                        }}
+                      >
+                        No Company Profile!
+                      </p>
+                    </div>
+                  )}
+
+                  {/* <Link
                 to={`/company`}
                 style={{ display: "flex", gap: "30px" }}
               > */}
-              {!isLoading &&
-                data?.company
-                  .slice()
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                  .map((item) => (
-                    <div
-                      style={{ cursor: "pointer" }}
-                      key={item._id}
-                      className="Box-10"
-                      onClick={() =>
-                        navigate(`/company/${item.name}/${item._id}`)
-                      }
-                    >
-                      <div className="company-Name">
-                        <p>
-                          {" "}
-                          Comapny Name{" "}
-                          <img
-                            src={vectorline}
-                            alt=""
-                            className="company-Vector-line"
-                          />{" "}
-                          <input
-                            disabled
-                            value={item.name}
-                            type="text"
-                            placeholder="Imigration1"
-                            className="company-Client-inputs"
-                          />
-                        </p>
-                      </div>
-                      <div className="company-caseid">
-                        <p>
-                          {" "}
-                          Email
-                          <img
-                            src={vectorline}
-                            alt=""
-                            className="company-Vector-line"
-                          />{" "}
-                          <input
-                            disabled
-                            value={item.email}
-                            type="text"
-                            placeholder="00112"
-                            className="company-Client-inputs"
-                          />
-                        </p>
-                      </div>
-                      <div className="company-ApplicationType">
-                        <p>
-                          Full Name{" "}
-                          <img
-                            src={vectorline}
-                            alt=""
-                            className="company-Vector-line"
-                          />{" "}
-                          <input
-                            disabled
-                            type="text"
-                            value={item.fullName}
-                            placeholder="Set LR"
-                            className="company-Client-inputs"
-                          />
-                        </p>
-                      </div>
-                      <div className="company-Applicationstatus">
-                        <p>
-                          {" "}
-                          Telephone{" "}
-                          <img
-                            src={vectorline}
-                            alt=""
-                            className="company-Vector-line"
-                          />{" "}
-                          <input
-                            disabled
-                            type="text"
-                            value={item.telephone}
-                            placeholder="Approved"
-                            className="company-Client-inputs"
-                          />
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-              {/* </Link> */}
+                  {!isLoading &&
+                    data?.company
+                      .slice()
+                      .sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                      )
+                      .map((item) => (
+                        <div
+                          style={{ cursor: "pointer" }}
+                          key={item._id}
+                          className="Box-10"
+                          onClick={() =>
+                            navigate(`/company/${item.name}/${item._id}`)
+                          }
+                        >
+                          <div className="company-Name">
+                            <p>
+                              {" "}
+                              Comapny Name{" "}
+                              <img
+                                src={vectorline}
+                                alt=""
+                                className="company-Vector-line"
+                              />{" "}
+                              <input
+                                disabled
+                                value={item.name}
+                                type="text"
+                                placeholder="Imigration1"
+                                className="company-Client-inputs"
+                              />
+                            </p>
+                          </div>
+                          <div className="company-caseid">
+                            <p>
+                              {" "}
+                              Email
+                              <img
+                                src={vectorline}
+                                alt=""
+                                className="company-Vector-line"
+                              />{" "}
+                              <input
+                                disabled
+                                value={item.email}
+                                type="text"
+                                placeholder="00112"
+                                className="company-Client-inputs"
+                              />
+                            </p>
+                          </div>
+                          <div className="company-ApplicationType">
+                            <p>
+                              Full Name{" "}
+                              <img
+                                src={vectorline}
+                                alt=""
+                                className="company-Vector-line"
+                              />{" "}
+                              <input
+                                disabled
+                                type="text"
+                                value={item.fullName}
+                                placeholder="Set LR"
+                                className="company-Client-inputs"
+                              />
+                            </p>
+                          </div>
+                          <div className="company-Applicationstatus">
+                            <p>
+                              {" "}
+                              Telephone{" "}
+                              <img
+                                src={vectorline}
+                                alt=""
+                                className="company-Vector-line"
+                              />{" "}
+                              <input
+                                disabled
+                                type="text"
+                                value={item.telephone}
+                                placeholder="Approved"
+                                className="company-Client-inputs"
+                              />
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                  {/* </Link> */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

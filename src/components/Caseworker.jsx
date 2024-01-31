@@ -12,19 +12,19 @@ const Caseworker = () => {
   console.log(data);
   return (
     <div className="Caseworkerprofile-main-container">
-      <div className="Topnavbar-caseworker-profile">
-        {" "}
-        <TopNavbar />
-      </div>
+     
 
       <SideNavbar />
+      <div style={{ marginLeft: "11.8rem" }}>
+        <TopNavbar />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <h2 className="changepassword-profile-heading">Caseworker Profile</h2>
 
-      <div className="Caseworker-proile-border">
-        <h2 className="Caseworker-profile-heading">Caseworker Profile</h2>
+          <NavLink to="/admin/addcaseworker" style={{ marginTop: 10 }}>
+            <button className="caseworker-profile-addbtn">Add Case Worker</button>
+          </NavLink>
+        </div>
 
-        <NavLink to="/admin/addcaseworker">
-          <button className="caseworker-profile-addbtn">Add Case Worker</button>
-        </NavLink>
         <div className="caseworkerproile-sub-container">
           <div className="All-boxes">
             <div className="Caseworker-prolie-boxes">

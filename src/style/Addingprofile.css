@@ -6,10 +6,8 @@
     width: 64.2rem;
     height: -9%;
     border-radius: 13px;
-    top: 119px;
     background-color: #fcfcff;
     height: 45.6rem;
-    right: 79px;
 
     display: flex;
 
@@ -144,7 +142,6 @@ text-align: left;
 @media (max-width: 1680px) {
 
     .Addingcompany-sub-container {
-        right: 3.3rem;
 
     }
 
@@ -176,7 +173,6 @@ text-align: left;
     }
 
     .Addingcompany-sub-container {
-        left: 11.7rem;
 
     }
 }
@@ -264,12 +260,10 @@ text-align: left;
       
   
         border-radius: 13px;
-        top: 59px;
         background-color: #F7F7F7;
 
         /* right: 48px; */
         display: flex;
-        left: 10rem;
         
     }
 }

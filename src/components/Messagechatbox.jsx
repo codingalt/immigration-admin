@@ -137,12 +137,12 @@ const Message = ({applicationId}) => {
    };
 
   return (
-    <div className="Main-message-container-2">
-      <div className="Main-Message-2">
+    // <div className="Main-message-container-2">
+    //   <div className="Main-Message-2">
         <div className="container-message-box-2">
-          <div className="row" style={{ height: "90%" }}>
+          <div className="row" style={{ height: "100%" }}>
             <section className="chat-2" style={{ height: "94%" }}>
-              <div className="header-chat-2" style={{ zIndex: "10" }}>
+              <div className="header-chat-2">
                 {chat?.result[0]?.users[0]?.googleId ? (
                   <img
                     style={{
@@ -348,8 +348,8 @@ const Message = ({applicationId}) => {
             </section>
           </div>
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 }
 

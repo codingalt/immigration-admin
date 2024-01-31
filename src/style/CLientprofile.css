@@ -7,7 +7,6 @@
 }
 .clientproile-sub-container{
   border: 1px solid #e2e2e4;
-  position: relative;
   /* right: 172px; */
   width: 1015px;
   overflow-y: scroll;
@@ -26,7 +25,7 @@
   position: absolute;
   left: 71.5%;
 
-  top: 90px;
+  top: 80px;
   padding: 9px;
   background-color: white;
   color: black;
@@ -210,7 +209,7 @@
     display: flex;
     max-width: 1990px;
     margin: 0 auto;
-    height: 100vh;
+    /* height: 100vh; */
 
     margin-left: 127px;
 
@@ -283,7 +282,7 @@
       display: flex;
       max-width: 1990px;
       margin: 0 auto;
-      height: 100vh;
+      /* height: 100vh; */
       margin-left: -12px;
     }
     
@@ -304,7 +303,7 @@
       display: flex;
       max-width: 1990px;
       margin: 0 auto;
-      height: 100vh;
+      /* height: 100vh; */
       margin-left: 150px;
   }
     
@@ -331,7 +330,7 @@
           display: flex;
           max-width: 1990px;
           margin: 0 auto;
-          height: 100vh;
+          /* height: 100vh; */
           margin-left: 40px;
       }
         

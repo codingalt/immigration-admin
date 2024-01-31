@@ -21,7 +21,6 @@
     height: 42.3rem;
     border-radius: 20px;
     border: 1px solid #E2E2E4;
-    position: relative;
     top: 167px;
     left: 189px;
     font-size: 12px;
@@ -506,7 +505,6 @@
 
           @media (max-width: 1024px){
             .Notes-main-section {
-                position: absolute;
                 left: 21.5rem;
             }
             .Notes-text-5 {
