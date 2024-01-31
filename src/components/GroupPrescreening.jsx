@@ -232,13 +232,7 @@ const GroupPrescreening = () => {
             <p className="add-report-text">View Report</p>{" "}
           </div>
         </NavLink>
-        {/* <NavLink to={`/admin/group/linkcompany/${applicationId}`}>
-          <div className="link-img">
-            {" "}
-            <img src={link} alt="" className="link-company" />
-            <p className="add-company-text">Link Company</p>{" "}
-          </div>
-        </NavLink> */}
+
         {data?.application?.isManual && data?.application?.phase < 4 && (
           <NavLink to={`/add/phase1/filled/${applicationId}`}>
             <div

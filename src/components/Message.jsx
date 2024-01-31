@@ -118,7 +118,7 @@ const Message = () => {
          formData.append("chatFile", files[i]);
        }
        const { data } = await sendMessage(formData);
-
+      //  setSearchInput("")
        setMessages([...messages, data?.result?.result]);
        socket.emit("new message", data?.result);
        setFiles([]);
