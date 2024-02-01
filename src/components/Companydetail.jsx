@@ -27,11 +27,16 @@ const Companydetail = () => {
           </Link>
         </div>
 
+<<<<<<< HEAD
         <div
           className="table-list-sub-container table-list-cd">
         <div
           className="table-list-sub-container"
           style={{ position: "relative" }}
+=======
+        <div
+          className="table-list-sub-container"
+>>>>>>> 9e24335c8ad112d9e566d21005703b4740a2e97f
           id="table-list2"
         >
           <table>
@@ -67,35 +72,19 @@ const Companydetail = () => {
                 data?.applications?.map((item, index) => (
                   <tr key={item._id}>
                     <td>{item.caseId}</td>
-                    <td>
-                      {item.phase1.fullNameAsPassport
-                        ? item.phase1.fullNameAsPassport
-                        : item.phase1.name}
-                    </td>
+                    <td>{item.phase1.fullNameAsPassport}</td>
                     <td>
                       {item.phase1.clientContact
                         ? item.phase1.clientContact
-                        : item.phase1.companyContact
-                        ? item.phase1.companyContact
-                        : item.phase1.email}
+                        : item.phase1.companyContact}
                     </td>
                     <td>{item.phase1.applicationType}</td>
                     <td>
                       {moment(item?.phase1?.birthDate).format("ddd, MMM D")}
                     </td>
+                    <td>{item.phase1.nationality}</td>
                     <td>
-                      {item.phase1.nationality
-                        ? item.phase1.nationality
-                        : item.phase1.country}
-                    </td>
-                    <td>
-                      <Link
-                        to={
-                          item.phase1.fullNameAsPassport
-                            ? `/admin/group/prescreening/${item._id}`
-                            : `/admin/prescreening/${item._id}`
-                        }
-                      >
+                      <Link to={`/admin/group/prescreening/${item._id}`}>
                         <button className="View-btn-tablelist">View</button>
                       </Link>
                     </td>
