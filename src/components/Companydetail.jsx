@@ -9,18 +9,11 @@ import Loader from "./Loader";
 
 const Companydetail = () => {
   const { companyId, companyName } = useParams();
-  const { data, isLoading, isSuccess, error } =
-    useGetApplicationsByCompanyQuery(companyId);
-  console.log(data);
+  const { data,isLoading,isSuccess,error } = useGetApplicationsByCompanyQuery(companyId,{refetchOnMountOrArgChange: true});
 
-<<<<<<< HEAD
-      const { companyId, companyName } = useParams();
-      const { data,isLoading,isSuccess,error } = useGetApplicationsByCompanyQuery(companyId,{refetchOnMountOrArgChange: true});
-=======
   return (
     <div className="comapnayprofile-main-container">
       <SideNavbar />
->>>>>>> bfe1aac99b411b202bd9a23f840a133f12b485c2
 
       <div style={{ marginLeft: "11.8rem" }}>
         <TopNavbar />
@@ -34,22 +27,11 @@ const Companydetail = () => {
           </Link>
         </div>
 
-<<<<<<< HEAD
-        <SideNavbar />
-
-        <h2 className="changepassword-profile-heading">{companyName}</h2>
-        <Link to={`/servicelist/${companyId}`}>
-          <button className="Case-profile-addbtn" type="button">
-            Create New Case
-          </button>
-        </Link>
         <div
-          className="table-list-sub-container table-list-cd"
-=======
+          className="table-list-sub-container table-list-cd">
         <div
           className="table-list-sub-container"
           style={{ position: "relative" }}
->>>>>>> bfe1aac99b411b202bd9a23f840a133f12b485c2
           id="table-list2"
         >
           <table>
@@ -141,6 +123,7 @@ const Companydetail = () => {
           </table>
         </div>
       </div>
+    </div>
     </div>
   );
 };
