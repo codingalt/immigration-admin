@@ -117,7 +117,12 @@ const Prephase3 = () => {
 
   useMemo(() => {
     if (isSuccess) {
-      if(!submitResponse?.data?.phase3.doesCompanyHelp){
+      console.log(
+        "submitResponse?.data?.phase3.doesCompanyHelp",
+        submitResponse?.data?.phase3.doesCompanyHelp
+      );
+      if (!submitResponse?.data?.phase3.doesCompanyHelp) {
+        console.log("Rejected Condition");
         socket.emit("phase notification", {
           userId: app?.userId,
           applicationId: applicationId,

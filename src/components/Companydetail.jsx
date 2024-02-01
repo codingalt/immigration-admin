@@ -30,7 +30,7 @@ const Companydetail = () => {
         <div
           className="table-list-sub-container table-list-cd">
         <div
-          className="table-list-sub-container"
+          className=""
           style={{ position: "relative" }}
           >
         <div
