@@ -27,16 +27,14 @@ const Companydetail = () => {
           </Link>
         </div>
 
-<<<<<<< HEAD
         <div
           className="table-list-sub-container table-list-cd">
         <div
           className="table-list-sub-container"
           style={{ position: "relative" }}
-=======
+          >
         <div
           className="table-list-sub-container"
->>>>>>> 9e24335c8ad112d9e566d21005703b4740a2e97f
           id="table-list2"
         >
           <table>
@@ -112,6 +110,7 @@ const Companydetail = () => {
           </table>
         </div>
       </div>
+    </div>
     </div>
     </div>
   );
