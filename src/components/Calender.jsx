@@ -293,8 +293,15 @@ const Calendar = () => {
   
     console.log("from", eventTimeFrom);
     console.log("to", eventTimeTo);
-    if (eventName.trim() === "" || eventTimeFrom === "" || eventTimeTo === "") {
-      alert("Please fill in all event details.");
+    if (
+      eventName.trim() === "" ||
+      eventTimeFrom === "" ||
+      eventTimeTo === "" ||
+      !eventTimeFrom ||
+      !eventTimeTo
+    ) {
+      // alert("Please fill in all event details.");
+      toastError("Please fill in all event details.");
       return;
     }
 
