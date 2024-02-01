@@ -118,6 +118,11 @@ const Prephase3 = () => {
   useMemo(() => {
     if (isSuccess) {
       console.log(
+        "submitResponse?.data",
+        submitResponse?.data
+      );
+
+      console.log(
         "submitResponse?.data?.phase3.doesCompanyHelp",
         submitResponse?.data?.phase3.doesCompanyHelp
       );
@@ -161,6 +166,9 @@ const Prephase3 = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     console.log("Submitted", values);
+    // if(values.phase3.doesCompanyHelp){
+
+    // }
     await requestAPhase({ data: values, applicationId: applicationId });
     resetForm({
       values: initialValues,
@@ -307,6 +315,7 @@ const Prephase3 = () => {
                     id="phase3.doesCompanyHelp"
                     onChange={(e) => {
                       setFieldValue("phase3.doesCompanyHelp", true);
+                      setFieldValue("phase3.reason", null);
                       setIsCompanyHelp(true);
                     }}
                     type="radio"
@@ -320,6 +329,7 @@ const Prephase3 = () => {
                     id="phase3.doesCompanyHelp"
                     onChange={(e) => {
                       setFieldValue("phase3.doesCompanyHelp", false);
+                      
                       setIsCompanyHelp(false);
                     }}
                     type="radio"

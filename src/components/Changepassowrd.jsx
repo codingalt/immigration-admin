@@ -160,7 +160,11 @@ const Changepassowrd = () => {
                       }}
                     />
                     <p className="uploading-text">
-                      {imageName ? image && imageName : "Click to upload"}
+                      {imageName
+                        ? image && imageName.length > 15
+                          ? imageName.slice(0, 15)
+                          : imageName
+                        : "Click to upload"}
                     </p>
                     <p className="maximum-size-text">Maximun image size 3MB</p>
                   </div>

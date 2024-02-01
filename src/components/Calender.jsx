@@ -301,7 +301,7 @@ const Calendar = () => {
       !eventTimeTo
     ) {
       // alert("Please fill in all event details.");
-      toastError("Please fill in all event details.");
+      toastError(`Please specify the "to" and "from" time then add event.`);
       return;
     }
 
