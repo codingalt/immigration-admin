@@ -31,7 +31,6 @@ const Companydetail = () => {
 
         <div
           className="table-list-sub-container"
-          style={{ position: "relative" }}
           id="table-list2"
         >
           <table>
