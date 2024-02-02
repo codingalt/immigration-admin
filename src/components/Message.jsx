@@ -409,9 +409,9 @@ const Message = () => {
                   messages?.map((item, index) => {
                     let isUserMessage;
                      selectedChat.caseWorkerChat ? (
-                      isUserMessage = item?.sender?._id?.toString() === user?._id
+                      isUserMessage = item?.sender?.toString() === user?._id
                      ) : (
-                      isUserMessage = item?.sender?._id?.toString() != selectedChat?.clientId
+                      isUserMessage = item?.sender?.toString() != selectedChat?.clientId
                      ) 
                       console.log(isUserMessage);
                     return (
@@ -522,28 +522,27 @@ const Message = () => {
                                 className="Second-profile-img-2"
                               />
                             )}
-                  
+                          <div className="Second-profile-name" style={{ display: 'flex', alignItems: 'center', bottom: 43 }}>
                             {selectedChat.caseWorkerChat ? (
                               <p className="Second-profile-name">
-                                {!loading && item.sender._id === user?._id
+                                {!loading && item.sender === user?._id
                                   ? "You"
                                   : item.sender.name}
                               </p>
                             ) : (
-                              <p className="Second-profile-name">
+                              <p>
                                 {!loading && isUserMessage
                                   ? "You"
                                   : selectedChat?.users[0]?.name}
                               </p>
                             )}
                             <p
-                              className="Message-date-time-second"
-                              style={
-                                !isUserMessage ? { marginLeft: "1.4rem" } : {}
-                              }
+                              style={{marginLeft: 20, fontFamily: 'Montserrat', fontSize: 10, fontWeight: 400, color: '#777'
+                              }}
                             >
                               {format(item?.createdAt)}
                             </p>
+                            </div>
                             <p
                               className="Second-profile-message"
                               style={
@@ -551,7 +550,7 @@ const Message = () => {
                                   ? { color: "red" }
                                   : item?.isPhaseApprovedMessage
                                   ? {
-                                      color: "#5cb85c",
+                                      color: "#5cb85c"
                                     }
                                   : {}
                               }
