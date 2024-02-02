@@ -187,7 +187,7 @@ const Message = ({applicationId}) => {
               </div>
               <div className="messages-chat-2" ref={chatContainerRef}>
                 {messages?.map((item) => {
-                  const isUserMessage = item?.sender?._id?.toString() != chat?.result[0]?.clientId;
+                  const isUserMessage = item?.sender?.toString() != chat?.result[0]?.clientId;
                   return (
                     !loading && (
                       <div
