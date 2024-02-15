@@ -426,7 +426,7 @@ const Prephase3 = () => {
                       className="prephase-3-input"
                       placeholder="APL1"
                     />
-                    <p className="prephase-3-text-left">Cost</p>
+                    <p className="prephase-3-text-left">Cost in USD</p>
                     <Field
                       required={isCompanyHelp}
                       name="phase3.cost"

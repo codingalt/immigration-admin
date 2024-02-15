@@ -330,33 +330,33 @@ const Prephase2 = () => {
               </p>
 
               <div className="checkboxes-all">
-                <p className="prephase-2-text"> Passport </p>
+                <p className="prephase-2-text"> Passport *</p>
                 <input
                   value="notreq"
                   name="phase2.passport"
                   id="phase2.passport"
                   type="checkbox"
                   className="checks-prephase-2"
+                  required={true}
                   defaultChecked={
-                    initialValues.phase2.passport === "" ||
-                    initialValues.phase2.passport.includes("/Uploads")
+                   true
                   }
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.passport", value);
                   }}
                 />
-                <p className="prephase-2-text"> DEPENDANT PASSPORT </p>
+                <p className="prephase-2-text"> National ID Card *</p>
                 <input
                   value="notreq"
                   name="phase2.dependantPassport"
                   id="phase2.dependantPassport"
+                  required={true}
                   type="checkbox"
                   className="checks-prephase-2"
                   defaultChecked={
-                    initialValues.phase2.dependantPassport === "" ||
-                    initialValues.phase2.dependantPassport.includes("/Uploads")
-                  }
+                    true
+                   }
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.dependantPassport", value);
@@ -370,10 +370,7 @@ const Prephase2 = () => {
                   id="phase2.utilityBill"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.utilityBill === "" ||
-                    initialValues.phase2.utilityBill.includes("/Uploads")
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.utilityBill", value);
@@ -386,10 +383,7 @@ const Prephase2 = () => {
                   id="phase2.brp"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.brp === "" ||
-                    initialValues.phase2.brp.includes("/Uploads")
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.brp", value);
@@ -403,12 +397,7 @@ const Prephase2 = () => {
                   id="phase2.previousVisaVignettes"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.previousVisaVignettes === "" ||
-                    initialValues.phase2.previousVisaVignettes.includes(
-                      "/Uploads"
-                    )
-                  }
+                  
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.previousVisaVignettes", value);
@@ -421,10 +410,7 @@ const Prephase2 = () => {
                   id="phase2.refusalLetter"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.refusalLetter === "" ||
-                    initialValues.phase2.refusalLetter.includes("/Uploads")
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.refusalLetter", value);
@@ -437,12 +423,7 @@ const Prephase2 = () => {
                   id="phase2.educationCertificates"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.educationCertificates === "" ||
-                    initialValues.phase2.educationCertificates.includes(
-                      "/Uploads"
-                    )
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.educationCertificates", value);
@@ -458,12 +439,7 @@ const Prephase2 = () => {
                   id="phase2.englishLanguageCertificate"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.englishLanguageCertificate === "" ||
-                    initialValues.phase2.englishLanguageCertificate.includes(
-                      "/Uploads"
-                    )
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.englishLanguageCertificate", value);
@@ -476,12 +452,7 @@ const Prephase2 = () => {
                   id="phase2.marriageCertificate"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.marriageCertificate === "" ||
-                    initialValues.phase2.marriageCertificate.includes(
-                      "/Uploads"
-                    )
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.marriageCertificate", value);
@@ -494,10 +465,7 @@ const Prephase2 = () => {
                   id="phase2.bankStatements"
                   type="checkbox"
                   className="checks-prephase-2"
-                  defaultChecked={
-                    initialValues.phase2.bankStatements === "" ||
-                    initialValues.phase2.bankStatements.includes("/Uploads")
-                  }
+                 
                   onChange={(e) => {
                     const value = e.target.checked ? "" : "notreq";
                     setFieldValue("phase2.bankStatements", value);
@@ -513,7 +481,6 @@ const Prephase2 = () => {
                     name="phase2.other"
                     id="phase2.other"
                     type="checkbox"
-                    defaultChecked={true}
                     onChange={(e) => {
                       setFieldValue("phase2.other", ["notreq"]);
                     }}

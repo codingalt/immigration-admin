@@ -57,11 +57,12 @@ const Addcaseworker = () => {
   }, [isSuccess]);
 
   const handleSubmit = async (values, { resetForm }) => {
-    console.log(values);
-    await createCaseWorker(values);
-    resetForm({
-      values: initialValues,
-    });
+    const result = await createCaseWorker(values);
+    if(result.data !=undefined && result.data.success == true) {
+      resetForm({
+        values: initialValues,
+      });
+    }
     setLanguagesArr([]);
   };
   return (

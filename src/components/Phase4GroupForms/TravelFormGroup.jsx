@@ -248,7 +248,7 @@ const TravelFormGroup = ({
                   />
 
                   <p className="genral-text-left-side">
-                    v. Reason for your visit*
+                    v. What permission do you have to stay in UK? *
                   </p>
                   <Field
                     disabled={isEditting}

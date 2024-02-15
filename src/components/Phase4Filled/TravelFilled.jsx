@@ -84,7 +84,7 @@ const TravelFilled = ({data}) => {
               </div>
               <div className="fill">
                 <img src={star} alt="" className="star" />
-                <p className="Name-title">iv. Reason for your visit*</p>
+                <p className="Name-title">iv. What permission do you have to stay in UK? *</p>
                 <div className="border-y"></div>
                 <p className="Name-text">{app?.reasonForVisit}</p>
               </div>
@@ -139,8 +139,39 @@ const TravelFilled = ({data}) => {
               Have you ever been to the UK or any other country?
             </p>
             <div className="border-y"></div>
-            <p className="Name-text">{app?.everBeenToUkOrAnyCountry}</p>
           </div>
+          {app?.everBeenToUkOrAnyCountry?.map((item, index) => (
+            <div key={item.entryDate}>
+              <div className="fill">
+                <img src={star} alt="" className="star" />
+                <p className="Name-title">{index + 1} Country name </p>
+                <p className="Name-text">{item?.country}</p>
+              </div>
+              <div className="fill">
+                <img src={star} alt="" className="star" />
+                <p className="Name-title">i. Date of Entry*</p>
+                <div className="border-y"></div>
+                <p className="Name-text">
+                  {moment(item?.entryDate).format("dddd, MMMM Do")}
+                </p>
+              </div>
+              <div className="fill">
+                <img src={star} alt="" className="star" />
+                <p className="Name-title">ii. Date of Departure*</p>
+                <div className="border-y"></div>
+                <p className="Name-text">
+                  {moment(item?.departureDate).format("dddd, MMMM Do")}
+                </p>
+              </div>
+              <div className="fill">
+                <img src={star} alt="" className="star" />
+                <p className="Name-title">iii. Reason for Visit*</p>
+                <div className="border-y"></div>
+                <p className="Name-text">{item?.reasonForVisit}</p>
+              </div>
+            </div>
+          ))}
+
 
           <div className="fill">
             <img src={star} alt="" className="star" />

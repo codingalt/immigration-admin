@@ -140,7 +140,7 @@ const Phase1Group = () => {
 
   useMemo(() => {
     if (updateSuccess) {
-      toastSuccess("Data Updatted.");
+      toastSuccess("Data updated.");
       setIsEditting(true);
     }
   }, [updateSuccess]);
