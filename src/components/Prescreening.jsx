@@ -28,6 +28,8 @@ import { useUpdateServiceMutation } from "../services/api/adminApi";
 import Rejectpopup from "./Rejectpopup";
 import { useReadMessagesByChatMutation } from "../services/api/chatApi";
 import { useSelector } from "react-redux";
+import { GiConfirmed } from "react-icons/gi";
+import FinalConfirmationModal from "./FinalConfirmationModal";
 
 const Prescreening = () => {
   const { socket } = useContext(MainContext);
@@ -37,6 +39,7 @@ const Prescreening = () => {
   const [isReject, setIsReject] = useState(false);
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
+  const [confirmationModal,setConfirmationModal] = useState(false);
   const [selectedCaseWorker, setSelectedCaseWorker] = useState({
     caseWorkerId: "",
     caseWorkerName: "",
@@ -220,6 +223,14 @@ const Prescreening = () => {
         />
       )}
 
+      {/* Final Confirmation Modal  */}
+      <FinalConfirmationModal
+        confirmationModal={confirmationModal}
+        setConfirmationModal={setConfirmationModal}
+        applicationId={applicationId}
+        userId={data?.application?.userId}
+      />
+
       <SideNavbar />
       <div style={{ marginLeft: "11.8rem" }}>
         <TopNavbar />
@@ -265,6 +276,28 @@ const Prescreening = () => {
                     <p className="add-company-text">Link Company</p>{" "}
                   </div>
                 </NavLink>
+
+                {/* Final Authority Confirmation Button  */}
+                {data?.application?.phase === 4 &&
+                  data?.application?.phaseStatus === "approved" && (
+                    <div
+                      style={{
+                        paddingRight: 10,
+                        paddingLeft: 10,
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setConfirmationModal(true)}
+                    >
+                      <div className="link-img">
+                        {" "}
+                        <GiConfirmed
+                          style={{ fontSize: "1.1rem", color: "#fff" }}
+                        />
+                        <p className="add-company-text">Confirm Application</p>{" "}
+                      </div>
+                    </div>
+                  )}
+
                 {data?.application?.isManual &&
                   data?.application?.phase < 4 && (
                     <NavLink

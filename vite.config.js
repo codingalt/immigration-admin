@@ -8,7 +8,7 @@ export default defineConfig({
     exclude: ['js-big-decimal']
   },
   server: {
-    port: 3000,
+    port: 3001,
     host: true,
     proxy: {
       '/api': {

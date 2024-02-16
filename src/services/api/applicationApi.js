@@ -250,6 +250,15 @@ export const applicationApi = createApi({
       invalidatesTags: ["Application"],
     }),
 
+    finalConfirmation: builder.mutation({
+      query: ({ formData, applicationId }) => ({
+        url: `api/finalConfirmation/${applicationId}`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
     requestAPhase: builder.mutation({
       query: ({ data, applicationId }) => ({
         url: `api/phase/request/${applicationId}`,
@@ -368,4 +377,5 @@ export const {
   useReRequestPhase4Mutation,
   useReRequestGroupPhase1Mutation,
   useReRequestGroupPhase4Mutation,
+  useFinalConfirmationMutation
 } = applicationApi;
