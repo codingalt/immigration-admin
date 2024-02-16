@@ -69,6 +69,24 @@ const TravelForm = ({
     setEverBreachedOtherImmigrationLaws,
   ] = useState(initialValues?.phase4?.travel?.everBreachedOtherImmigrationLaws);
 
+  const [numOfVisitsToAnyCountry, setNumOfVisitsToAnyCountry] = useState(
+    initialValues?.phase4?.travel?.setNumOfVisitsToAnyCountry > 0
+      ? initialValues?.phase4?.travel?.setNumOfVisitsToAnyCountry
+      : 0
+  );
+
+  const [everBeenToUkOrAnyCountry, setEverBeenToUkOrAnyCountry] = useState(
+    initialValues?.phase4?.travel?.numOfVisitsToAnyCountry > 0
+      ? initialValues?.phase4?.travel?.everBeenToUkOrAnyCountry
+      : [
+          {
+            entryDate: "",
+            countryVisited: "",
+            departureDate: "",
+            reasonForVisit: "",
+          },
+        ]
+  );
   const [everRefusedVisaOrBorderEntry, setEverRefusedVisaOrBorderEntry] =
     useState(initialValues?.phase4?.travel?.everRefusedVisaOrBorderEntry);
 
@@ -101,10 +119,7 @@ const TravelForm = ({
   }, [error]);
 
   const handleSubmitData = async (values) => {
-    if (values.phase4.travel.numberOfVisitsToUk == 0) {
-      toastError("Please Select number of visits to UK");
-      return;
-    }
+  
     await postTravel({
       data: values.phase4.travel,
       applicationId: application?._id,
@@ -246,7 +261,7 @@ const TravelForm = ({
                   />
 
                   <p className="genral-text-left-side">
-                    v. Reason for your visit*
+                    v. What permission do you have to stay in UK? *
                   </p>
                   <Field
                     disabled={isEditting}
@@ -502,23 +517,121 @@ const TravelForm = ({
               )}
 
               <p className="genral-text-left-side">
-                5.Have you ever been to the UK or any other country?
+                4. Have you visited any other country apart from the UK
+                (preferable recent visits)?
               </p>
               <Field
                 disabled={isEditting}
-                required
-                type="text"
+                as="select"
                 className="genral-input-left-side"
-                placeholder="Type Details"
-                name="phase4.travel.everBeenToUkOrAnyCountry"
-                id="phase4.travel.everBeenToUkOrAnyCountry"
+                placeholder="Type Number of Visits"
+                name="phase4.travel.numberOfVisitsToAnyOtherCountry"
+                id="phase4.travel.numberOfVisitsToAnyOtherCountry"
+                onChange={(e) => {
+                  setNumOfVisitsToAnyCountry(e.target.value);
+                  setFieldValue(
+                    "phase4.travel.numberOfVisitsToAnyOtherCountry",
+                    e.target.value
+                  );
+                }}
                 style={
-                  errors?.phase4?.travel?.everBeenToUkOrAnyCountry &&
-                  touched?.phase4?.travel?.everBeenToUkOrAnyCountry && {
+                  errors?.phase4?.travel?.numberOfVisitsToAnyOtherCountry &&
+                  touched?.phase4?.travel?.numberOfVisitsToAnyOtherCountry && {
                     border: "1px solid red",
                   }
                 }
-              />
+              >
+                <option value={0}>0</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                <option value={6}>6</option>
+                <option value={7}>7</option>
+                <option value={8}>8</option>
+                <option value={9}>9</option>
+              </Field>
+              {everBeenToUkOrAnyCountry?.map((item, index) => (
+                <>
+                  <p className="genral-text-left-side">
+                    {index + 1} Country visit Details
+                  </p>
+                  <p className="genral-text-left-side">i. Select country*</p>
+                  <SelectCountry
+                  disabled={isEditting}
+                    name={`phase4.travel.everBeenToUkOrAnyCountry[${index}].country`}
+                    id={`phase4.travel.everBeenToUkOrAnyCountry[${index}].country`}
+                    className="genral-input-left-side-selector"
+                  ></SelectCountry>
+
+                  <p className="genral-text-left-side">ii. Date of Entry*</p>
+                  <Field
+                  disabled={isEditting}
+                    type="date"
+                    className="genral-input-left-side"
+                    name={`phase4.travel.everBeenToUkOrAnyCountry[${index}].entryDate`}
+                    id={`phase4.travel.everBeenToUkOrAnyCountry[${index}].entryDate`}
+                    style={
+                      errors?.phase4?.travel?.everBeenToUkOrAnyCountry &&
+                      errors.phase4.travel.everBeenToUkOrAnyCountry[index] &&
+                      errors.phase4.travel.everBeenToUkOrAnyCountry[index]
+                        .entryDate &&
+                      touched?.phase4?.travel?.everBeenToUkOrAnyCountry &&
+                      touched.phase4.travel.everBeenToUkOrAnyCountry[index] &&
+                      touched.phase4.travel.everBeenToUkOrAnyCountry[index]
+                        .entryDate
+                        ? { border: "1px solid red" }
+                        : null
+                    }
+                  />
+
+                  <p className="genral-text-left-side">
+                    iii. Date of Departure*
+                  </p>
+                  <Field
+                    disabled={isEditting}
+                    type="date"
+                    className="genral-input-left-side"
+                    name={`phase4.travel.everBeenToUkOrAnyCountry[${index}].departureDate`}
+                    id={`phase4.travel.everBeenToUkOrAnyCountry[${index}].departureDate`}
+                    style={
+                      errors?.phase4?.travel?.everBeenToUkOrAnyCountry &&
+                      errors.phase4.travel.everBeenToUkOrAnyCountry[index] &&
+                      errors.phase4.travel.everBeenToUkOrAnyCountry[index]
+                        .departureDate &&
+                      touched?.phase4?.travel?.everBeenToUkOrAnyCountry &&
+                      touched.phase4.travel.everBeenToUkOrAnyCountry[index] &&
+                      touched.phase4.travel.everBeenToUkOrAnyCountry[index]
+                        .departureDate
+                        ? { border: "1px solid red" }
+                        : null
+                    }
+                  />
+
+                  <p className="genral-text-left-side">iv. Reason for Visit*</p>
+                  <Field
+                    disabled={isEditting}
+                    type="text"
+                    className="genral-input-left-side"
+                    placeholder="Type Reason"
+                    name={`phase4.travel.everBeenToUkOrAnyCountry[${index}].reasonForVisit`}
+                    id={`phase4.travel.everBeenToUkOrAnyCountry[${index}].reasonForVisit`}
+                    style={
+                      errors?.phase4?.travel?.everBeenToUkOrAnyCountry &&
+                      errors.phase4.travel.everBeenToUkOrAnyCountry[index] &&
+                      errors.phase4.travel.everBeenToUkOrAnyCountry[index]
+                        .reasonForVisit &&
+                      touched?.phase4?.travel?.everBeenToUkOrAnyCountry &&
+                      touched.phase4.travel.everBeenToUkOrAnyCountry[index] &&
+                      touched.phase4.travel.everBeenToUkOrAnyCountry[index]
+                        .reasonForVisit
+                        ? { border: "1px solid red" }
+                        : null
+                    }
+                  />
+                </>
+              ))}
 
               <p className="genral-text-left-side">
                 7.Have you ever breached the conditions of your leave?*

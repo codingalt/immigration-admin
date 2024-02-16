@@ -120,16 +120,31 @@
 }
 
 .back-btn {
+  padding: 6px 24px;
+  background-color: white;
+  border: 1px solid #e2e2e4;
+  border-radius: 5px;
+  cursor: pointer;
   position: absolute;
   top: 90px;
-  padding: 6px 24px;
   left: 27rem;
+}
+
+.back-btn1 {
+  padding: 6px 24px;
   background-color: white;
   border: 1px solid #e2e2e4;
   border-radius: 5px;
   cursor: pointer;
 }
 
+.back-btn-container {
+  position: absolute;
+  top: 90px;
+  left: 27rem;
+  display: flex;
+  align-items: center;
+}
 .phase-1 {
   width: 64.4rem;
   height: 42rem;
@@ -502,6 +517,16 @@
   margin-top: 15px;
 }
 
+@media (max-width: 1920px) {
+
+  .back-btn-container {
+    position: absolute;
+    top: 90px;
+    left: 27rem;
+    display: flex;
+    align-items: center;
+  }
+}
 @media (max-width: 1680px) {
   .edit-pen {
     position: absolute;
@@ -514,15 +539,41 @@
     left: 570px;
     top: 8px;
   }
+
+  .back-btn-container {
+    position: absolute;
+    top: 90px;
+    left: 27rem;
+    align-items: center;
+    display: flex;
+  }
 }
 
 @media (max-width: 1600px) {
+
+  .back-btn-container {
+    position: absolute;
+    top: 90px;
+    left: 27rem;
+    display: flex;
+    align-items: center;
+  }
 }
+
 
 @media (max-width: 1440px) {
   .back-btn {
     left: 20%;
   }
+
+  .back-btn-container {
+    position: absolute;
+    top: 90px;
+    left: 18rem;
+    align-items: center;
+    display: flex;
+  }
+
   .Phase-1-main-container {
     width: 13%;
     display: flex;
@@ -614,6 +665,13 @@
     margin-left: 150px;
   }
 
+  .back-btn-container {
+    position: absolute;
+    top: 90px;
+    left: 29rem;
+    display: flex;
+    align-items: center;
+  }
   .Buttons-preescreening {
     left: 39rem;
     top: 1rem;
@@ -669,6 +727,13 @@
     width: 13%;
     display: flex;
     margin-left: 40px;
+  }
+  .back-btn-container {
+    position: absolute;
+    top: 90px;
+    left: 22rem;
+    display: flex;
+    align-items: center;
   }
 
   .phase-1 {

@@ -138,7 +138,7 @@ const Phase1 = () => {
 
   useMemo(() => {
     if (updateSuccess) {
-      toastSuccess("Data Updatted.");
+      toastSuccess("Data updated.");
       setIsEditting(true);
     }
   }, [updateSuccess]);
@@ -433,14 +433,19 @@ const Phase1 = () => {
               />
             </button>
           )}
+      
       </div>
-      <button
-        onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
-        className="back-btn"
-        disabled={approveLoading}
-      >
-        Back
-      </button>
+      <div className="back-btn-container">
+        <button
+         className="back-btn1"
+          onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
+          disabled={approveLoading}
+          >
+          Back
+        </button>
+        <p style={{ marginLeft: 20 }}>Note: Please check the application submitted data before taking any action</p>
+      </div>
+
 
       <div className="phase-4-all-phase">
         {app?.phase >= 1 && (
@@ -462,7 +467,7 @@ const Phase1 = () => {
               activeLink === "/prephase2" ? "link-active" : ""
             }`}
             onClick={() => handleLinkClick("/prephase2")}
-            style={{ width: "4.4rem" }}
+            style={{ width: "5.4rem" }}
           >
             <span className="routes-all">Pre-Phase 2</span>
           </NavLink>

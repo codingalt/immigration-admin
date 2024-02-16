@@ -95,7 +95,7 @@ const LinkCompanyGroup = () => {
 
   useMemo(() => {
     if (updateSuccess) {
-      toastSuccess("Data Updatted.");
+      toastSuccess("Data updated.");
       setIsEditting(true);
     }
   }, [updateSuccess]);

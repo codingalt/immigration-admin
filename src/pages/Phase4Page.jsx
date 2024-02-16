@@ -236,12 +236,18 @@ const Phase4Page = () => {
         returnDate: "",
         reasonForVisit: "",
         numberOfVisitsToUk: "",
+        numberOfVisitsToAnyOtherCountry: "",
         lastUkVisits: null,
         isVisitedUkIllegally: true,
         illegalVisitDetail: "",
         isStayedBeyondExpiryDateInUk: true,
         reasonForStayingExpiryDateInUk: "",
-        everBeenToUkOrAnyCountry: "",
+        everBeenToUkOrAnyCountry: {
+          departureDate: '',
+          entryDate: '',
+          country: '',
+          reasonForVisit: ''
+        },
         isBreachedLeaveConditions: true,
         reasonForBreachedLeave: "",
         isWorkedWithoutPermission: true,
@@ -457,6 +463,7 @@ const Phase4Page = () => {
     returnDate,
     reasonForVisit,
     numberOfVisitsToUk,
+    numberOfVisitsToAnyOtherCountry,
     lastUkVisits,
     isVisitedUkIllegally,
     illegalVisitDetail,
@@ -520,6 +527,15 @@ const Phase4Page = () => {
     departureDate: format(new Date(child.departureDate), "yyyy-MM-dd"),
     reasonForVisit: child.reasonForVisit,
   }));
+
+  const everBeenToAnyOtherCountry_formatted = everBeenToUkOrAnyCountry?.map((child) =>
+    ({
+    entryDate: format(new Date(child.entryDate), "yyyy-MM-dd"),
+    departureDate: format(new Date(child.departureDate), "yyyy-MM-dd"),
+    reasonForVisit: child.reasonForVisit,
+    country: child.country,
+  }) 
+);
 
   // Genral Phase Date Formating
   const prevNameFromDate = new Date(prevNameFrom);
@@ -1387,6 +1403,8 @@ const Phase4Page = () => {
             reasonForVisit: reasonForVisit ? reasonForVisit : "",
             numberOfVisitsToUk:
               numberOfVisitsToUk > 0 ? numberOfVisitsToUk : "",
+            numberOfVisitsToAnyOtherCountry:
+              numberOfVisitsToAnyOtherCountry > 0 ? numberOfVisitsToAnyOtherCountry : "",
             lastUkVisits:
               lastUkVisits?.length > 0
                 ? formattedTravelDetails
@@ -1408,8 +1426,7 @@ const Phase4Page = () => {
               ? reasonForStayingExpiryDateInUk
               : "",
             everBeenToUkOrAnyCountry: everBeenToUkOrAnyCountry
-              ? everBeenToUkOrAnyCountry
-              : "",
+              ? everBeenToAnyOtherCountry_formatted : everBeenToUkOrAnyCountry,
             isBreachedLeaveConditions:
               isBreachedLeaveConditions === true
                 ? true
