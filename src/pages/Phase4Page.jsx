@@ -528,14 +528,14 @@ const Phase4Page = () => {
     reasonForVisit: child.reasonForVisit,
   }));
 
-  const everBeenToAnyOtherCountry_formatted = everBeenToUkOrAnyCountry?.map((child) =>
-    ({
-    entryDate: format(new Date(child.entryDate), "yyyy-MM-dd"),
-    departureDate: format(new Date(child.departureDate), "yyyy-MM-dd"),
-    reasonForVisit: child.reasonForVisit,
-    country: child.country,
-  }) 
-);
+//   const everBeenToAnyOtherCountry_formatted = everBeenToUkOrAnyCountry?.map((child) =>
+//     ({
+//     entryDate: format(new Date(child.entryDate), "yyyy-MM-dd"),
+//     departureDate: format(new Date(child.departureDate), "yyyy-MM-dd"),
+//     reasonForVisit: child.reasonForVisit,
+//     country: child.country,
+//   }) 
+// );
 
   // Genral Phase Date Formating
   const prevNameFromDate = new Date(prevNameFrom);
@@ -1404,7 +1404,9 @@ const Phase4Page = () => {
             numberOfVisitsToUk:
               numberOfVisitsToUk > 0 ? numberOfVisitsToUk : "",
             numberOfVisitsToAnyOtherCountry:
-              numberOfVisitsToAnyOtherCountry > 0 ? numberOfVisitsToAnyOtherCountry : "",
+              numberOfVisitsToAnyOtherCountry > 0
+                ? numberOfVisitsToAnyOtherCountry
+                : "",
             lastUkVisits:
               lastUkVisits?.length > 0
                 ? formattedTravelDetails
@@ -1426,7 +1428,8 @@ const Phase4Page = () => {
               ? reasonForStayingExpiryDateInUk
               : "",
             everBeenToUkOrAnyCountry: everBeenToUkOrAnyCountry
-              ? everBeenToAnyOtherCountry_formatted : everBeenToUkOrAnyCountry,
+              ? everBeenToUkOrAnyCountry
+              : "",
             isBreachedLeaveConditions:
               isBreachedLeaveConditions === true
                 ? true

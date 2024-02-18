@@ -75,7 +75,6 @@ const Prescreening = () => {
   const [showSave, setShowSave] = useState(false);
 
   const { data: notesData } = useGetAllApplicationsQuery();
-  console.log(notesData);
 
   useEffect(() => {
     if (data?.application?.caseWorkerName) {

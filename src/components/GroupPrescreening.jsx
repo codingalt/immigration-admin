@@ -27,6 +27,7 @@ import Loader from "./Loader";
 import { useUpdateServiceMutation } from "../services/api/adminApi";
 import { useAddNotesGroupMutation, useAssignGroupApplicationToCaseWorkerMutation, useGetAllGroupApplicationsQuery, useGetGroupClientAppByIdQuery, useUpdateGroupServiceMutation } from "../services/api/companyClient";
 import RejectGroup from "./RejectGroup";
+import FinalConfirmationGroupModal from "./FinalConfirmationGroupModal";
 
 const GroupPrescreening = () => {
   const { socket } = useContext(MainContext);
@@ -38,6 +39,7 @@ const GroupPrescreening = () => {
     caseWorkerId: "",
     caseWorkerName: "",
   });
+  const [confirmationModal, setConfirmationModal] = useState(false);
 
   const [getData, setGetData] = useState();
 
@@ -212,6 +214,14 @@ const GroupPrescreening = () => {
           setShow={setIsReject}
         />
       )}
+
+      {/* Final Confirmation Modal  */}
+      <FinalConfirmationGroupModal
+        confirmationModal={confirmationModal}
+        setConfirmationModal={setConfirmationModal}
+        applicationId={applicationId}
+        userId={data?.application?.userId}
+      />
 
       <SideNavbar />
 

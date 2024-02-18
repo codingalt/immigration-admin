@@ -73,6 +73,15 @@ export const companyClientApi = createApi({
       invalidatesTags: ["companyClient", "Application"],
     }),
 
+    finalGroupConfirmation: builder.mutation({
+      query: ({ formData, applicationId }) => ({
+        url: `api/group/finalConfirmation/${applicationId}`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Application"],
+    }),
+
     updateGroupPhaseByAdmin: builder.mutation({
       query: ({ data, phase, applicationId }) => ({
         url: `api/phase/group/update/${applicationId}`,
@@ -250,4 +259,5 @@ export const {
   usePostGroupMaintenanceMutation,
   usePostGroupTravelMutation,
   usePostGroupCharacterMutation,
+  useFinalGroupConfirmationMutation
 } = companyClientApi;
