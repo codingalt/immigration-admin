@@ -278,7 +278,8 @@ const Prescreening = () => {
 
                 {/* Final Authority Confirmation Button  */}
                 {data?.application?.phase === 4 &&
-                  data?.application?.phaseStatus === "approved" && (
+                  data?.application?.phaseStatus === "approved" &&
+                  !data?.application?.finalConfirmation && (
                     <div
                       style={{
                         paddingRight: 10,

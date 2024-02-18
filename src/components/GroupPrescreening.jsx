@@ -28,6 +28,7 @@ import { useUpdateServiceMutation } from "../services/api/adminApi";
 import { useAddNotesGroupMutation, useAssignGroupApplicationToCaseWorkerMutation, useGetAllGroupApplicationsQuery, useGetGroupClientAppByIdQuery, useUpdateGroupServiceMutation } from "../services/api/companyClient";
 import RejectGroup from "./RejectGroup";
 import FinalConfirmationGroupModal from "./FinalConfirmationGroupModal";
+import { GiConfirmed } from "react-icons/gi";
 
 const GroupPrescreening = () => {
   const { socket } = useContext(MainContext);
@@ -258,6 +259,28 @@ const GroupPrescreening = () => {
                   <p className="add-report-text">View Report</p>{" "}
                 </div>
               </NavLink>
+
+              {/* Final Authority Confirmation Button  */}
+              {data?.application?.phase === 4 &&
+                data?.application?.phaseStatus === "approved" &&
+                !data?.application?.finalConfirmation && (
+                  <div
+                    style={{
+                      paddingRight: 10,
+                      paddingLeft: 10,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => setConfirmationModal(true)}
+                  >
+                    <div className="link-img">
+                      {" "}
+                      <GiConfirmed
+                        style={{ fontSize: "1.1rem", color: "#fff" }}
+                      />
+                      <p className="add-company-text">Confirm Application</p>{" "}
+                    </div>
+                  </div>
+                )}
 
               {data?.application?.isManual && data?.application?.phase < 4 && (
                 <NavLink
