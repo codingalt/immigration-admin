@@ -132,23 +132,23 @@ const Prephase2 = () => {
       dependantPassport:
          "",
       utilityBill:
-         "",
-      brp: "",
+         "notreq",
+      brp: "notreq",
       previousVisaVignettes:
-        "",
+        "notreq",
       refusalLetter:
-         "",
+         "notreq",
       educationCertificates:
-        "",
+        "notreq",
       englishLanguageCertificate:
-         "",
+         "notreq",
       marriageCertificate:
-        "",
+        "notreq",
       bankStatements:
-      "",
+      "notreq",
       other: [" "],
       otherDocumentNotes:
-        "",
+        "notreq",
     },
   };
 
