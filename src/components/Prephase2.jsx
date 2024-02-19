@@ -146,7 +146,7 @@ const Prephase2 = () => {
         "notreq",
       bankStatements:
       "notreq",
-      other: [" "],
+      other: ["notreq"],
       otherDocumentNotes:
         "notreq",
     },

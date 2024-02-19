@@ -161,7 +161,7 @@ const Prephase2Group = () => {
          "notreq",
       bankStatements:
          "notreq",
-      other: [" "],
+      other: ["notreq"],
       otherDocumentNotes:
         "notreq",
     },
