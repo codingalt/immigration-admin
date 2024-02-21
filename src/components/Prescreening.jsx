@@ -39,7 +39,7 @@ const Prescreening = () => {
   const [isReject, setIsReject] = useState(false);
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
-  const [confirmationModal,setConfirmationModal] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
   const [selectedCaseWorker, setSelectedCaseWorker] = useState({
     caseWorkerId: "",
     caseWorkerName: "",
@@ -530,24 +530,31 @@ const Prescreening = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.application?.service?.map((service) => (
-                      <tr key={service._id} className="Table-heading-2">
-                        <td>{service.serviceType}</td>
-                        <td>
-                          {data
-                            ? format(new Date(service.dateTime), "yyyy-MM-dd")
-                            : ""}
-                        </td>
-                        <td>
-                          {data?.application?.caseWorkerName
-                            ? data?.application?.caseWorkerName
-                            : "Admin"}
-                        </td>
-                        <td style={{ textTransform: "capitalize" }}>
-                          {data?.application?.applicationStatus}
-                        </td>
-                      </tr>
-                    ))}
+                    {data?.application?.service?.map((service, index) => {
+                      if (index == 0) {
+                        return (
+                          <tr key={service._id} className="Table-heading-2">
+                            <td>{service.serviceType}</td>
+                            <td>
+                              {data
+                                ? format(
+                                    new Date(service.dateTime),
+                                    "yyyy-MM-dd"
+                                  )
+                                : ""}
+                            </td>
+                            <td>
+                              {data?.application?.caseWorkerName
+                                ? data?.application?.caseWorkerName
+                                : "Admin"}
+                            </td>
+                            <td style={{ textTransform: "capitalize" }}>
+                              {data?.application?.applicationStatus}
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
                   </tbody>
                 </table>
               </div>
