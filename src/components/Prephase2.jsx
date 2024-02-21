@@ -148,7 +148,7 @@ const Prephase2 = () => {
       "notreq",
       other: ["notreq"],
       otherDocumentNotes:
-        "notreq",
+        "",
     },
   };
 
@@ -208,9 +208,19 @@ const Prephase2 = () => {
           Reject <img src={Rejectimgapp} alt="" />
         </button>
       </div> */}
-      <button onClick={() => navigate(-1)} className="back-btn">
+      {/* <button onClick={() => navigate(-1)} className="back-btn">
         Back
-      </button>
+      </button> */}
+
+      <div className="back-btn-container">
+        <button
+         className="back-btn1"
+          onClick={() => navigate(-1)}
+          >
+          Back
+        </button>
+        <p style={{ marginLeft: 20 }}>Note: Please check the application submitted data before taking any action</p>
+      </div>
 
       <div className="Buttons-preescreening">
         {app?.phase2?.status === "rejected" && (
@@ -263,7 +273,7 @@ const Prephase2 = () => {
             <span className="routes-all">Pre-Phase 2</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 2 && (
+        {app?.phaseSubmittedByClient >= 2  && app?.phaseStatus != 'rejected' && (
           <NavLink
             to={`/admin/phase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -482,7 +492,7 @@ const Prephase2 = () => {
                     id="phase2.other"
                     type="checkbox"
                     onChange={(e) => {
-                      setFieldValue("phase2.other", ["notreq"]);
+                      setFieldValue("phase2.other", [e.target.checked ? "" : "notreq"]);
                     }}
                   />{" "}
                   OTHER{" "}

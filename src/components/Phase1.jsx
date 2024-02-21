@@ -472,7 +472,7 @@ const Phase1 = () => {
             <span className="routes-all">Pre-Phase 2</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 2 && (
+        {app?.phaseSubmittedByClient >= 2 && app?.phaseStatus != 'rejected' && (
           <NavLink
             to={`/admin/phase2/${applicationId}`}
             className={`link-hover-effect ${

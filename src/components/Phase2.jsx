@@ -172,14 +172,25 @@ const Phase2 = () => {
           )}
       </div>
       <img src={editpen} alt="" className="edit-pen" />
-
+{/* 
       <button
         disabled={approveLoading}
         onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
         className="back-btn"
       >
         Back
-      </button>
+      </button> */}
+
+      <div className="back-btn-container">
+        <button
+         className="back-btn1"
+         disabled={approveLoading}
+          onClick={() => navigate(`/admin/prescreening/${applicationId}`)}
+          >
+          Back
+        </button>
+        <p style={{ marginLeft: 20 }}>Note: Please check the application submitted data before taking any action</p>
+      </div>
 
       <div className="phase-4-all-phase">
         {app?.phase >= 1 && (
@@ -206,7 +217,7 @@ const Phase2 = () => {
             <span className="routes-all">Pre-Phase 2</span>
           </NavLink>
         )}
-        {app?.phaseSubmittedByClient >= 2 && (
+        {app?.phaseSubmittedByClient >= 2 && app?.phaseStatus != 'rejected' && (
           <NavLink
             to={`/admin/phase2/${applicationId}`}
             className={`link-hover-effect ${
@@ -434,7 +445,7 @@ const Phase2 = () => {
 
           {app?.phase2?.other && app?.phase2?.other?.length > 0 && (
             <>
-              <p className="password-text">OTHER</p>
+              <p className="password-text">{app?.phase2?.otherDocumentNotes}*</p>
               <Link
                 to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.other}`}
                 target="_blank"
