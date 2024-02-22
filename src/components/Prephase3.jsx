@@ -119,15 +119,14 @@ const Prephase3 = () => {
     if (isSuccess) {
       console.log(
         "submitResponse?.data",
-        submitResponse?.data
+        submitResponse
       );
 
       console.log(
         "submitResponse?.data?.phase3.doesCompanyHelp",
-        submitResponse?.data?.phase3.doesCompanyHelp
+        submitResponse
       );
-      if (!submitResponse?.data?.phase3.doesCompanyHelp) {
-        console.log("Rejected Condition");
+      if (!isCompanyHelp) {
         socket.emit("phase notification", {
           userId: app?.userId,
           applicationId: applicationId,
@@ -135,20 +134,8 @@ const Prephase3 = () => {
           phaseStatus: "rejected",
           phaseSubmittedByClient: 2,
         });
-      } else if (
-        submitResponse?.data?.phase === 3 &&
-        submitResponse?.data?.phaseStatus === "rejected" &&
-        submitResponse?.data?.phase3.doesCompanyHelp
-      ) {
-        socket.emit("phase notification", {
-          userId: app?.userId,
-          applicationId: applicationId,
-          phase: 2,
-          phaseStatus: "pending",
-          phaseSubmittedByClient: 2,
-          reSubmit: 3,
-        });
       } else {
+        console.log("Rejected Condition 3");
         socket.emit("phase notification", {
           userId: app?.userId,
           applicationId: applicationId,
