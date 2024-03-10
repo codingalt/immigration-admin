@@ -15,6 +15,7 @@ import moment from 'moment';
 import { useRef } from 'react';
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import Loader from './Loader';
+import { MdOutlinePending } from "react-icons/md";
 
 const Billing = () => {
 
@@ -247,7 +248,10 @@ const Billing = () => {
 
       <h2 className="Billing-profile-heading-2">Billing</h2>
 
-      <div className="table-list-sub-container billing-main" style={{ position: 'relative', overflow: 'auto' }}>
+      <div
+        className="table-list-sub-container billing-main"
+        style={{ position: "relative", overflow: "auto" }}
+      >
         <table style={{ maxHeight: "4rem" }}>
           <p className="Invoice-detail-heading">Invoice Details</p>
           <div className="Billing-header">
@@ -469,7 +473,8 @@ const Billing = () => {
                 <td>{moment(item.phase3.dateTime).format("dddd, MMMM Do")}</td>
                 <td>{item.phase3.cost}</td>
                 <td>{item.phase3.isPaid ? "Paid" : "Pending"}</td>
-                <td>
+                {item.phase3.isPaid ? (
+                   <td>
                   {item?.phase3?.isOnlinePayment ? (
                     <Link
                       to={item?.phase3?.onlinePaymentEvidence}
@@ -496,6 +501,10 @@ const Billing = () => {
                     </Link>
                   )}
                 </td>
+                ) : (
+                  <td><MdOutlinePending color='red' fontSize={"15pt"} /></td>
+                )}
+               
               </tr>
             ))}
         </table>

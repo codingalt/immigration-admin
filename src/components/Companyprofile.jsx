@@ -40,179 +40,157 @@ const Companyprofile = () => {
       <SideNavbar />
       <div style={{ marginLeft: "11.8rem" }}>
         <TopNavbar />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-          <Link to="/admin/addingprofile" style={{ marginTop: 10  }}>
-              <button className="company-profile-addbtn">
-                Add Company Profile
-              </button>
-            </Link>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Link to="/admin/addingprofile" style={{ marginTop: 10 }}>
+            <button className="company-profile-addbtn">
+              Add Company Profile
+            </button>
+          </Link>
         </div>
 
-          <div className="company-proile-border">
-            <div className="Profile-routes profile-route-cp">
-              {links.map((link, index) => (
-                <NavLink
-                  key={index}
-                  to={link.to}
-                  className={`link-hover-effect ${
-                    activeLink === link.label ? "link-active" : ""
-                  }`}
-                  onClick={() => handleLinkClick(link.label)}
-                  style={
-                    link.to === "/admin/clientprofiles"
-                      ? { width: "10rem" }
-                      : link.to === "/admin/companyprofiles"
-                      ? { width: "13rem" }
-                      : {
-                          width: "14rem",
+        <div className="company-proile-border">
+          <div className="Profile-routes profile-route-cp">
+            {links.map((link, index) => (
+              <NavLink
+                key={index}
+                to={link.to}
+                className={`link-hover-effect ${
+                  activeLink === link.label ? "link-active" : ""
+                }`}
+                onClick={() => handleLinkClick(link.label)}
+                style={
+                  link.to === "/admin/clientprofiles"
+                    ? { width: "10rem" }
+                    : link.to === "/admin/companyprofiles"
+                    ? { width: "13rem" }
+                    : {
+                        width: "14rem",
+                      }
+                }
+              >
+                <span className="routes-all">{link.label}</span>
+              </NavLink>
+            ))}
+          </div>
+
+          <div className="company-sub-container">
+            <div className="company-All-boxes">
+              <div className="company-prolie-boxes">
+                {isLoading && (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "14rem",
+                      marginLeft: "10rem",
+                    }}
+                  >
+                    <Loader width={35} color={"#5B952D"} />
+                  </div>
+                )}
+
+                {!isLoading && data?.company?.length === 0 && (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "7.5rem",
+                      marginLeft: "10rem",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: "1.05rem",
+                        fontWeight: "500",
+                        color: "red",
+                      }}
+                    >
+                      No Company Profile!
+                    </p>
+                  </div>
+                )}
+
+                {!isLoading &&
+                  data?.company
+                    .slice()
+                    .sort(
+                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    )
+                    .map((item) => (
+                      <div
+                        style={{ cursor: "pointer" }}
+                        key={item._id}
+                        className="Box-10"
+                        onClick={() =>
+                          navigate(`/company/${item.name}/${item._id}`)
                         }
-                  }
-                >
-                  <span className="routes-all">{link.label}</span>
-                </NavLink>
-              ))}
-            </div>
-
-       
-            <div className="company-sub-container">
-              <div className="company-All-boxes">
-                <div className="company-prolie-boxes">
-                  {isLoading && (
-                    <div
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "14rem",
-                        marginLeft: "10rem",
-                      }}
-                    >
-                      <Loader width={35} color={"#5B952D"} />
-                    </div>
-                  )}
-
-                  {!isLoading && data?.company?.length === 0 && (
-                    <div
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "7.5rem",
-                        marginLeft: "10rem",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: "1.05rem",
-                          fontWeight: "500",
-                          color: "red",
-                        }}
                       >
-                        No Company Profile!
-                      </p>
-                    </div>
-                  )}
-
-                  {/* <Link
-                to={`/company`}
-                style={{ display: "flex", gap: "30px" }}
-              > */}
-                  {!isLoading &&
-                    data?.company
-                      .slice()
-                      .sort(
-                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-                      )
-                      .map((item) => (
-                        <div
-                          style={{ cursor: "pointer" }}
-                          key={item._id}
-                          className="Box-10"
-                          onClick={() =>
-                            navigate(`/company/${item.name}/${item._id}`)
-                          }
-                        >
-                          <div className="company-Name">
-                            <p>
-                              {" "}
-                              Comapny Name{" "}
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="company-Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                value={item.name}
-                                type="text"
-                                placeholder="Imigration1"
-                                className="company-Client-inputs"
-                              />
-                            </p>
+                        <div className="company-caseid">
+                          <div className="companyCard-left-input">
+                            {" "}
+                            <span>Comapny Name</span>
+                            <img
+                              src={vectorline}
+                              alt=""
+                              className="company-Vector-line"
+                            />{" "}
                           </div>
-                          <div className="company-caseid">
-                            <p>
-                              {" "}
-                              Email
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="company-Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                value={item.email}
-                                type="text"
-                                placeholder="00112"
-                                className="company-Client-inputs"
-                              />
-                            </p>
-                          </div>
-                          <div className="company-ApplicationType">
-                            <p>
-                              Full Name{" "}
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="company-Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                type="text"
-                                value={item.fullName}
-                                placeholder="Set LR"
-                                className="company-Client-inputs"
-                              />
-                            </p>
-                          </div>
-                          <div className="company-Applicationstatus">
-                            <p>
-                              {" "}
-                              Telephone{" "}
-                              <img
-                                src={vectorline}
-                                alt=""
-                                className="company-Vector-line"
-                              />{" "}
-                              <input
-                                disabled
-                                type="text"
-                                value={item.telephone}
-                                placeholder="Approved"
-                                className="company-Client-inputs"
-                              />
-                            </p>
+                          <div className="company-Client-inputs">
+                            {item.name}
                           </div>
                         </div>
-                      ))}
-                  {/* </Link> */}
-                </div>
+                        <div className="company-caseid">
+                          <div className="companyCard-left-input">
+                            {" "}
+                            <span>Email</span>
+                            <img
+                              src={vectorline}
+                              alt=""
+                              className="company-Vector-line"
+                            />{" "}
+                          </div>
+                          <div className="company-Client-inputs">
+                            {item.email}
+                          </div>
+                        </div>
+                        <div className="company-caseid">
+                          <div className="companyCard-left-input">
+                            <span>Full Name</span>{" "}
+                            <img
+                              src={vectorline}
+                              alt=""
+                              className="company-Vector-line"
+                            />{" "}
+                          </div>
+                          <div className="company-Client-inputs">
+                            {item.fullName}
+                          </div>
+                        </div>
+                        <div className="company-caseid">
+                          <div className="companyCard-left-input">
+                            {" "}
+                            <span>Telephone</span>
+                            <img
+                              src={vectorline}
+                              alt=""
+                              className="company-Vector-line"
+                            />{" "}
+                          </div>
+                          <div className="company-Client-inputs">
+                            {item.telephone}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+             
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

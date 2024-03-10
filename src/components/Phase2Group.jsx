@@ -294,7 +294,7 @@ const Phase2Group = () => {
 
           {app?.phase2?.dependantPassport && (
             <>
-              <p className="password-text">DEPENDANT PASSPORT*</p>
+              <p className="password-text">National ID Card*</p>
               <Link
                 to={`${import.meta.env.VITE_IMG_URI}${
                   app?.phase2?.dependantPassport

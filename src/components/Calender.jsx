@@ -36,6 +36,8 @@ const Calendar = () => {
   useMemo(() => {
     if (isSuccess) {
       toastSuccess("Event Saved");
+      setEventTimeFrom("");
+      setEventTimeTo("");
     }
   }, [isSuccess]);
 
@@ -284,26 +286,23 @@ const Calendar = () => {
 
   const addEventSubmit = async() => {
     const eventNameInput = document.querySelector(".event-name");
-    // const eventTimeFromInput = document.querySelector(".event-time-from");
-    // const eventTimeToInput = document.querySelector(".event-time-to");
   
     const eventName = eventNameInput.value;
-    // const eventTimeFrom = eventTimeFromInput.value;
-    // const eventTimeTo = eventTimeToInput.value;
-  
-    console.log("from", eventTimeFrom);
-    console.log("to", eventTimeTo);
-    if (
-      eventName.trim() === "" ||
-      eventTimeFrom === "" ||
-      eventTimeTo === "" ||
-      !eventTimeFrom ||
-      !eventTimeTo
-    ) {
-      // alert("Please fill in all event details.");
-      toastError(`Please specify the "to" and "from" time then add event.`);
+
+    if (eventName.trim() === "" || !eventName){
+      toastError(`Please specify event name.`);
       return;
     }
+
+      if (
+        eventTimeFrom === "" ||
+        eventTimeTo === "" ||
+        !eventTimeFrom ||
+        !eventTimeTo
+      ) {
+        toastError(`Please specify the "to" and "from" time then add event.`);
+        return;
+      }
 
   
     const eventObj = {

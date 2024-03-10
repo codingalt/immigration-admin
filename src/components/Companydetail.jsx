@@ -18,7 +18,7 @@ const Companydetail = () => {
 
       <div style={{ marginLeft: "11.8rem" }}>
         <TopNavbar />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" ,marginBottom:"5px"}}>
           <h2 className="changepassword-profile-heading">{companyName}</h2>
 
           <Link to={`/servicelist/${companyId}`} style={{ marginTop: 10 }}>

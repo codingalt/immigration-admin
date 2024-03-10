@@ -40,33 +40,33 @@ const IdtableList = () => {
   if (data?.result.length === 0) {
     return (
       <div className="comapnayprofile-main-container">
-        <div className="Addcompany-Topnavbar-client-profile-2">
-          <TopNavbar />
-        </div>
-
         <SideNavbar />
+        <div style={{ marginLeft: "11.8rem" }}>
+          <TopNavbar />
+          <div>
+            <h2 className="changepassword-profile-heading">Search Results</h2>
 
-        <h2 className="changepassword-profile-heading">Search Results</h2>
-
-        <div
-          className="table-list-sub-container"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <span
-            style={{
-              textAlign: "center",
-              color: "red",
-              marginTop: "3rem",
-              fontWeight: "600",
-              fontSize: "1.1rem",
-            }}
-          >
-            No Results found with your query
-          </span>
+            <div className="table-list-sub-container search-record">
+              <div style={{width:"100%",display:"flex",justifyContent:"center"}}>
+                <span
+                  style={{
+                    textAlign: "center",
+                    color: "red",
+                    marginTop: "3rem",
+                    fontWeight: "500",
+                    fontSize: "1.06rem",
+                  }}
+                >
+                  No Results found with your query
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
+  
   return (
     <div className="comapnayprofile-main-container">
       <SideNavbar />

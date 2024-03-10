@@ -178,9 +178,7 @@ const AddPhase2 = () => {
     <div className="Phase-2-main-container">
       <SideNavbar />
       <h2 className="Pre-screening-text">Pre-Screening</h2>
-      <div className="Buttons-preescreening">
-       
-      </div>
+      <div className="Buttons-preescreening"></div>
       <img src={editpen} alt="" className="edit-pen" />
 
       <button
@@ -307,7 +305,7 @@ const AddPhase2 = () => {
 
                   {app?.phase2?.dependantPassport != "notreq" && (
                     <>
-                      <p className="password-text">DEPENDANT PASSPORT*</p>
+                      <p className="password-text">National ID Card*</p>
                       <input
                         ref={dependentPassportRef}
                         type="file"
@@ -354,7 +352,7 @@ const AddPhase2 = () => {
 
                   {app?.phase2?.utilityBill != "notreq" && (
                     <>
-                      <p className="password-text">UTILITY BILL*</p>
+                      <p className="password-text">UTILITY BILL</p>
                       <input
                         ref={utilityBillRef}
                         type="file"
@@ -373,9 +371,7 @@ const AddPhase2 = () => {
                       >
                         <span onClick={() => utilityBillRef.current.click()}>
                           {app?.phase2?.utilityBill?.includes("/Uploads")
-                            ? `${app?.phase2?.utilityBill?.split(
-                                "/Uploads/"
-                              )}`
+                            ? `${app?.phase2?.utilityBill?.split("/Uploads/")}`
                             : values.utilityBill
                             ? values.utilityBill.name
                             : "Click here to open PDF"}
@@ -397,7 +393,7 @@ const AddPhase2 = () => {
 
                   {app?.phase2?.brp != "notreq" && (
                     <>
-                      <p className="password-text">BRP*</p>
+                      <p className="password-text">BRP</p>
                       <input
                         ref={brpRef}
                         type="file"
@@ -538,7 +534,7 @@ const AddPhase2 = () => {
                 <div className="right-side-phase2">
                   {app?.phase2?.educationCertificates != "notreq" && (
                     <>
-                      <p className="password-text">EDUCATION CERTIFICATES*</p>
+                      <p className="password-text">EDUCATION CERTIFICATES</p>
                       <input
                         ref={educationCertificatesRef}
                         type="file"
@@ -592,7 +588,7 @@ const AddPhase2 = () => {
                   {app?.phase2?.englishLanguageCertificate != "notreq" && (
                     <>
                       <p className="password-text">
-                        ENGLISH LANGUAGE CERTIFICATE*
+                        ENGLISH LANGUAGE CERTIFICATE
                       </p>
                       <input
                         ref={englishLanguageCertificateRef}
@@ -646,7 +642,7 @@ const AddPhase2 = () => {
 
                   {app?.phase2?.marriageCertificate != "notreq" && (
                     <>
-                      <p className="password-text">MARRIAGE CERTIFICATE*</p>
+                      <p className="password-text">MARRIAGE CERTIFICATE</p>
                       <input
                         ref={marriageCertificateRef}
                         type="file"
@@ -697,7 +693,7 @@ const AddPhase2 = () => {
 
                   {app?.phase2?.bankStatements != "notreq" && (
                     <>
-                      <p className="password-text">BANK STATEMENTS*</p>
+                      <p className="password-text">BANK STATEMENTS</p>
                       <input
                         ref={bankStatementsRef}
                         type="file"
@@ -801,158 +797,6 @@ const AddPhase2 = () => {
           </Formik>
         )}
 
-        {/* <div className="Phase-2-left">
-              <p className="password-text">PASSPORT*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.passport}`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-          
-
-       
-              <p className="password-text">DEPENDANT PASSPORT*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.dependantPassport
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-         
-
-              <p className="password-text">UTILITY BILL*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.utilityBill
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-          
-
-      
-              <p className="password-text">BRP*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.brp}`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-          
-
-              <p className="password-text">PREVIOUS VISA VIGNETTES</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.previousVisaVignettes
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-     
-              <p className="password-text">REFUSAL LETTER</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.refusalLetter
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-           
-        </div>
-        <div className="Phase-2-right">
-  
-              <p className="password-text">EDUCATION CERTIFICATES*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.educationCertificates
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-         
-
-              <p className="password-text">ENGLISH LANGUAGE CERTIFICATE*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.englishLanguageCertificate
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-        
-
-              <p className="password-text">MARRIAGE CERTIFICATE*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.marriageCertificate
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-     
-              <p className="password-text">BANK STATEMENTS*</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${
-                  app?.phase2?.bankStatements
-                }`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-        
-
-              <p className="password-text">OTHER</p>
-              <Link
-                to={`${import.meta.env.VITE_IMG_URI}${app?.phase2?.other}`}
-                target="_blank"
-              >
-                <div className="pdf-input">
-                  Click here to open PDF
-                  <img src={pdfimg} alt="" className="pdf-icon" />
-                </div>
-              </Link>
-     
-
-        </div> */}
       </div>
     </div>
   );
