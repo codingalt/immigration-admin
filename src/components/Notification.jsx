@@ -209,6 +209,7 @@ const Notification = ({ setGetData, getData }) => {
               applicationId={applicationId}
               show={isReject}
               setShow={setIsReject}
+              refreshList={refetch}
             />
           )}
       <SideNavbar />

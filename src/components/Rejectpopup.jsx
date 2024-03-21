@@ -12,7 +12,7 @@ import { toastError, toastSuccess } from './Toast';
 import { useContext } from 'react';
 import MainContext from './Context/MainContext';
 
-const Rejectpopup = ({show,setShow,applicationId}) => {
+const Rejectpopup = ({show,setShow,applicationId, refreshList}) => {
     const navigate = useNavigate(); 
     const [rejectPhaseReason, setRejectPhaseReason] = useState("");
     const [rejectApplication, res] = useRejectApplicationMutation();
@@ -53,6 +53,7 @@ const Rejectpopup = ({show,setShow,applicationId}) => {
           applicationId: applicationId,
           rejectPhaseReason: rejectPhaseReason,
         });
+        refreshList();
         socket.emit("phase notification", {
           userId: app?.userId,
           applicationId: applicationId,

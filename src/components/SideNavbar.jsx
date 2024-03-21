@@ -118,11 +118,13 @@ const SideNavbar = () => {
 
       <div className="icons-sidebar">
         <div className="icons-sidebar-sec-a">
-          <Link to="/admin/dashboard">
+          <Link to="/admin/dashboard" style={{ textAlign: 'center' }}>
             <MdOutlineHome style={{ fontSize: "1.9rem", color: "#000" }} />
+            <p style={{color: '#000'}}>Home</p>
           </Link>
 
-          <Link to="/admin/notification">
+          <Link to="/admin/notification" style={{ textAlign: 'center' }}>
+          <div style={{ position: 'relative' }}>
             <IoNotificationsOutline
               style={{ fontSize: "1.9rem", color: "#000" }}
             />
@@ -131,44 +133,58 @@ const SideNavbar = () => {
                 <span>{count}</span>
               </div>
             ) : null}
+            <p style={{color: '#000'}}>Notifications</p>
+            </div>
           </Link>
 
-          <Link to="/admin/message">
+          <Link to="/admin/message" style={{ textAlign: 'center' }}>
+            <div style={{ position: 'relative' }}>
+
             <TbMessage style={{ fontSize: "1.9rem", color: "#000" }} />
             {unread ? (
               <div className="icon-badge-message">
                 <span></span>
               </div>
             ) : null}
+            <p style={{color: '#000'}}>Messages</p>
+            </div>
           </Link>
 
-          <Link to="/calender">
+          <Link to="/calender" style={{ textAlign: 'center' }}>
             <FiCalendar style={{ fontSize: "1.9rem", color: "#000" }} />
+            <p style={{color: '#000'}}>Events</p>
           </Link>
 
           {!isCaseWorker && (
-            <Link to="/admin/caseworker">
+            <Link to="/admin/caseworker" style={{ textAlign: 'center' }}>
               <LuUserCog2 style={{ fontSize: "1.9rem", color: "#000" }} />
+              <p style={{color: '#000'}}>Case Workers</p>
+
             </Link>
           )}
 
-          <Link to="/admin/billing">
+          <Link to="/admin/billing" style={{ textAlign: 'center' }}>
             <HiOutlineClipboardList
               style={{ fontSize: "1.9rem", color: "#000" }}
             />
+            <p style={{color: '#000'}}>Billings</p>
           </Link>
 
-          <Link to="/admin/profile">
+          <Link to="/admin/profile" style={{ textAlign: 'center' }}>
             <MdOutlineSettings style={{ fontSize: "1.9rem", color: "#000" }} />
+            <p style={{color: '#000'}}>Settings</p>
+
           </Link>
         </div>
 
         <Link
-          style={{ marginTop: 30, marginBottom: 10 }}
+          style={{ marginTop: 30, marginBottom: 10, textAlign: 'center' }}
           to="#"
           onClick={handleLogout}
         >
           <img src={logoutImg} alt="" className="Logout-icon" />
+          <p style={{color: '#000'}}>Logout</p>
+
         </Link>
       </div>
     </div>
