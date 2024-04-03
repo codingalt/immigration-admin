@@ -352,10 +352,10 @@ const Notification = ({ setGetData, getData }) => {
                         onClick={() =>
                           item.companyId
                             ? navigate(
-                                `/admin/group/prescreening/${item.applicationId}`
+                                `/admin/clientprofiles`
                               )
                             : navigate(
-                                `/admin/prescreening/${item.applicationId}`
+                                `/admin/clientprofiles`
                               )
                         }
                         className="Request-2-btn-3"
@@ -469,10 +469,10 @@ const Notification = ({ setGetData, getData }) => {
                         onClick={() =>
                           item.companyId
                             ? navigate(
-                                `/admin/group/prescreening/${item.applicationId}`
+                                `/admin/group/clientprofiles`
                               )
                             : navigate(
-                                `/admin/prescreening/${item.applicationId}`
+                                `/admin/clientprofiles`
                               )
                         }
                         className="Request-2-btn-3"
@@ -613,9 +613,8 @@ const Notification = ({ setGetData, getData }) => {
                   </button>
                   <button
                     onClick={() =>
-                      handleAcceptRequest(
-                        latestNotification.applicationId,
-                        latestNotification
+                      navigate(
+                        `/admin/clientprofiles`
                       )
                     }
                     className="Request-2-btn-3"

@@ -180,7 +180,7 @@ const SideNavbar = () => {
         <Link
           style={{ marginTop: 30, marginBottom: 10, textAlign: 'center' }}
           to="#"
-          onClick={handleLogout}
+          onClick={() => confirm('Are you sure, you want to logout?') ? handleLogout() : ''}
         >
           <img src={logoutImg} alt="" className="Logout-icon" />
           <p style={{color: '#000'}}>Logout</p>
